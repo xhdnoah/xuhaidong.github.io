@@ -108,20 +108,25 @@
 
 
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="Git 更像是把数据看作是对小型文件系统的一组快照。 每次你提交更新，或在 Git 中保存项目状态时，它主要对当时的全部文件制作一个快照并保存这个快照的索引。 为了高效，如果文件没有修改，Git 不再重新存储该文件，而是只保留一个链接指向之前存储的文件。 Git 对待数据更像是一个 快照流，Git 更像是一个小型的文件系统。  一、三种状态和三个工作区域 modified _in_ Workin">
+<meta name="keywords" content="Note">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git 学习笔记">
+<meta property="og:url" content="http://yoursite.com/2018/09/06/Git/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Git 更像是把数据看作是对小型文件系统的一组快照。 每次你提交更新，或在 Git 中保存项目状态时，它主要对当时的全部文件制作一个快照并保存这个快照的索引。 为了高效，如果文件没有修改，Git 不再重新存储该文件，而是只保留一个链接指向之前存储的文件。 Git 对待数据更像是一个 快照流，Git 更像是一个小型的文件系统。  一、三种状态和三个工作区域 modified _in_ Workin">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-09-06T09:22:43.107Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+<meta name="twitter:title" content="Git 学习笔记">
+<meta name="twitter:description" content="Git 更像是把数据看作是对小型文件系统的一组快照。 每次你提交更新，或在 Git 中保存项目状态时，它主要对当时的全部文件制作一个快照并保存这个快照的索引。 为了高效，如果文件没有修改，Git 不再重新存储该文件，而是只保留一个链接指向之前存储的文件。 Git 对待数据更像是一个 快照流，Git 更像是一个小型的文件系统。  一、三种状态和三个工作区域 modified _in_ Workin">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/09/06/Git/"/>
 
 
 
@@ -131,7 +136,7 @@
   };
 </script>
 
-  <title>Hexo</title>
+  <title>Git 学习笔记 | Hexo</title>
   
 
 
@@ -178,8 +183,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -216,7 +220,7 @@
         
         
           
-          <li class="menu-item menu-item-home menu-item-active">
+          <li class="menu-item menu-item-home">
     <a href="/" rel="section">
       <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
   </li>
@@ -260,9 +264,9 @@
           
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -294,11 +298,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/06/Git/" itemprop="url">
-                  Git 学习笔记
-                </a>
+          <h1 class="post-title" itemprop="name headline">Git 学习笔记
               
             
           </h1>
@@ -361,9 +361,7 @@
       
 
       
-        
-          
-            <blockquote>
+        <blockquote>
 <p>Git 更像是把数据看作是对小型文件系统的一组快照。 每次你提交更新，或在 Git 中保存项目状态时，它主要对当时的全部文件制作一个快照并保存这个快照的索引。 为了高效，如果文件没有修改，Git 不再重新存储该文件，而是只保留一个链接指向之前存储的文件。 Git 对待数据更像是一个 快照流，Git 更像是一个小型的文件系统。</p>
 </blockquote>
 <h1 id="一、三种状态和三个工作区域"><a href="#一、三种状态和三个工作区域" class="headerlink" title="一、三种状态和三个工作区域"></a>一、三种状态和三个工作区域</h1><ul>
@@ -407,8 +405,6 @@
 <p>此外，你可能还需要忽略 log，tmp 或者 pid 目录，以及自动生成的文档等等。 要养成一开始就设置好 .gitignore 文件的习惯，以免将来误提交这类无用的文件。</p>
 <h3 id="配置别名"><a href="#配置别名" class="headerlink" title="配置别名"></a>配置别名</h3><p><code>$ git config --global alias.st status</code></p>
 
-          
-        
       
     </div>
 
@@ -426,154 +422,36 @@
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/06/Lake/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Noah Xu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/06/Lake/" itemprop="url">
-                  Lake
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-09-06 11:04:46 / Modified: 11:18:25" itemprop="dateCreated datePublished" datetime="2018-09-06T11:04:46+08:00">2018-09-06</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
+        <div class="post-tags">
           
-
+            <a href="/tags/Note/" rel="tag"># Note</a>
           
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="/2018/09/06/Lake/lake/IMG_1323.jpg" alt="尹山湖"></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
       
 
       
       
-        <div class="post-eof"></div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/06/Lake/" rel="next" title="Lake">
+                <i class="fa fa-chevron-left"></i> Lake
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
       
     </footer>
   </div>
@@ -583,14 +461,15 @@
   </article>
 
 
-    
-  </section>
-
-  
+  </div>
 
 
           </div>
           
+
+  
+
+
 
         </div>
         
@@ -611,8 +490,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -672,6 +560,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、三种状态和三个工作区域"><span class="nav-number">1.</span> <span class="nav-text">一、三种状态和三个工作区域</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、创建Git仓库-repository"><span class="nav-number">2.</span> <span class="nav-text">二、创建Git仓库(repository)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、Git仓库中的文件"><span class="nav-number">3.</span> <span class="nav-text">三、Git仓库中的文件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-检查当前文件状态"><span class="nav-number">3.1.</span> <span class="nav-text">1.检查当前文件状态</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#状态简览"><span class="nav-number">3.1.1.</span> <span class="nav-text">状态简览:</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-跟踪新文件"><span class="nav-number">3.2.</span> <span class="nav-text">2.跟踪新文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#暂存已修改文件"><span class="nav-number">3.2.1.</span> <span class="nav-text">暂存已修改文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看已暂存和未暂存的修改"><span class="nav-number">3.2.2.</span> <span class="nav-text">查看已暂存和未暂存的修改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#提交更新"><span class="nav-number">3.2.3.</span> <span class="nav-text">提交更新</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-版本回退"><span class="nav-number">3.3.</span> <span class="nav-text">3.版本回退</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#git-log显示从近到远的提交日志"><span class="nav-number">3.3.1.</span> <span class="nav-text">git log显示从近到远的提交日志</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HEAD表示当前版本，上一个版本就是HEAD-上上个就是HEAD-往上一百个版本HEAD-100"><span class="nav-number">3.3.2.</span> <span class="nav-text">HEAD表示当前版本，上一个版本就是HEAD^,上上个就是HEAD^^,往上一百个版本HEAD~100</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-Git-管理的是修改"><span class="nav-number">3.4.</span> <span class="nav-text">4. Git 管理的是修改</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#撤销修改"><span class="nav-number">3.4.1.</span> <span class="nav-text">撤销修改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除文件"><span class="nav-number">3.4.2.</span> <span class="nav-text">删除文件</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、远程仓库"><span class="nav-number">4.</span> <span class="nav-text">四、远程仓库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#GitHub"><span class="nav-number">4.1.</span> <span class="nav-text">GitHub</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#从远程库克隆"><span class="nav-number">4.1.1.</span> <span class="nav-text">从远程库克隆</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建与合并分支"><span class="nav-number">4.2.</span> <span class="nav-text">创建与合并分支</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分支管理策略"><span class="nav-number">4.3.</span> <span class="nav-text">分支管理策略</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Bug-分支"><span class="nav-number">4.3.1.</span> <span class="nav-text">Bug 分支</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Feature-分支"><span class="nav-number">4.3.2.</span> <span class="nav-text">Feature 分支</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#推送分支"><span class="nav-number">4.3.3.</span> <span class="nav-text">推送分支</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#抓取分支"><span class="nav-number">4.3.4.</span> <span class="nav-text">抓取分支</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五、标签管理"><span class="nav-number">5.</span> <span class="nav-text">五、标签管理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#六、自定义Git"><span class="nav-number">6.</span> <span class="nav-text">六、自定义Git</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#配置颜色"><span class="nav-number">6.0.1.</span> <span class="nav-text">配置颜色</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#忽略文件"><span class="nav-number">6.0.2.</span> <span class="nav-text">忽略文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置别名"><span class="nav-number">6.0.3.</span> <span class="nav-text">配置别名</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -802,6 +706,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.1"></script>
+
+
 
   
 

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Electronic Moon</title>
+  
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://xhdnoah.github.io/"/>
+  <updated>2018-11-07T09:13:08.991Z</updated>
+  <id>http://xhdnoah.github.io/</id>
+  
+  <author>
+    <name>Noah Xu</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>正则表达式学习笔记</title>
+    <link href="http://xhdnoah.github.io/2018/11/07/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"/>
+    <id>http://xhdnoah.github.io/2018/11/07/正则表达式/</id>
+    <published>2018-11-07T08:51:47.000Z</published>
+    <updated>2018-11-07T09:13:08.991Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;正则表达式&quot;&gt;&lt;a href=&quot;#正则表达式&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Git 学习笔记</title>
+    <link href="http://xhdnoah.github.io/2018/09/06/Git/"/>
+    <id>http://xhdnoah.github.io/2018/09/06/Git/</id>
+    <published>2018-09-06T09:21:19.000Z</published>
+    <updated>2018-09-06T09:26:36.201Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;Git 更像是把数据看作是对小型文件系统的一组快照。 每次你提交更新，或在 Git 中保存项目状态时，它主要对当时的全部文件制作一个快照并保存这个快照的索引。 为了高效，如果文件没有修改，Git
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Note" scheme="http://xhdnoah.github.io/tags/Note/"/>
+    
+  </entry>
+  
+</feed>

@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://xhdnoah.github.io/"/>
-  <updated>2018-12-26T03:00:16.527Z</updated>
+  <updated>2019-03-01T08:10:50.139Z</updated>
   <id>http://xhdnoah.github.io/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>koa-learning</title>
+    <link href="http://xhdnoah.github.io/2019/03/01/koa-learning/"/>
+    <id>http://xhdnoah.github.io/2019/03/01/koa-learning/</id>
+    <published>2019-03-01T08:10:24.000Z</published>
+    <updated>2019-03-01T08:10:50.139Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;1-1-架设-HTTP-服务&quot;&gt;&lt;a href=&quot;#1-1-架设-HTTP-服务&quot; class=&quot;headerlink&quot; title=&quot;1.1 架设 HTTP 服务&quot;&gt;&lt;/a&gt;1.1 架设 HTTP 服务&lt;/h2&gt;&lt;figure class=&quot;highlight
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>ESlint 自动格式化正确姿势</title>

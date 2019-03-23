@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://xhdnoah.github.io/"/>
-  <updated>2019-03-01T08:10:50.139Z</updated>
+  <updated>2019-03-23T08:45:09.129Z</updated>
   <id>http://xhdnoah.github.io/</id>
   
   <author>
@@ -17,11 +17,84 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>UnderScore 源码学习之数组去重</title>
+    <link href="http://xhdnoah.github.io/2019/03/18/UnderScore-%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D/"/>
+    <id>http://xhdnoah.github.io/2019/03/18/UnderScore-源码学习之数组去重/</id>
+    <published>2019-03-18T08:41:05.000Z</published>
+    <updated>2019-03-23T08:45:09.129Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;数组去重的方法非常多，这里列举其中一些以及 underscore 的方法&lt;/p&gt;
+&lt;h3 id=&quot;方法一&quot;&gt;&lt;a href=&quot;#方法一&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="UnderScore" scheme="http://xhdnoah.github.io/tags/UnderScore/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>UnderScore 源码学习之回调</title>
+    <link href="http://xhdnoah.github.io/2019/03/18/UnderScore-%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9B%9E%E8%B0%83/"/>
+    <id>http://xhdnoah.github.io/2019/03/18/UnderScore-源码学习之回调/</id>
+    <published>2019-03-18T08:38:26.000Z</published>
+    <updated>2019-03-23T08:45:12.777Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;cb,optimzeCb 出现在 UnderScore 很多函数的回调中，以简化的&lt;code&gt;_.map&lt;/code&gt; 为例，&lt;code&gt;._map&lt;/code&gt;类似&lt;code&gt;Array.prototype.map&lt;/code&gt;，但更健壮，其中 iteratee 被传入
+        
+      
+    
+    </summary>
+    
+    
+      <category term="UnderScore" scheme="http://xhdnoah.github.io/tags/UnderScore/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>axios-learning</title>
+    <link href="http://xhdnoah.github.io/2019/03/06/axios/"/>
+    <id>http://xhdnoah.github.io/2019/03/06/axios/</id>
+    <published>2019-03-06T08:49:56.000Z</published>
+    <updated>2019-03-23T08:53:01.513Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;axios&quot;&gt;&lt;a href=&quot;#axios&quot; class=&quot;headerlink&quot; title=&quot;axios&quot;&gt;&lt;/a&gt;axios&lt;/h1&gt;&lt;h3 id=&quot;Features&quot;&gt;&lt;a href=&quot;#Features&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="HTTP client" scheme="http://xhdnoah.github.io/tags/HTTP-client/"/>
+    
+  </entry>
+  
+  <entry>
     <title>koa-learning</title>
     <link href="http://xhdnoah.github.io/2019/03/01/koa-learning/"/>
     <id>http://xhdnoah.github.io/2019/03/01/koa-learning/</id>
     <published>2019-03-01T08:10:24.000Z</published>
-    <updated>2019-03-01T08:10:50.139Z</updated>
+    <updated>2019-03-23T08:47:52.187Z</updated>
     
     <summary type="html">
     
@@ -35,6 +108,8 @@
     
     </summary>
     
+    
+      <category term="Node.js" scheme="http://xhdnoah.github.io/tags/Node-js/"/>
     
   </entry>
   

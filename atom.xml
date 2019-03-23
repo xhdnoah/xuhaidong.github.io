@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://xhdnoah.github.io/"/>
-  <updated>2019-03-23T10:56:20.270Z</updated>
+  <updated>2019-03-23T13:50:16.717Z</updated>
   <id>http://xhdnoah.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>understanding async/await in 3 code snippets</title>
+    <link href="http://xhdnoah.github.io/2019/03/23/understanding-async-await-in-3-code-snippets/"/>
+    <id>http://xhdnoah.github.io/2019/03/23/understanding-async-await-in-3-code-snippets/</id>
+    <published>2019-03-23T13:48:12.000Z</published>
+    <updated>2019-03-23T13:50:16.717Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span
+        
+      
+    
+    </summary>
+    
+    
+      <category term="async" scheme="http://xhdnoah.github.io/tags/async/"/>
+    
+  </entry>
   
   <entry>
     <title>UnderScore 源码学习之 _</title>

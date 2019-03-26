@@ -1,8 +1,9 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="Noah Xu"><title>JavaScript 同步、异步、回调、闭包 · Electronic Moon</title><meta name="description" content="Callback
+<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="Noah Xu"><title>JavaScript 同步、异步、回调、闭包 · Electronic Moon</title><meta name="description" content="Callback
 WikiPedia:In computer programming, a callback is a reference to a piece of execute code that is passed as an argument to other code.
 
 
-How jQ"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title"></a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">电子月亮</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">Home</a></li><li><a href="/archives">Archive</a></li><li><a href="/tags">Tags</a></li><li class="soc"><a href="https://github.com/xhdnoah" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="https://twitter.com/xhdnoah" target="_blank" rel="noopener noreferrer"><i class="fa fa-twitter">&nbsp;</i></a><a href="http://xhdnoah.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2019&nbsp;<a target="_blank" href="http://xhdnoah.github.io" rel="noopener noreferrer">Noah Xu</a></p><p>Theme&nbsp;<a target="_blank" href="https://github.com/SumiMakito/hexo-theme-typography" rel="noopener noreferrer">Typography</a>&nbsp;by&nbsp;<a target="_blank" href="https://www.keep.moe" rel="noopener noreferrer">Makito</a></p><p>Proudly published with&nbsp;<a target="_blank" href="https://hexo.io" rel="noopener noreferrer">Hexo</a></p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a>JavaScript 同步、异步、回调、闭包</a></p><p class="post-meta"><span class="date meta-item">Posted at&nbsp;2018-11-05</span><span class="meta-item"><i class="fa fa-tag"></i><span>&nbsp;</span><a href="/tags/JavaScirpt/" title="JavaScirpt" class="a-tag">JavaScirpt</a><span>&nbsp;</span></span></p><p class="post-abstract"><h1 id="Callback"><a href="#Callback" class="headerlink" title="Callback"></a>Callback</h1><blockquote>
+How jQ"><meta name="keywords" content><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style-dark.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title"></a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">Electronic Moon</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/tags">标签</a></li><li class="soc"><a href="https://github.com/xhdnoah" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="http://xhdnoah.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2019&nbsp;<a target="_blank" href="http://xhdnoah.github.io" rel="noopener noreferrer">Noah Xu</a></p><p>Theme&nbsp;<a target="_blank" href="https://github.com/SumiMakito/hexo-theme-typography" rel="noopener noreferrer">Typography</a>&nbsp;by&nbsp;<a target="_blank" href="https://www.keep.moe" rel="noopener noreferrer">Makito</a></p><p>Proudly published with&nbsp;<a target="_blank" href="https://hexo.io" rel="noopener noreferrer">Hexo</a></p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a>JavaScript 同步、异步、回调、闭包</a></p><p class="post-meta"><span class="date meta-item">发布于&nbsp;2018-11-05</span><span class="meta-item"><i class="fa fa-tag"></i><span>&nbsp;</span><a href="/tags/JavaScirpt/" title="JavaScirpt" class="a-tag">JavaScirpt</a><span>&nbsp;</span></span></p><p class="post-abstract"></p><h1 id="Callback"><a href="#Callback" class="headerlink" title="Callback"></a>Callback</h1><blockquote>
 <p>WikiPedia:<br>In computer programming, a callback is a reference to a piece of execute code that is passed as an argument to other code.</p>
 </blockquote>
 <blockquote>
@@ -11,12 +12,28 @@ How jQ"><meta name="keywords" content=""><meta content="width=device-width, init
 <p>回调函数本质上是一种设计模式</p>
 <h2 id="回调函数怎样运作？"><a href="#回调函数怎样运作？" class="headerlink" title="回调函数怎样运作？"></a>回调函数怎样运作？</h2><p>当我们将一个回调函数作为参数传递给另一个函数，我们仅传递了函数定义，并没有在参数中执行。回调函数不会马上执行，它会在函数内的某个特定时间点被“回调”。</p>
 <h2 id="回调函数是闭包"><a href="#回调函数是闭包" class="headerlink" title="回调函数是闭包"></a>回调函数是闭包</h2><p>闭包能够进入包含它的函数的作用域，因此回调函数能获取包含它的函数中的变量，以及全局作用域中的变量。</p>
-<h2 id="在执行之前确保回调函数是一个函数"><a href="#在执行之前确保回调函数是一个函数" class="headerlink" title="在执行之前确保回调函数是一个函数"></a>在执行之前确保回调函数是一个函数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function getInput(options,callback)&#123;</span><br><span class="line">	allUserData.push(options);</span><br><span class="line">	//确保 callback 是函数</span><br><span class="line">	if(typeof callback === “function”)&#123;</span><br><span class="line">		callback(options);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="使用-this-对象的方法作为回调函数时的问题"><a href="#使用-this-对象的方法作为回调函数时的问题" class="headerlink" title="使用 this 对象的方法作为回调函数时的问题"></a>使用 this 对象的方法作为回调函数时的问题</h2><p>当回调函数是一个 this 对象的方法时，我们必须改变执行回调函数的方法来保证 this 对象的上下文。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var clientData = &#123;</span><br><span class="line">	fullName: “Not Set”,</span><br><span class="line">	setUserName: function(firstName,lastName)&#123;</span><br><span class="line">		this.fullName = firstName + “ “ + lastName;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">function getUserInput(firstName, lastName, callback)&#123;</span><br><span class="line">	callback(firstName, lastName);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>当 clientData.setUsername 被执行，this.fullName 并没有设置 clientData 对象中的 fullName 属性，反而它将设置 window 对象中的 fullName 属性。</p>
-<h3 id="使用call-apply-函数保存-this"><a href="#使用call-apply-函数保存-this" class="headerlink" title="使用call(),apply() 函数保存 this"></a>使用<code>call(),apply()</code> 函数保存 this</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function getUserInput(firstName, lastName, callback, callbackObj)&#123;</span><br><span class="line">	callback.apply(callbackObj,[firstName,lastName]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="“回调地狱”问题以及解决方案"><a href="#“回调地狱”问题以及解决方案" class="headerlink" title="“回调地狱”问题以及解决方案"></a>“回调地狱”问题以及解决方案</h2><ol>
+<h2 id="在执行之前确保回调函数是一个函数"><a href="#在执行之前确保回调函数是一个函数" class="headerlink" title="在执行之前确保回调函数是一个函数"></a>在执行之前确保回调函数是一个函数</h2><pre><code>function getInput(options,callback){
+    allUserData.push(options);
+    //确保 callback 是函数
+    if(typeof callback === “function”){
+        callback(options);
+    }
+}
+</code></pre><h2 id="使用-this-对象的方法作为回调函数时的问题"><a href="#使用-this-对象的方法作为回调函数时的问题" class="headerlink" title="使用 this 对象的方法作为回调函数时的问题"></a>使用 this 对象的方法作为回调函数时的问题</h2><p>当回调函数是一个 this 对象的方法时，我们必须改变执行回调函数的方法来保证 this 对象的上下文。</p>
+<pre><code>var clientData = {
+    fullName: “Not Set”,
+    setUserName: function(firstName,lastName){
+        this.fullName = firstName + “ “ + lastName;
+    }
+}
+function getUserInput(firstName, lastName, callback){
+    callback(firstName, lastName);
+}
+</code></pre><p>当 clientData.setUsername 被执行，this.fullName 并没有设置 clientData 对象中的 fullName 属性，反而它将设置 window 对象中的 fullName 属性。</p>
+<h3 id="使用call-apply-函数保存-this"><a href="#使用call-apply-函数保存-this" class="headerlink" title="使用call(),apply() 函数保存 this"></a>使用<code>call(),apply()</code> 函数保存 this</h3><pre><code>function getUserInput(firstName, lastName, callback, callbackObj){
+    callback.apply(callbackObj,[firstName,lastName]);
+}
+</code></pre><h2 id="“回调地狱”问题以及解决方案"><a href="#“回调地狱”问题以及解决方案" class="headerlink" title="“回调地狱”问题以及解决方案"></a>“回调地狱”问题以及解决方案</h2><ol>
 <li>给你的函数命名并传递它们的名字作为回调函数，而不是主函数的参数中定义匿名函数</li>
 <li>模块化：将你的代码分隔到模块中，然后在巨型应用中导入模块</li>
 </ol>
@@ -27,16 +44,58 @@ How jQ"><meta name="keywords" content=""><meta content="width=device-width, init
 <li>setTimeout(),setInterval() 的函数调用得到其返回值，由于两个函数都是异步的，即：它们的调用时序和程序相对独立，所以没有办法在主体里面等待它们的返回值，它们被打开的时候程序也不会停下来等待，否则失去延时的意义，所以只能使用 callback 替代 return。callback 的意义在于将 timer 执行的结果通知给代理函数进行及时处理。</li>
 </ul>
 <h1 id="异步"><a href="#异步" class="headerlink" title="异步"></a>异步</h1><p>JavaScript 是单线程的，如果所有的操作（Ajax,I/O..) 都同步，遇到耗时的操作，后面的程序被阻塞而不能执行。<br>因此 Javascript 采用事件驱动机制，使用异步回调函数来实现非阻塞 I/O 操作。</p>
-<h2 id="什么是异步任务？"><a href="#什么是异步任务？" class="headerlink" title="什么是异步任务？"></a>什么是异步任务？</h2><p>异步任务就是指 ~主线程（stack 栈）~ 运行过程中，当 stack 空闲的时候，主线程对 event queue（队列）轮询（事实上一直在轮询）后，将异步任务放到 stack 中执行。<br><img src="http://www.ruanyifeng.com/blogimg/asset/2014/bg2014100802.png" alt=""><br>如果我们指定过回调函数，那么当事件发生时就会进入事件队列，等待主线程的 (stack) 空闲时，就会对 event queue 内的回调读取并放到 stack 里执行。<br>回调只是异步的一种实现方式。<br>通过 event loop 可以分析出三者的执行顺序：同步&gt;异步&gt;回调</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">for(var i = 0; i&lt;= 5; i++)&#123;</span><br><span class="line">	setTimeout(function()&#123;</span><br><span class="line">		console.log(i);</span><br><span class="line">	&#125;, i*1000);</span><br><span class="line">	console.log(‘i:’,i);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">console.log(i);</span><br><span class="line"></span><br><span class="line">//outputs</span><br><span class="line">i:0</span><br><span class="line">i:1</span><br><span class="line">i:2</span><br><span class="line">i:3</span><br><span class="line">i:4</span><br><span class="line">i:5</span><br><span class="line">6</span><br><span class="line"></span><br><span class="line">6</span><br><span class="line">6</span><br><span class="line">6</span><br><span class="line">6</span><br><span class="line">6</span><br><span class="line">6</span><br></pre></td></tr></table></figure>
-<p>“任务队列(event queue)”可以放置异步任务的事件，也可以放置定时事件(setTimeout,setInterval)</p>
+<h2 id="什么是异步任务？"><a href="#什么是异步任务？" class="headerlink" title="什么是异步任务？"></a>什么是异步任务？</h2><p>异步任务就是指 ~主线程（stack 栈）~ 运行过程中，当 stack 空闲的时候，主线程对 event queue（队列）轮询（事实上一直在轮询）后，将异步任务放到 stack 中执行。<br><img src="/images/IMG_0006.PNG" alt><br>如果我们指定过回调函数，那么当事件发生时就会进入事件队列，等待主线程的 (stack) 空闲时，就会对 event queue 内的回调读取并放到 stack 里执行。<br>回调只是异步的一种实现方式。<br>通过 event loop 可以分析出三者的执行顺序：同步&gt;异步&gt;回调</p>
+<pre><code>for(var i = 0; i&lt;= 5; i++){
+    setTimeout(function(){
+        console.log(i);
+    }, i*1000);
+    console.log(‘i:’,i);
+}
+
+console.log(i);
+
+//outputs
+i:0
+i:1
+i:2
+i:3
+i:4
+i:5
+6
+
+6
+6
+6
+6
+6
+6
+</code></pre><p>“任务队列(event queue)”可以放置异步任务的事件，也可以放置定时事件(setTimeout,setInterval)</p>
 <ol>
 <li>for 循环的第一层是 setTimeout 函数，setTimeout 中使用了一个匿名（回调）函数。</li>
 <li>for 循环和外层的 console.log() 同步，注册事件 setTimeout 是回调执行。按照执行顺序：同步&gt;异步&gt;回调，先执行 for 循环，进入循环发现回调。回调放入 event queue 事件队列，等待 stack 栈为空后再读取并放入栈中后执行。</li>
 <li>主程序继续执行——&gt; 循环内部的<code>console.log(‘i:’i);</code> ——&gt; 循环外部<code>console.log(i);</code>——&gt;event queue 中的回调函数。</li>
 </ol>
-<h3 id="使用let语法改进"><a href="#使用let语法改进" class="headerlink" title="使用let语法改进"></a>使用<code>let</code>语法改进</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">for(let i = 0; i &lt;= 5; i++)&#123;</span><br><span class="line">	setTimeout(function()&#123;</span><br><span class="line">		console.log(i);</span><br><span class="line">	&#125;, i*10000);</span><br><span class="line">	console.log(‘i:’,i);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//outputs</span><br><span class="line">i:0</span><br><span class="line">i:1</span><br><span class="line">i:2</span><br><span class="line">i:3</span><br><span class="line">i:4</span><br><span class="line">i:5</span><br><span class="line">0</span><br><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td></tr></table></figure>
-<p><code>let</code> 本质上形成了一个闭包，闭包可以延长其私有变量的生命周期，即内部私有变量和函数保存下来，一直在内存中，需要时再提供。</p>
+<h3 id="使用let语法改进"><a href="#使用let语法改进" class="headerlink" title="使用let语法改进"></a>使用<code>let</code>语法改进</h3><pre><code>for(let i = 0; i &lt;= 5; i++){
+    setTimeout(function(){
+        console.log(i);
+    }, i*10000);
+    console.log(‘i:’,i);
+}
+
+//outputs
+i:0
+i:1
+i:2
+i:3
+i:4
+i:5
+0
+1
+2
+3
+4
+5
+</code></pre><p><code>let</code> 本质上形成了一个闭包，闭包可以延长其私有变量的生命周期，即内部私有变量和函数保存下来，一直在内存中，需要时再提供。</p>
 <h1 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h1><h2 id="一级函数-First-Class-Functions"><a href="#一级函数-First-Class-Functions" class="headerlink" title="一级函数/First-Class Functions"></a>一级函数/First-Class Functions</h2><p>JavaScript 中，函数是一等公民，它可以被轻易转换成其他数据类型。一级函数可以实时构建并赋值给一个变量，也可以传递其他函数，或者通过其他函数返回。</p>
 <h2 id="内部函数-Inner-Functions"><a href="#内部函数-Inner-Functions" class="headerlink" title="内部函数/Inner Functions"></a>内部函数/Inner Functions</h2><p>内部函数获取到外部函数的作用域，能够使用外部函数的变量。</p>
 <h2 id="创建闭包-Creating-Closures"><a href="#创建闭包-Creating-Closures" class="headerlink" title="创建闭包/Creating Closures"></a>创建闭包/Creating Closures</h2><p>典型的场景是外部函数将内部函数返回，内部函数保持了外部环境的引用，并保存了作用域下的所有变量。</p>
@@ -48,19 +107,21 @@ How jQ"><meta name="keywords" content=""><meta content="width=device-width, init
 <li>循环体内</li>
 <li>构造函数里的非必要使用</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function Person(name)&#123;</span><br><span class="line">	var _name = name;</span><br><span class="line">	this.getName = function()&#123;</span><br><span class="line">		return _name;</span><br><span class="line">	&#125;;</span><br><span class="line">	this.sayHello = function()&#123;</span><br><span class="line">		alert(“Hello!”);</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>每当 Person 被实例化，创建 sayHello 都要消耗时间。更好的做法是将 sayHello 放入 Person 的原型链(Prototype)，原型链里的方法，会被所有的实例化对象共享，节省为每个实例创建闭包。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">	Person.prototype.sayHello = function()&#123;</span><br><span class="line">	alert(“Hello!”);</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-<blockquote>
+<pre><code>function Person(name){
+    var _name = name;
+    this.getName = function(){
+        return _name;
+    };
+    this.sayHello = function(){
+        alert(“Hello!”);
+    };
+}
+</code></pre><p>每当 Person 被实例化，创建 sayHello 都要消耗时间。更好的做法是将 sayHello 放入 Person 的原型链(Prototype)，原型链里的方法，会被所有的实例化对象共享，节省为每个实例创建闭包。</p>
+<pre><code>...
+    Person.prototype.sayHello = function(){
+    alert(“Hello!”);
+...
+</code></pre><blockquote>
 <p>闭包包括一个内部函数以及对创建环境的引用，闭包在外部函数包含内部函数的情况下形成。闭包可以帮助回调函数传入参数，可以模拟私有属性。构造器中不宜使用闭包，将它们放到原型链中。</p>
 </blockquote>
-</p></div><div class="share"><span>Share</span>&nbsp;<span class="soc"><a href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank" class="fa fa-bookmark"></a></span><span class="soc"><a href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));" class="fa fa-weibo"></a></span><span class="soc"><a href="http://twitter.com/home?status=http://xhdnoah.github.io/2018/11/05/js-callback/%20Electronic Moon%20JavaScript 同步、异步、回调、闭包" class="fa fa-twitter"></a></span></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/2018/11/05/nodejs/" title="七天学会 NodeJs"><i class="fa fa-angle-double-left"></i>&nbsp;Previous post: 七天学会 NodeJs</a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/2018/11/03/ES6/" title="《Understanding ECMAScript6》Notes">Next post: 《Understanding ECMAScript6》Notes&nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div><div id="lv-container" data-id="city" data-uid="livere_data_uid"><script type="text/javascript">(function (d, s) {
-    var j, e = d.getElementsByTagName(s)[0];
-    if (typeof LivereTower === 'function') {
-        return;
-    }
-    j = d.createElement(s);
-    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-    j.async = true;
-    e.parentNode.insertBefore(j, e);
-})(document, 'script');</script><noscript> Please activate JavaScript for write a comment in LiveRe</noscript></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2019&nbsp;<a target="_blank" href="http://xhdnoah.github.io" rel="noopener noreferrer">Noah Xu</a></p><p>Theme&nbsp;<a target="_blank" href="https://github.com/SumiMakito/hexo-theme-typography" rel="noopener noreferrer">Typography</a>&nbsp;by&nbsp;<a target="_blank" href="https://www.keep.moe" rel="noopener noreferrer">Makito</a></p><p>Proudly published with&nbsp;<a target="_blank" href="https://hexo.io" rel="noopener noreferrer">Hexo</a></p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>
+<p></p></div><div class="share"><span>分享到</span>&nbsp;<span class="soc"><a href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank" class="fa fa-bookmark"></a></span><span class="soc"><a href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));" class="fa fa-weibo"></a></span><span class="soc"><a href="http://twitter.com/home?status=http://xhdnoah.github.io/2018/11/05/js-callback/%20Electronic Moon%20JavaScript 同步、异步、回调、闭包" class="fa fa-twitter"></a></span></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/2018/11/05/nodejs/" title="七天学会 NodeJs"><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: 七天学会 NodeJs</a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/2018/11/03/ES6/" title="《Understanding ECMAScript6》Notes">下一篇: 《Understanding ECMAScript6》Notes&nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2019&nbsp;<a target="_blank" href="http://xhdnoah.github.io" rel="noopener noreferrer">Noah Xu</a></p><p>Theme&nbsp;<a target="_blank" href="https://github.com/SumiMakito/hexo-theme-typography" rel="noopener noreferrer">Typography</a>&nbsp;by&nbsp;<a target="_blank" href="https://www.keep.moe" rel="noopener noreferrer">Makito</a></p><p>Proudly published with&nbsp;<a target="_blank" href="https://hexo.io" rel="noopener noreferrer">Hexo</a></p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>

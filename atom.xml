@@ -29,7 +29,12 @@
       
         
         
-          &lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span
+          &lt;pre&gt;&lt;code&gt;getData(a =&amp;gt; {
+  getMore(a, b =&amp;gt; {
+    getMore(b, c =&amp;gt; {
+      getMore(c, d =&amp;gt; {
+        getMore(d, e =&amp;gt; {
+      
         
       
     
@@ -54,7 +59,8 @@
         
         
           &lt;p&gt;&lt;strong&gt;函数式编程&lt;/strong&gt;，函数拿来就用，对象是被函数支配的参数&lt;/p&gt;
- &lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span
+&lt;pre&gt;&lt;code&gt;const arr = [1,2,3]
+_.map(arr, n =&amp;gt;
         
       
     
@@ -151,7 +157,7 @@
       
         
         
-          &lt;h2 id=&quot;1-1-架设-HTTP-服务&quot;&gt;&lt;a href=&quot;#1-1-架设-HTTP-服务&quot; class=&quot;headerlink&quot; title=&quot;1.1 架设 HTTP 服务&quot;&gt;&lt;/a&gt;1.1 架设 HTTP 服务&lt;/h2&gt;&lt;figure class=&quot;highlight
+          &lt;h2 id=&quot;1-1-架设-HTTP-服务&quot;&gt;&lt;a href=&quot;#1-1-架设-HTTP-服务&quot; class=&quot;headerlink&quot; title=&quot;1.1 架设 HTTP 服务&quot;&gt;&lt;/a&gt;1.1 架设 HTTP 服务&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;//
         
       
     
@@ -192,7 +198,7 @@
     <link href="http://xhdnoah.github.io/2018/11/07/ajax/"/>
     <id>http://xhdnoah.github.io/2018/11/07/ajax/</id>
     <published>2018-11-07T13:17:00.000Z</published>
-    <updated>2019-03-24T10:19:10.253Z</updated>
+    <updated>2019-03-26T13:29:21.928Z</updated>
     
     <summary type="html">
     
@@ -290,7 +296,7 @@
     <link href="http://xhdnoah.github.io/2018/11/05/js-callback/"/>
     <id>http://xhdnoah.github.io/2018/11/05/js-callback/</id>
     <published>2018-11-05T10:53:00.000Z</published>
-    <updated>2019-03-24T10:32:50.961Z</updated>
+    <updated>2019-03-26T13:31:35.579Z</updated>
     
     <summary type="html">
     

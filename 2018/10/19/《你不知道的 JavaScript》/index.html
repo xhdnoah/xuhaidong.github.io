@@ -1,7 +1,8 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="Noah Xu"><title>《你不知道的 JavaScript》笔记 · Electronic Moon</title><meta name="description" content="作用域编译原理
+<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="Noah Xu"><title>《你不知道的 JavaScript》笔记 · Electronic Moon</title><meta name="description" content="作用域编译原理
 分词/词法分析 Tokenizing/Lexing
 解析/语法分析 Parsing：将词法单元流转换成抽象语法流(Absract Synatax Tree,AST)
-代码生成：将 AST 转换成可执行代码对于 Javascript，大部分情况下编译发生在代码执行前的几微秒，JS 引擎"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title"></a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">电子月亮</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">Home</a></li><li><a href="/archives">Archive</a></li><li><a href="/tags">Tags</a></li><li class="soc"><a href="https://github.com/xhdnoah" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="https://twitter.com/xhdnoah" target="_blank" rel="noopener noreferrer"><i class="fa fa-twitter">&nbsp;</i></a><a href="http://xhdnoah.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2019&nbsp;<a target="_blank" href="http://xhdnoah.github.io" rel="noopener noreferrer">Noah Xu</a></p><p>Theme&nbsp;<a target="_blank" href="https://github.com/SumiMakito/hexo-theme-typography" rel="noopener noreferrer">Typography</a>&nbsp;by&nbsp;<a target="_blank" href="https://www.keep.moe" rel="noopener noreferrer">Makito</a></p><p>Proudly published with&nbsp;<a target="_blank" href="https://hexo.io" rel="noopener noreferrer">Hexo</a></p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a>《你不知道的 JavaScript》笔记</a></p><p class="post-meta"><span class="date meta-item">Posted at&nbsp;2018-10-19</span><span class="meta-item"><i class="fa fa-tag"></i><span>&nbsp;</span><a href="/tags/JavaScript/" title="JavaScript" class="a-tag">JavaScript</a><span>&nbsp;</span></span></p><p class="post-abstract"><h1 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h1><h2 id="编译原理"><a href="#编译原理" class="headerlink" title="编译原理"></a>编译原理</h2><ul>
+代码生成：将 AST 转换成可执行代码对于 Javascript，大部分情况下编译发生在代码执行前的几微秒，JS 引擎"><meta name="keywords" content><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style-dark.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title"></a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">Electronic Moon</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/tags">标签</a></li><li class="soc"><a href="https://github.com/xhdnoah" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="http://xhdnoah.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2019&nbsp;<a target="_blank" href="http://xhdnoah.github.io" rel="noopener noreferrer">Noah Xu</a></p><p>Theme&nbsp;<a target="_blank" href="https://github.com/SumiMakito/hexo-theme-typography" rel="noopener noreferrer">Typography</a>&nbsp;by&nbsp;<a target="_blank" href="https://www.keep.moe" rel="noopener noreferrer">Makito</a></p><p>Proudly published with&nbsp;<a target="_blank" href="https://hexo.io" rel="noopener noreferrer">Hexo</a></p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a>《你不知道的 JavaScript》笔记</a></p><p class="post-meta"><span class="date meta-item">发布于&nbsp;2018-10-19</span><span class="meta-item"><i class="fa fa-tag"></i><span>&nbsp;</span><a href="/tags/JavaScript/" title="JavaScript" class="a-tag">JavaScript</a><span>&nbsp;</span></span></p><p class="post-abstract"></p><h1 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h1><h2 id="编译原理"><a href="#编译原理" class="headerlink" title="编译原理"></a>编译原理</h2><ul>
 <li>分词/词法分析 Tokenizing/Lexing</li>
 <li>解析/语法分析 Parsing：将词法单元流转换成抽象语法流(Absract Synatax Tree,AST)</li>
 <li>代码生成：将 AST 转换成可执行代码<br>对于 Javascript，大部分情况下编译发生在代码执行前的几微秒，JS 引擎用尽各种办法来保证性能最佳。</li>
@@ -33,8 +34,13 @@
 <p>全局变量会自动成为全局对象的属性，因此可以间接通过全局对象属性的引用来对其进行访问<code>window.a</code> 这样可以访问被同名遮蔽的全局变量<br>词法作用域查找只查找一级标识符，对象属性访问规则会分别接管对其属性的访问。</p>
 </blockquote>
 <h2 id="欺骗词法"><a href="#欺骗词法" class="headerlink" title="欺骗词法"></a>欺骗词法</h2><p>词法作用域完全由代码中函数所声明的位置来定义，JS 中有两种机制可以“修改”（欺骗）词法作用域。</p>
-<h3 id="eval"><a href="#eval" class="headerlink" title="eval"></a>eval</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function foo(str,a)&#123;</span><br><span class="line">	eval(str);//欺骗</span><br><span class="line">	console.log(a,b);</span><br><span class="line">&#125;</span><br><span class="line">var b = 2;</span><br><span class="line">foo(“var b = 3;”,1);//1,3</span><br></pre></td></tr></table></figure>
-<p>eval(…) 通常被用来执行动态创建的代码，达到在运行期修改书写期的词法作用域。</p>
+<h3 id="eval"><a href="#eval" class="headerlink" title="eval"></a>eval</h3><pre><code>function foo(str,a){
+    eval(str);//欺骗
+    console.log(a,b);
+}
+var b = 2;
+foo(“var b = 3;”,1);//1,3
+</code></pre><p>eval(…) 通常被用来执行动态创建的代码，达到在运行期修改书写期的词法作用域。</p>
 <blockquote>
 <p>严格模式下，eval(…) 运行时有自己的词法作用域，其中的声明无法修改所在的作用域</p>
 </blockquote>
@@ -42,8 +48,23 @@
 <blockquote>
 <p>尽管 with 块可以将一个对象处理为词法作用域，但其内部正常的 var 声明不会被限制而是添加到 with 多处的函数作用域中。</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">function foo(obj)&#123;</span><br><span class="line">	with(obj)&#123;</span><br><span class="line">		a = 2;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">var o1 = &#123;</span><br><span class="line">	a:3</span><br><span class="line">&#125;;</span><br><span class="line">vat o2 = &#123;</span><br><span class="line">	b:3</span><br><span class="line">&#125;;</span><br><span class="line">foo(o1);</span><br><span class="line">console.log(o1.a);//2</span><br><span class="line">foo(o2);</span><br><span class="line">console.log(o2.a);//undefined</span><br><span class="line">console.log(a);//2（a 泄漏到全局作用域）</span><br></pre></td></tr></table></figure>
-<p>with 声明实际上根据传递给它的对象凭空创建一个全新的词法作用域。o2 的作用域、foo(…) 的作用域和全局作用域都没有找到标识符 a，因此执行 a=2 时，自动创建了一个全局变量（非严格模式）。</p>
+<pre><code>function foo(obj){
+    with(obj){
+        a = 2;
+    }
+}
+var o1 = {
+    a:3
+};
+vat o2 = {
+    b:3
+};
+foo(o1);
+console.log(o1.a);//2
+foo(o2);
+console.log(o2.a);//undefined
+console.log(a);//2（a 泄漏到全局作用域）
+</code></pre><p>with 声明实际上根据传递给它的对象凭空创建一个全新的词法作用域。o2 的作用域、foo(…) 的作用域和全局作用域都没有找到标识符 a，因此执行 a=2 时，自动创建了一个全局变量（非严格模式）。</p>
 <h3 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h3><p>JS 引擎会在编译阶段进行性能优化，有些优化依赖于能够根据代码的词法进行静态分析，并预先确定所有变量和函数的定义位置，才能在执行过程快速找到标识符。但如果引擎在代码中发现 eval(…) 或 with，只能简单假设关于标识符位置的判断无效，因为无法在词法分析阶段明确 eval(..) 接收的代码以及传递给 with 的对象。</p>
 <h1 id="函数作用域和块作用域"><a href="#函数作用域和块作用域" class="headerlink" title="函数作用域和块作用域"></a>函数作用域和块作用域</h1><h2 id="函数中的作用域"><a href="#函数中的作用域" class="headerlink" title="函数中的作用域"></a>函数中的作用域</h2><p>JS 具有基于函数的作用域，函数作用域的含义是指， ~属于这个函数的全部变量都可以在整个函数的范围内使用及复用~ 。</p>
 <h2 id="隐藏内部实现"><a href="#隐藏内部实现" class="headerlink" title="隐藏内部实现"></a>隐藏内部实现</h2><p>从代码中挑选出一个片段，用函数声明进行包装，实际上“<strong>隐藏</strong>“了这片代码，结果就是在代码片段的周围创建了一个<strong>作用域气泡</strong>，其中的任何声明（变量或函数）都被绑定在新创建的包装函数的作用域中。</p>
@@ -55,10 +76,21 @@
 <li>全局命名空间<br>第三方库会在全局作用域中声明一个名字足够独特的变量，通常是一个对象，被用作库的命名空间，所有需要暴露给外界的功能都会成为这个对象的属性。</li>
 <li>模块管理</li>
 </ol>
-<h2 id="函数作用域"><a href="#函数作用域" class="headerlink" title="函数作用域"></a>函数作用域</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var a=2;</span><br><span class="line">function foo()&#123;</span><br><span class="line">	var a=3;</span><br><span class="line">	console.log(a);//3</span><br><span class="line">&#125;</span><br><span class="line">foo();</span><br><span class="line"></span><br><span class="line">console.log(a);//2</span><br></pre></td></tr></table></figure>
-<p>在代码片段外部添加包装函数以隐藏内部声明的技术存在一些问题，首先必须声明一个具名函数 foo()，其次必须显式地调用函数。<br>如果函数不需要函数名（至少函数名不污染作用域），并能自动运行，会更理想。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(function foo()&#123;</span><br><span class="line">	var a=3;</span><br><span class="line">	console.log(a);//3</span><br><span class="line">&#125;)();</span><br><span class="line">console.log(a);//2</span><br></pre></td></tr></table></figure>
-<blockquote>
+<h2 id="函数作用域"><a href="#函数作用域" class="headerlink" title="函数作用域"></a>函数作用域</h2><pre><code>var a=2;
+function foo(){
+    var a=3;
+    console.log(a);//3
+}
+foo();
+
+console.log(a);//2
+</code></pre><p>在代码片段外部添加包装函数以隐藏内部声明的技术存在一些问题，首先必须声明一个具名函数 foo()，其次必须显式地调用函数。<br>如果函数不需要函数名（至少函数名不污染作用域），并能自动运行，会更理想。</p>
+<pre><code>(function foo(){
+    var a=3;
+    console.log(a);//3
+})();
+console.log(a);//2
+</code></pre><blockquote>
 <p>区分函数声明和表达式最简单是看 function 关键字在整个声明中的位置，如果 function 是第一个词，那么就是函数声明，否则就是函数表达式。<br><code>(function foo(){...})</code>作为函数表达式意味着 foo 只能在<code>...</code>所代表的位置中被访问，foo 变量名被隐藏在自身不会污染外部作用域。</p>
 </blockquote>
 <h3 id="匿名和具名"><a href="#匿名和具名" class="headerlink" title="匿名和具名"></a>匿名和具名</h3><p><strong>匿名函数的缺点</strong>：</p>
@@ -74,101 +106,361 @@
 <li><code>(function foo(){...})()</code></li>
 <li><code>(function(){...}())</code><br>IIFE 另一个普遍的进阶用法是当做函数调用并传递参数：</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var a = 2;</span><br><span class="line">(function IIFE(global)&#123;</span><br><span class="line">	var a=3;</span><br><span class="line">	console.log(a);//3</span><br><span class="line">	console.log(global.a);//2</span><br><span class="line">&#125;)(window);</span><br><span class="line">console.log(a);//2</span><br></pre></td></tr></table></figure>
-<p>IIFE 还有一种变化的用途是倒置代码运行顺序，将需要运行的函数放第二位，在 IIFE 执行后当参数传递进去。在 UMD 项目中广泛使用：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var a=2;</span><br><span class="line">(function IIFE(def)&#123;</span><br><span class="line">	def(window);</span><br><span class="line">&#125;)(function def(global)&#123;</span><br><span class="line">	var a=3;</span><br><span class="line">	console.log(a);//3</span><br><span class="line">	console.log(global.a);//2</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<h2 id="块作用域"><a href="#块作用域" class="headerlink" title="块作用域"></a>块作用域</h2><h3 id="with-1"><a href="#with-1" class="headerlink" title="with"></a>with</h3><p>用 with 从对象在创建出的作用域仅在 with 声明中而非外部作用域有效，是快作用域的一种形式</p>
+<pre><code>var a = 2;
+(function IIFE(global){
+    var a=3;
+    console.log(a);//3
+    console.log(global.a);//2
+})(window);
+console.log(a);//2
+</code></pre><p>IIFE 还有一种变化的用途是倒置代码运行顺序，将需要运行的函数放第二位，在 IIFE 执行后当参数传递进去。在 UMD 项目中广泛使用：</p>
+<pre><code>var a=2;
+(function IIFE(def){
+    def(window);
+})(function def(global){
+    var a=3;
+    console.log(a);//3
+    console.log(global.a);//2
+});
+</code></pre><h2 id="块作用域"><a href="#块作用域" class="headerlink" title="块作用域"></a>块作用域</h2><h3 id="with-1"><a href="#with-1" class="headerlink" title="with"></a>with</h3><p>用 with 从对象在创建出的作用域仅在 with 声明中而非外部作用域有效，是快作用域的一种形式</p>
 <h3 id="try-catch"><a href="#try-catch" class="headerlink" title="try/catch"></a>try/catch</h3><p>catch 分句会创建一个快作用域，其中声明变量仅在 catch 内部有效：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">try&#123;</span><br><span class="line">	undefined();//制造非法操作</span><br><span class="line">&#125;</span><br><span class="line">catch(err)&#123;</span><br><span class="line">	console.log(err);//能正常执行</span><br><span class="line">&#125;</span><br><span class="line">console.log(err);//ReferenceError:err not found</span><br></pre></td></tr></table></figure>
-<h3 id="let"><a href="#let" class="headerlink" title="let"></a>let</h3><p>ES6 引入 let 关键字，可以将变量绑定到所在的任意作用域中（通常是<code>{...}</code>内部）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var foo = true;</span><br><span class="line">if(foo)&#123;</span><br><span class="line">	let bar = foo*2;</span><br><span class="line">	bar = something(bar);</span><br><span class="line">	console.log(bar);</span><br><span class="line">&#125;</span><br><span class="line">console.log(bar);//ReferenceError</span><br></pre></td></tr></table></figure>
-<p>用 let 将变量附加在一个存在的块作用域上的行为是隐式的，为块作用域显式地创建块可以防止混乱，使变量的附属关系清晰。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var foo = true;</span><br><span class="line">if(foo)&#123;</span><br><span class="line">	&#123;// &lt;—- 显式的块</span><br><span class="line">		let bar = foo*2;</span><br><span class="line">		bar = something(bar);</span><br><span class="line">		console.log(bar);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">console.log(bar);//ReferenceError</span><br></pre></td></tr></table></figure>
-<p>只要是有效的，在声明中任意位置都可以使用<code>{...}</code>括号为 let 创建一个用于绑定的块。</p>
+<pre><code>try{
+    undefined();//制造非法操作
+}
+catch(err){
+    console.log(err);//能正常执行
+}
+console.log(err);//ReferenceError:err not found
+</code></pre><h3 id="let"><a href="#let" class="headerlink" title="let"></a>let</h3><p>ES6 引入 let 关键字，可以将变量绑定到所在的任意作用域中（通常是<code>{...}</code>内部）</p>
+<pre><code>var foo = true;
+if(foo){
+    let bar = foo*2;
+    bar = something(bar);
+    console.log(bar);
+}
+console.log(bar);//ReferenceError
+</code></pre><p>用 let 将变量附加在一个存在的块作用域上的行为是隐式的，为块作用域显式地创建块可以防止混乱，使变量的附属关系清晰。</p>
+<pre><code>var foo = true;
+if(foo){
+    {// &lt;—- 显式的块
+        let bar = foo*2;
+        bar = something(bar);
+        console.log(bar);
+    }
+}
+console.log(bar);//ReferenceError
+</code></pre><p>只要是有效的，在声明中任意位置都可以使用<code>{...}</code>括号为 let 创建一个用于绑定的块。</p>
 <ol>
 <li>垃圾收集</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function process(data)&#123;</span><br><span class="line">	//做点有趣的事</span><br><span class="line">&#125;</span><br><span class="line">//告诉引擎块中定义的内容可以销毁了</span><br><span class="line">&#123;</span><br><span class="line">	let someReallyBigData = &#123;...&#125;;//为变量显式声明快作用域，并对变量进行本地绑定</span><br><span class="line">	process(someReallyBigData);</span><br><span class="line">&#125;</span><br><span class="line">var btn = document.getElementById(“my_button”);</span><br><span class="line">btn.addEventListener(“click”,function click(evt)&#123;</span><br><span class="line">	console.log(“button clicked”);</span><br><span class="line">&#125;,false);</span><br></pre></td></tr></table></figure>
-<ol start="2">
+<pre><code>function process(data){
+    //做点有趣的事
+}
+//告诉引擎块中定义的内容可以销毁了
+{
+    let someReallyBigData = {...};//为变量显式声明快作用域，并对变量进行本地绑定
+    process(someReallyBigData);
+}
+var btn = document.getElementById(“my_button”);
+btn.addEventListener(“click”,function click(evt){
+    console.log(“button clicked”);
+},false);
+</code></pre><ol start="2">
 <li>let 循环</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">for(let i=0;i&lt;10;i++)&#123;</span><br><span class="line">	console.log(i);</span><br><span class="line">&#125;</span><br><span class="line">console.log(i);//ReferenceError</span><br></pre></td></tr></table></figure>
-<p>for 循环头部的 let 不仅将 i 绑定到 for 循环的块中，事实上它将其重新绑定到了循环的每一个迭代中：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	let j;</span><br><span class="line">	for(j=0;j&lt;10;j++)&#123;</span><br><span class="line">		let i = j;//每个迭代重新绑定</span><br><span class="line">		console.log(i);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>由于 let 声明附属于新的作用域而不是当前函数作用域，当代码中存在对于函数作用域中 var 声明的隐式依赖时，就会有很多隐藏陷阱。</p>
+<pre><code>for(let i=0;i&lt;10;i++){
+    console.log(i);
+}
+console.log(i);//ReferenceError
+</code></pre><p>for 循环头部的 let 不仅将 i 绑定到 for 循环的块中，事实上它将其重新绑定到了循环的每一个迭代中：</p>
+<pre><code>{
+    let j;
+    for(j=0;j&lt;10;j++){
+        let i = j;//每个迭代重新绑定
+        console.log(i);
+    }
+}
+</code></pre><p>由于 let 声明附属于新的作用域而不是当前函数作用域，当代码中存在对于函数作用域中 var 声明的隐式依赖时，就会有很多隐藏陷阱。</p>
 <h3 id="const"><a href="#const" class="headerlink" title="const"></a>const</h3><p>ES6 还引入 const 创建块作用域，但其值是固定常量：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var foo = true;</span><br><span class="line">if(foo)&#123;</span><br><span class="line">	var a = 2;</span><br><span class="line">	const b = 3;//包含在if中的快作用域常量</span><br><span class="line">	a = 3;//正常</span><br><span class="line">	b = 4;//错误</span><br><span class="line">&#125;</span><br><span class="line">console.log(a);//3</span><br><span class="line">console.log(b);//ReferenceError!</span><br></pre></td></tr></table></figure>
-<h1 id="提升"><a href="#提升" class="headerlink" title="提升"></a>提升</h1><h2 id="先有鸡还是先有蛋"><a href="#先有鸡还是先有蛋" class="headerlink" title="先有鸡还是先有蛋"></a>先有鸡还是先有蛋</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a = 2;</span><br><span class="line">var a;</span><br><span class="line">console.log(a);//2</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">console.log(a);//undefined</span><br><span class="line">var a = 2;</span><br></pre></td></tr></table></figure>
-<p>到底是声明（蛋）在前，还是赋值（鸡）在前？</p>
+<pre><code>var foo = true;
+if(foo){
+    var a = 2;
+    const b = 3;//包含在if中的快作用域常量
+    a = 3;//正常
+    b = 4;//错误
+}
+console.log(a);//3
+console.log(b);//ReferenceError!
+</code></pre><h1 id="提升"><a href="#提升" class="headerlink" title="提升"></a>提升</h1><h2 id="先有鸡还是先有蛋"><a href="#先有鸡还是先有蛋" class="headerlink" title="先有鸡还是先有蛋"></a>先有鸡还是先有蛋</h2><pre><code>a = 2;
+var a;
+console.log(a);//2
+</code></pre><pre><code>console.log(a);//undefined
+var a = 2;
+</code></pre><p>到底是声明（蛋）在前，还是赋值（鸡）在前？</p>
 <h2 id="编译器"><a href="#编译器" class="headerlink" title="编译器"></a>编译器</h2><p>引擎会在解释 JS 代码前首先对其编译，编译阶段的一部分工作就是找到所有声明并用合适的作用域将它们关联起来，即词法作用域的核心内容。<br><strong>包括变量和函数在内的所有声明都会被提升到各自作用域的最顶端，并在任何代码执行前首先被处理</strong><br>对于<code>var a = 2;</code>，JS 实际看成两个声明：<code>var a;</code>定义声明在编译阶段进行，<code>a=2;</code>赋值声明等待执行阶段。<br>函数声明会被提升，但函数表达式不会提升。</p>
 <h2 id="函数优先"><a href="#函数优先" class="headerlink" title="函数优先"></a>函数优先</h2><p>函数会首先被提升，然后才是变量。（出现在有多个“重复”声明的代码中）</p>
 <h1 id="作用域闭包"><a href="#作用域闭包" class="headerlink" title="作用域闭包"></a>作用域闭包</h1><h2 id="启示"><a href="#启示" class="headerlink" title="启示"></a>启示</h2><p>闭包是基于词法作用域书写代码时的自然结果，闭包的创建和使用在你的代码中随处可见，要学会根据自己的意愿来识别，拥抱和影响闭包的思维环境。理解闭包就好像 Neo 第一次见到矩阵。</p>
 <h2 id="实质问题"><a href="#实质问题" class="headerlink" title="实质问题"></a>实质问题</h2><p>当函数可以记住并访问所在词法作用域时，就产生了闭包。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function foo()&#123;</span><br><span class="line">	var a = 2;</span><br><span class="line">	function bar()&#123;</span><br><span class="line">		console.log(a);</span><br><span class="line">	&#125;</span><br><span class="line">	return bar;</span><br><span class="line">&#125;</span><br><span class="line">var baz = foo();</span><br><span class="line">baz();//2</span><br></pre></td></tr></table></figure>
-<p>在 foo() 执行后，通常会期待 foo() 整个内部作用域都被销毁——引擎有垃圾回收器释放不再使用的内存空间。<br>而闭包的“神奇”正是可以阻止内存回收，内部作用域依然存在，bar() 依然持有对该作用域的引用，而这个引用就叫闭包。闭包使得函数可以继续访问定义时的词法作用域。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">//间接传递函数</span><br><span class="line">function foo()&#123;</span><br><span class="line">	var a = 2;</span><br><span class="line">	function baz()&#123;</span><br><span class="line">		console.log(a);</span><br><span class="line">	&#125;</span><br><span class="line">	fn = baz;//将 baz 分配给全局变量</span><br><span class="line">&#125;</span><br><span class="line">function bar()&#123;</span><br><span class="line">	fn();//闭包</span><br><span class="line">&#125;</span><br><span class="line">foo();</span><br><span class="line">bar();//2</span><br></pre></td></tr></table></figure>
-<p>无论通过何种手段将内部函数传递到所在词法作用域以外，它都会持有对原始定义作用域的引用，无论在何处执行这个函数都会使用闭包。</p>
-<h2 id="循环和闭包"><a href="#循环和闭包" class="headerlink" title="循环和闭包"></a>循环和闭包</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">for (var i=1;i&lt;=5;i++)&#123;</span><br><span class="line">	setTimeout(function timer()&#123;</span><br><span class="line">		console.log(i);// 延迟函数的回调在循环结束时才执行并以每秒一次频率输出五次6</span><br><span class="line">	&#125;,i*1000);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>缺陷是我们试图假设循环中的每个迭代在运行时都会给自己“捕获”一个 _i_ 的副本（<strong>按值传递）</strong>。但根据作用域的工作原理，实际情况是尽管循环中的五个函数在各个迭代中分别定义，但是它们都被封闭在一个共享的全局作用域中，实际上只有一个 _i_（<strong>按引用传递</strong>），关联到闭包的作用域链都是“活动的”。</p>
+<pre><code>function foo(){
+    var a = 2;
+    function bar(){
+        console.log(a);
+    }
+    return bar;
+}
+var baz = foo();
+baz();//2
+</code></pre><p>在 foo() 执行后，通常会期待 foo() 整个内部作用域都被销毁——引擎有垃圾回收器释放不再使用的内存空间。<br>而闭包的“神奇”正是可以阻止内存回收，内部作用域依然存在，bar() 依然持有对该作用域的引用，而这个引用就叫闭包。闭包使得函数可以继续访问定义时的词法作用域。</p>
+<pre><code>//间接传递函数
+function foo(){
+    var a = 2;
+    function baz(){
+        console.log(a);
+    }
+    fn = baz;//将 baz 分配给全局变量
+}
+function bar(){
+    fn();//闭包
+}
+foo();
+bar();//2
+</code></pre><p>无论通过何种手段将内部函数传递到所在词法作用域以外，它都会持有对原始定义作用域的引用，无论在何处执行这个函数都会使用闭包。</p>
+<h2 id="循环和闭包"><a href="#循环和闭包" class="headerlink" title="循环和闭包"></a>循环和闭包</h2><pre><code>for (var i=1;i&lt;=5;i++){
+    setTimeout(function timer(){
+        console.log(i);// 延迟函数的回调在循环结束时才执行并以每秒一次频率输出五次6
+    },i*1000);
+}
+</code></pre><p>缺陷是我们试图假设循环中的每个迭代在运行时都会给自己“捕获”一个 _i_ 的副本（<strong>按值传递）</strong>。但根据作用域的工作原理，实际情况是尽管循环中的五个函数在各个迭代中分别定义，但是它们都被封闭在一个共享的全局作用域中，实际上只有一个 _i_（<strong>按引用传递</strong>），关联到闭包的作用域链都是“活动的”。</p>
 <p><strong>解决方案</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">for(var i=1;i&lt;=5;i++)&#123;</span><br><span class="line">	(function(j)&#123;</span><br><span class="line">		setTimeout(function timer()&#123;</span><br><span class="line">			console.log(j);</span><br><span class="line">	&#125;)(j);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在迭代内使用 IIFE 会为每个迭代都生成一个新的作用域，使得延迟函数的回调可以将新的作用域封闭在每个迭代内部。</p>
+<pre><code>for(var i=1;i&lt;=5;i++){
+    (function(j){
+        setTimeout(function timer(){
+            console.log(j);
+    })(j);
+}
+</code></pre><p>在迭代内使用 IIFE 会为每个迭代都生成一个新的作用域，使得延迟函数的回调可以将新的作用域封闭在每个迭代内部。</p>
 <p><strong>重返块作用域</strong><br>换句话说，每次迭代我们都需要一个块作用域。而<code>let</code>声明可以用来劫持块作用域，且在块作用域中声明一个变量。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">for(let i=1;i&lt;=5;i++)&#123;</span><br><span class="line">	setTimeout(function timer()&#123;</span><br><span class="line">		console.log(i);</span><br><span class="line">	&#125;,i*1000);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这里<code>let</code>声明一个具有块级作用域（for 循环体）的<em>i</em>，本质上形成了一个闭包。相当于：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var loop = function(_i)&#123;</span><br><span class="line">	setTimeout(function timer()&#123;</span><br><span class="line">		console.log(i);</span><br><span class="line">	&#125;,i*1000&#125;;</span><br><span class="line">&#125;</span><br><span class="line">for(var _i=1;_i&lt;=5;_i++)&#123;</span><br><span class="line">	loop(_i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">function CoolModule()&#123;</span><br><span class="line">	var something = “cool”;</span><br><span class="line">	var another = [1,2,3];</span><br><span class="line"></span><br><span class="line">	function doSomething()&#123;</span><br><span class="line">		console.log(something);</span><br><span class="line">	&#125;</span><br><span class="line">	function doAnother()&#123;</span><br><span class="line">		console.log(another.join(“!”));</span><br><span class="line">	&#125;</span><br><span class="line">	return&#123;</span><br><span class="line">		doSomething:doSomething,</span><br><span class="line">		doAnother:doAnother</span><br><span class="line">	&#125;;//返回包含对内部函数引用的对象，本质上是模块的公共API</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var foo = CoolModule();//调用函数创建模块实例，通过foo访问API中的属性方法</span><br><span class="line">foo.doSomething();//cool</span><br><span class="line">foo.doAnother();//1!2!3</span><br></pre></td></tr></table></figure>
-<p>这个模式称为 ~模块~，最常见实现模块模式的方法称为 ~模块暴露~<br>模块模式需要具备两个必要条件：</p>
+<pre><code>for(let i=1;i&lt;=5;i++){
+    setTimeout(function timer(){
+        console.log(i);
+    },i*1000);
+}
+</code></pre><p>这里<code>let</code>声明一个具有块级作用域（for 循环体）的<em>i</em>，本质上形成了一个闭包。相当于：</p>
+<pre><code>var loop = function(_i){
+    setTimeout(function timer(){
+        console.log(i);
+    },i*1000};
+}
+for(var _i=1;_i&lt;=5;_i++){
+    loop(_i);
+}
+</code></pre><h2 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h2><pre><code>function CoolModule(){
+    var something = “cool”;
+    var another = [1,2,3];
+
+    function doSomething(){
+        console.log(something);
+    }
+    function doAnother(){
+        console.log(another.join(“!”));
+    }
+    return{
+        doSomething:doSomething,
+        doAnother:doAnother
+    };//返回包含对内部函数引用的对象，本质上是模块的公共API
+}
+
+var foo = CoolModule();//调用函数创建模块实例，通过foo访问API中的属性方法
+foo.doSomething();//cool
+foo.doAnother();//1!2!3
+</code></pre><p>这个模式称为 ~模块~，最常见实现模块模式的方法称为 ~模块暴露~<br>模块模式需要具备两个必要条件：</p>
 <ol>
 <li>必须有外部的包装函数，且至少被调用一次（每次调用创建一个新的模块实例） 。</li>
 <li>包装函数必须返回至少一个内部函数，这样内部函数才能在私有作用域中形成闭包，并且可以访问或修改私有的状态。</li>
 </ol>
 <p>一个从函数调用所返回的，只有和数据属性没有闭包函数的对象并不是真正的模块。<br>将模块函数转换成 IIFE，立即调用并将返回值直接赋值给标识符<code>foo</code>以实现单例模式。<br>模块模式另一变化用法是，命名将作为公共 API 返回的对象：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">var foo = (function CoolModule(id)&#123;</span><br><span class="line">	function change()&#123;</span><br><span class="line">		//修改公共API</span><br><span class="line">		publicAPI.identify = identify2;</span><br><span class="line">	&#125;</span><br><span class="line">	function identify1()&#123;</span><br><span class="line">		console.log(id);</span><br><span class="line">	&#125;</span><br><span class="line">	function identify2()&#123;</span><br><span class="line">		console.log(id.toUpperCase());</span><br><span class="line">	&#125;</span><br><span class="line">	var publicAPI = &#123;</span><br><span class="line">		change:change,</span><br><span class="line">		identify:identify1</span><br><span class="line">	&#125;;</span><br><span class="line">	return publicAPI;</span><br><span class="line">&#125;)(“foo module”);</span><br><span class="line">foo.identify();//foo module</span><br><span class="line">foo.change();</span><br><span class="line">foo.identify();//FOO MODULE</span><br></pre></td></tr></table></figure>
-<p>通过在模块实例的内部保留对公共 API 对象的内部引用，可以从内部对模块实例进行修改，包括添加或删除方法和属性，以及修改它们的值。</p>
-<h3 id="现代的模块机制"><a href="#现代的模块机制" class="headerlink" title="现代的模块机制"></a>现代的模块机制</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">var MyModules = (function Manager()&#123;</span><br><span class="line">	var modules = &#123;&#125;;</span><br><span class="line">	function define(name,deps,impl)&#123;</span><br><span class="line">		for(var i=0;i&lt;deps.length;i++)&#123;</span><br><span class="line">			deps[i] = modules[deps[i]];</span><br><span class="line">		&#125;</span><br><span class="line">		modules[name] = impl.apply(impl,deps);</span><br><span class="line">	&#125;</span><br><span class="line">	function get(name)&#123;</span><br><span class="line">		return modules[name];</span><br><span class="line">	&#125;</span><br><span class="line">	return&#123;</span><br><span class="line">		define:define,</span><br><span class="line">		get:get</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
-<p>其中核心<code>modules[name] = impl.apply(impl,deps)</code>为了模块定义引入了包装函数（可以传入任何依赖），并将返回值（模块 API）储存在根据名字管理的模块列表。<br>如何使用模块管理器定义模块：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">MyModules.define(“bar”,[],function()&#123;</span><br><span class="line">	function hello(who)&#123;</span><br><span class="line">		return “Let me introduce:” + who;</span><br><span class="line">	&#125;</span><br><span class="line">	return&#123;</span><br><span class="line">		hello:hello</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;);</span><br><span class="line">MyModules.define(“foo”,[“bar”],function(bar)&#123;</span><br><span class="line">	var hungry = “hippo”;</span><br><span class="line">	function awesome()&#123;</span><br><span class="line">		console.log(bar.hello(hungry).toUpperCase());</span><br><span class="line">	&#125;</span><br><span class="line">	return&#123;</span><br><span class="line">		awesome:awesome</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;);</span><br><span class="line">var bar = MyModules.get(“bar”);</span><br><span class="line">var foo = MyModules.get(“foo”);</span><br><span class="line">console.log(</span><br><span class="line">	bar.hello(“hippo”)</span><br><span class="line">);//Let me introduce: hippo</span><br><span class="line">foo.awesome();//LET ME INTRODUCE: HIPPO</span><br></pre></td></tr></table></figure>
-<h2 id="模块管理器符合模块模式的两个特点：为函数定义引入包装函数，并保证它的返回值和模块-API-一致。"><a href="#模块管理器符合模块模式的两个特点：为函数定义引入包装函数，并保证它的返回值和模块-API-一致。" class="headerlink" title="模块管理器符合模块模式的两个特点：为函数定义引入包装函数，并保证它的返回值和模块 API 一致。"></a>模块管理器符合模块模式的两个特点：为函数定义引入包装函数，并保证它的返回值和模块 API 一致。</h2><h1 id="this-和对象原型"><a href="#this-和对象原型" class="headerlink" title="this 和对象原型"></a>this 和对象原型</h1><h1 id="关于-this"><a href="#关于-this" class="headerlink" title="关于 this"></a>关于 this</h1><p>this 提供了一种更优雅地方式来隐“传递”一个对象引用。学习 this 的第一步是明白 this 既不指向函数也不指向函数的词法作用域。<br><strong>this 实际上是在函数被调用是发生的绑定，它指向什么完全取决于函数在哪里被调用。</strong></p>
+<pre><code>var foo = (function CoolModule(id){
+    function change(){
+        //修改公共API
+        publicAPI.identify = identify2;
+    }
+    function identify1(){
+        console.log(id);
+    }
+    function identify2(){
+        console.log(id.toUpperCase());
+    }
+    var publicAPI = {
+        change:change,
+        identify:identify1
+    };
+    return publicAPI;
+})(“foo module”);
+foo.identify();//foo module
+foo.change();
+foo.identify();//FOO MODULE
+</code></pre><p>通过在模块实例的内部保留对公共 API 对象的内部引用，可以从内部对模块实例进行修改，包括添加或删除方法和属性，以及修改它们的值。</p>
+<h3 id="现代的模块机制"><a href="#现代的模块机制" class="headerlink" title="现代的模块机制"></a>现代的模块机制</h3><pre><code>var MyModules = (function Manager(){
+    var modules = {};
+    function define(name,deps,impl){
+        for(var i=0;i&lt;deps.length;i++){
+            deps[i] = modules[deps[i]];
+        }
+        modules[name] = impl.apply(impl,deps);
+    }
+    function get(name){
+        return modules[name];
+    }
+    return{
+        define:define,
+        get:get
+    };
+})();
+</code></pre><p>其中核心<code>modules[name] = impl.apply(impl,deps)</code>为了模块定义引入了包装函数（可以传入任何依赖），并将返回值（模块 API）储存在根据名字管理的模块列表。<br>如何使用模块管理器定义模块：</p>
+<pre><code>MyModules.define(“bar”,[],function(){
+    function hello(who){
+        return “Let me introduce:” + who;
+    }
+    return{
+        hello:hello
+    };
+});
+MyModules.define(“foo”,[“bar”],function(bar){
+    var hungry = “hippo”;
+    function awesome(){
+        console.log(bar.hello(hungry).toUpperCase());
+    }
+    return{
+        awesome:awesome
+    };
+});
+var bar = MyModules.get(“bar”);
+var foo = MyModules.get(“foo”);
+console.log(
+    bar.hello(“hippo”)
+);//Let me introduce: hippo
+foo.awesome();//LET ME INTRODUCE: HIPPO
+</code></pre><h2 id="模块管理器符合模块模式的两个特点：为函数定义引入包装函数，并保证它的返回值和模块-API-一致。"><a href="#模块管理器符合模块模式的两个特点：为函数定义引入包装函数，并保证它的返回值和模块-API-一致。" class="headerlink" title="模块管理器符合模块模式的两个特点：为函数定义引入包装函数，并保证它的返回值和模块 API 一致。"></a>模块管理器符合模块模式的两个特点：为函数定义引入包装函数，并保证它的返回值和模块 API 一致。</h2><h1 id="this-和对象原型"><a href="#this-和对象原型" class="headerlink" title="this 和对象原型"></a>this 和对象原型</h1><h1 id="关于-this"><a href="#关于-this" class="headerlink" title="关于 this"></a>关于 this</h1><p>this 提供了一种更优雅地方式来隐“传递”一个对象引用。学习 this 的第一步是明白 this 既不指向函数也不指向函数的词法作用域。<br><strong>this 实际上是在函数被调用是发生的绑定，它指向什么完全取决于函数在哪里被调用。</strong></p>
 <h1 id="this-全面解析"><a href="#this-全面解析" class="headerlink" title="this 全面解析"></a>this 全面解析</h1><h2 id="调用位置"><a href="#调用位置" class="headerlink" title="调用位置"></a>调用位置</h2><p>调用位置就是函数在代码中被调用的位置，最重要的是要分析<strong>调用栈</strong>（为了到达当前执行位置所调用的所有函数）我们关心的调用位置就是当前正在执行的函数的前一个调用中</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">function baz()&#123;</span><br><span class="line">	//当前调用栈是：baz</span><br><span class="line">	//因此，当前调用位置是全局作用域</span><br><span class="line">	console.log(“baz”);</span><br><span class="line">	bar();//&lt;—- bar 的调用位置</span><br><span class="line">&#125;</span><br><span class="line">function bar()&#123;</span><br><span class="line">	//当前调用栈是 baz -&gt; bar</span><br><span class="line">	//因此，当前调用位置在baz中</span><br><span class="line">	console.log(“bar”);</span><br><span class="line">	foo();//&lt;—- foo 的调用位置</span><br><span class="line">&#125;</span><br><span class="line">function foo()&#123;</span><br><span class="line">	//当前调用栈是 baz -&gt; bar -&gt; foo</span><br><span class="line">	//因此，当前调用位置在 bar 中</span><br><span class="line">	console.log(“foo”);</span><br><span class="line">&#125;</span><br><span class="line">baz();//&lt;—- baz 的调用位置</span><br></pre></td></tr></table></figure>
-<h2 id="绑定规则"><a href="#绑定规则" class="headerlink" title="绑定规则"></a>绑定规则</h2><p>在函数的执行过程中调用位置如何决定 this 的绑定对象？</p>
+<pre><code>function baz(){
+    //当前调用栈是：baz
+    //因此，当前调用位置是全局作用域
+    console.log(“baz”);
+    bar();//&lt;—- bar 的调用位置
+}
+function bar(){
+    //当前调用栈是 baz -&gt; bar
+    //因此，当前调用位置在baz中
+    console.log(“bar”);
+    foo();//&lt;—- foo 的调用位置
+}
+function foo(){
+    //当前调用栈是 baz -&gt; bar -&gt; foo
+    //因此，当前调用位置在 bar 中
+    console.log(“foo”);
+}
+baz();//&lt;—- baz 的调用位置
+</code></pre><h2 id="绑定规则"><a href="#绑定规则" class="headerlink" title="绑定规则"></a>绑定规则</h2><p>在函数的执行过程中调用位置如何决定 this 的绑定对象？</p>
 <h3 id="默认绑定"><a href="#默认绑定" class="headerlink" title="默认绑定"></a>默认绑定</h3><p>非严格模式下，直接使用不带修饰的函数引用进行调用时，只能使用默认绑定。</p>
-<h3 id="隐式绑定"><a href="#隐式绑定" class="headerlink" title="隐式绑定"></a>隐式绑定</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function foo()&#123;</span><br><span class="line">	console.log(this.a);</span><br><span class="line">&#125;</span><br><span class="line">var obj = &#123;</span><br><span class="line">	a:2,</span><br><span class="line">	foo:foo</span><br><span class="line">&#125;;</span><br><span class="line">obj.foo();//2</span><br></pre></td></tr></table></figure>
-<p>当函数引用有上下文对象时，隐式绑定规则会把函数调用中的 this 绑定到这个上下文对象（obj），因为调用 foo() 时 this 被绑定到 obj。</p>
+<h3 id="隐式绑定"><a href="#隐式绑定" class="headerlink" title="隐式绑定"></a>隐式绑定</h3><pre><code>function foo(){
+    console.log(this.a);
+}
+var obj = {
+    a:2,
+    foo:foo
+};
+obj.foo();//2
+</code></pre><p>当函数引用有上下文对象时，隐式绑定规则会把函数调用中的 this 绑定到这个上下文对象（obj），因为调用 foo() 时 this 被绑定到 obj。</p>
 <p><strong>隐式丢失</strong><br>被隐式绑定的函数会丢失绑定对象</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function foo()&#123;</span><br><span class="line">	console.log(this.a);</span><br><span class="line">&#125;</span><br><span class="line">var obj = &#123;</span><br><span class="line">	a:2,</span><br><span class="line">	foo:foo</span><br><span class="line">&#125;;</span><br><span class="line">var bar = obj.foo;//函数别名！</span><br><span class="line">var a = “oops,global”;//a 是全局对象属性</span><br><span class="line">bar();//“oops,global”</span><br></pre></td></tr></table></figure>
-<p>bar 实际上引用的是 foo 函数本身，而 bar() 其实是一个不带任何修饰的函数调用，因此应用默认绑定。<br>更常见的情况发生在传入回调函数时，调用回调函数的函数可能会修改 this：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">function foo()&#123;</span><br><span class="line">	console.log(this.a);</span><br><span class="line">&#125;</span><br><span class="line">function doFoo(fn)&#123;</span><br><span class="line">	//fn 其实引用的是 foo</span><br><span class="line">	fn();//&lt;—- 调用位置！</span><br><span class="line">&#125;</span><br><span class="line">var obj = &#123;</span><br><span class="line">	a:2,</span><br><span class="line">	foo:foo</span><br><span class="line">&#125;;</span><br><span class="line">var a = “oops,global”;//a	是全局对象属性</span><br><span class="line">doFoo(obj.foo);//“oops,global”</span><br></pre></td></tr></table></figure>
-<p>参数传递其实就是一种隐式赋值，因此我们传入函数时也会被隐式赋值，所以结果和上个例子一样。</p>
+<pre><code>function foo(){
+    console.log(this.a);
+}
+var obj = {
+    a:2,
+    foo:foo
+};
+var bar = obj.foo;//函数别名！
+var a = “oops,global”;//a 是全局对象属性
+bar();//“oops,global”
+</code></pre><p>bar 实际上引用的是 foo 函数本身，而 bar() 其实是一个不带任何修饰的函数调用，因此应用默认绑定。<br>更常见的情况发生在传入回调函数时，调用回调函数的函数可能会修改 this：</p>
+<pre><code>function foo(){
+    console.log(this.a);
+}
+function doFoo(fn){
+    //fn 其实引用的是 foo
+    fn();//&lt;—- 调用位置！
+}
+var obj = {
+    a:2,
+    foo:foo
+};
+var a = “oops,global”;//a    是全局对象属性
+doFoo(obj.foo);//“oops,global”
+</code></pre><p>参数传递其实就是一种隐式赋值，因此我们传入函数时也会被隐式赋值，所以结果和上个例子一样。</p>
 <h3 id="显式绑定"><a href="#显式绑定" class="headerlink" title="显式绑定"></a>显式绑定</h3><p>分析 ~隐式绑定~ 时，必须在一个对象内部包含一个指向函数的属性，并通过这个属性间接引用函，从而把 this 间接（隐式）绑定到这个对象上。如果不想在对象内部包含函数引用而是想在对象上强制调用函数呢？<br><code>call(),apply()</code>的第一个参数是一个对象，会被绑定到 this，接着在调用函数时指定这个 this。<br>~显式绑定如何解决绑定丢失的问题？~</p>
 <ol>
 <li>硬绑定</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">function foo()&#123;</span><br><span class="line">	console.log(this.a);</span><br><span class="line">&#125;</span><br><span class="line">var obj = &#123;</span><br><span class="line">	a:2</span><br><span class="line">&#125;;</span><br><span class="line">var bar = function()&#123;</span><br><span class="line">	foo.call(obj);//强制把 foo 的 this 绑定到 obj</span><br><span class="line">&#125;;</span><br><span class="line">bar();//2</span><br><span class="line">setTimeout(bar,100);//2</span><br><span class="line">//硬绑定的bar不可能再修改它的 this</span><br><span class="line">bar.call(window);//2</span><br></pre></td></tr></table></figure>
-<p>硬绑定的典型应用场景就是创建一个包裹函数，传入所有参数并返回接收到的所有值。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function foo(something)&#123;</span><br><span class="line">	console.log(this.a,something);</span><br><span class="line">	return this.a + something;</span><br><span class="line">&#125;</span><br><span class="line">var obj = &#123;</span><br><span class="line">	a:2;</span><br><span class="line">&#125;;</span><br><span class="line">var bar = function()&#123;</span><br><span class="line">	return foo.apply(obj,arguments);</span><br><span class="line">&#125;;</span><br><span class="line">var b = bar(3);//2 3</span><br><span class="line">console.log(b);//5</span><br></pre></td></tr></table></figure>
-<p>另一种使用方法是创建一个<em>i</em>可以重复使用的辅助函数：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">function foo(something)&#123;</span><br><span class="line">	console.log(this.a,something);</span><br><span class="line">	return this.a + something;</span><br><span class="line">&#125;</span><br><span class="line">//简单的辅助绑定函数</span><br><span class="line">function bind(fn,obj)&#123;</span><br><span class="line">	return function()&#123;</span><br><span class="line">		return fn.apply(obj,arguments);</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;</span><br><span class="line">var obj = &#123;</span><br><span class="line">	a:2</span><br><span class="line">&#125;;</span><br><span class="line">var bar = bind(foo,obj);</span><br><span class="line">var b = bar(3);//2 3</span><br><span class="line">console.log(b);//5</span><br></pre></td></tr></table></figure>
-<ol start="2">
+<pre><code>function foo(){
+    console.log(this.a);
+}
+var obj = {
+    a:2
+};
+var bar = function(){
+    foo.call(obj);//强制把 foo 的 this 绑定到 obj
+};
+bar();//2
+setTimeout(bar,100);//2
+//硬绑定的bar不可能再修改它的 this
+bar.call(window);//2
+</code></pre><p>硬绑定的典型应用场景就是创建一个包裹函数，传入所有参数并返回接收到的所有值。</p>
+<pre><code>function foo(something){
+    console.log(this.a,something);
+    return this.a + something;
+}
+var obj = {
+    a:2;
+};
+var bar = function(){
+    return foo.apply(obj,arguments);
+};
+var b = bar(3);//2 3
+console.log(b);//5
+</code></pre><p>另一种使用方法是创建一个<em>i</em>可以重复使用的辅助函数：</p>
+<pre><code>function foo(something){
+    console.log(this.a,something);
+    return this.a + something;
+}
+//简单的辅助绑定函数
+function bind(fn,obj){
+    return function(){
+        return fn.apply(obj,arguments);
+    };
+}
+var obj = {
+    a:2
+};
+var bar = bind(foo,obj);
+var b = bar(3);//2 3
+console.log(b);//5
+</code></pre><ol start="2">
 <li>API 调用的“上下文”</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function foo(el)&#123;</span><br><span class="line">	console.log(el,this.id);</span><br><span class="line">&#125;</span><br><span class="line">var obj = &#123;</span><br><span class="line">	id:”awesome”</span><br><span class="line">&#125;;</span><br><span class="line">//调用foo(..) 时把this 绑定到obj</span><br><span class="line">[1,2,3].forEach(foo,obj);</span><br><span class="line">//1 awesome 2 awesome 3 awesome</span><br></pre></td></tr></table></figure>
-<h3 id="new-绑定"><a href="#new-绑定" class="headerlink" title="new 绑定"></a>new 绑定</h3><p>JS 中，构造函数只是一些使用 new 操作符时被调用的普通函数。<br>使用 new 调用函数时，会发生：</p>
+<pre><code>function foo(el){
+    console.log(el,this.id);
+}
+var obj = {
+    id:”awesome”
+};
+//调用foo(..) 时把this 绑定到obj
+[1,2,3].forEach(foo,obj);
+//1 awesome 2 awesome 3 awesome
+</code></pre><h3 id="new-绑定"><a href="#new-绑定" class="headerlink" title="new 绑定"></a>new 绑定</h3><p>JS 中，构造函数只是一些使用 new 操作符时被调用的普通函数。<br>使用 new 调用函数时，会发生：</p>
 <ol>
 <li>创建一个全新对象</li>
 <li>新对象被执行[[prototype]]连接</li>
 <li>新对象会绑定到函数调用的 this</li>
 <li>如果函数没有返回其他对象，new 表达式中的函数调用会自动返回新对象</li>
 </ol>
-</p></div><div class="share"><span>Share</span>&nbsp;<span class="soc"><a href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank" class="fa fa-bookmark"></a></span><span class="soc"><a href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));" class="fa fa-weibo"></a></span><span class="soc"><a href="http://twitter.com/home?status=http://xhdnoah.github.io/2018/10/19/《你不知道的 JavaScript》/%20Electronic Moon%20《你不知道的 JavaScript》笔记" class="fa fa-twitter"></a></span></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/2018/11/03/ES6/" title="《Understanding ECMAScript6》Notes"><i class="fa fa-angle-double-left"></i>&nbsp;Previous post: 《Understanding ECMAScript6》Notes</a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/2018/10/19/JavaScript/" title="《JavaScript 高级程序设计》笔记">Next post: 《JavaScript 高级程序设计》笔记&nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div><div id="lv-container" data-id="city" data-uid="livere_data_uid"><script type="text/javascript">(function (d, s) {
-    var j, e = d.getElementsByTagName(s)[0];
-    if (typeof LivereTower === 'function') {
-        return;
-    }
-    j = d.createElement(s);
-    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-    j.async = true;
-    e.parentNode.insertBefore(j, e);
-})(document, 'script');</script><noscript> Please activate JavaScript for write a comment in LiveRe</noscript></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2019&nbsp;<a target="_blank" href="http://xhdnoah.github.io" rel="noopener noreferrer">Noah Xu</a></p><p>Theme&nbsp;<a target="_blank" href="https://github.com/SumiMakito/hexo-theme-typography" rel="noopener noreferrer">Typography</a>&nbsp;by&nbsp;<a target="_blank" href="https://www.keep.moe" rel="noopener noreferrer">Makito</a></p><p>Proudly published with&nbsp;<a target="_blank" href="https://hexo.io" rel="noopener noreferrer">Hexo</a></p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>
+<p></p></div><div class="share"><span>分享到</span>&nbsp;<span class="soc"><a href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank" class="fa fa-bookmark"></a></span><span class="soc"><a href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));" class="fa fa-weibo"></a></span><span class="soc"><a href="http://twitter.com/home?status=http://xhdnoah.github.io/2018/10/19/《你不知道的 JavaScript》/%20Electronic Moon%20《你不知道的 JavaScript》笔记" class="fa fa-twitter"></a></span></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/2018/11/03/ES6/" title="《Understanding ECMAScript6》Notes"><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: 《Understanding ECMAScript6》Notes</a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/2018/10/19/JavaScript/" title="《JavaScript 高级程序设计》笔记">下一篇: 《JavaScript 高级程序设计》笔记&nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2019&nbsp;<a target="_blank" href="http://xhdnoah.github.io" rel="noopener noreferrer">Noah Xu</a></p><p>Theme&nbsp;<a target="_blank" href="https://github.com/SumiMakito/hexo-theme-typography" rel="noopener noreferrer">Typography</a>&nbsp;by&nbsp;<a target="_blank" href="https://www.keep.moe" rel="noopener noreferrer">Makito</a></p><p>Proudly published with&nbsp;<a target="_blank" href="https://hexo.io" rel="noopener noreferrer">Hexo</a></p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>

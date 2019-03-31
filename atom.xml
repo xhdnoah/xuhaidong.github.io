@@ -46,6 +46,84 @@
   </entry>
   
   <entry>
+    <title>UnderScore 源码学习之继承</title>
+    <link href="http://xhdnoah.github.io/2019/03/20/UnderScore-%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E4%B9%8B%E7%BB%A7%E6%89%BF/"/>
+    <id>http://xhdnoah.github.io/2019/03/20/UnderScore-源码学习之继承/</id>
+    <published>2019-03-20T06:56:04.000Z</published>
+    <updated>2019-03-31T06:56:55.400Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;JavaScript 无类，ECMAScript 6 引入的 &lt;code&gt;class,extends&lt;/code&gt; 也只是 syntax sugar，那么如何在缺乏类支持的 JS 实现继承？&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3
+        
+      
+    
+    </summary>
+    
+    
+      <category term="UnderScore" scheme="http://xhdnoah.github.io/tags/UnderScore/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>UnderScore 源码学习之函数</title>
+    <link href="http://xhdnoah.github.io/2019/03/20/UnderScore-%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%87%BD%E6%95%B0/"/>
+    <id>http://xhdnoah.github.io/2019/03/20/UnderScore-源码学习之函数/</id>
+    <published>2019-03-20T06:53:25.000Z</published>
+    <updated>2019-03-31T06:54:18.494Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;上下文绑定&quot;&gt;&lt;a href=&quot;#上下文绑定&quot; class=&quot;headerlink&quot; title=&quot;上下文绑定&quot;&gt;&lt;/a&gt;上下文绑定&lt;/h2&gt;&lt;p&gt;underscore 提供绑定函数上下文的方法 &lt;code&gt;_.bind&lt;/code&gt; 和
+        
+      
+    
+    </summary>
+    
+    
+      <category term="UnderScore" scheme="http://xhdnoah.github.io/tags/UnderScore/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>UnderScore 源码学习之集合</title>
+    <link href="http://xhdnoah.github.io/2019/03/19/UnderScore-%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E4%B9%8B%E9%9B%86%E5%90%88/"/>
+    <id>http://xhdnoah.github.io/2019/03/19/UnderScore-源码学习之集合/</id>
+    <published>2019-03-19T06:50:36.000Z</published>
+    <updated>2019-03-31T06:53:06.094Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;strong&gt;_.each&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;_.each = _.forEach = function(obj,iteratee, context){
+  // 首先要优化回调过程
+  iteratee =
+        
+      
+    
+    </summary>
+    
+    
+      <category term="UnderScore" scheme="http://xhdnoah.github.io/tags/UnderScore/"/>
+    
+  </entry>
+  
+  <entry>
     <title>UnderScore 源码学习之 _</title>
     <link href="http://xhdnoah.github.io/2019/03/18/UnderScore-%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E4%B9%8B%20_/"/>
     <id>http://xhdnoah.github.io/2019/03/18/UnderScore-源码学习之 _/</id>
@@ -101,7 +179,7 @@ _.map(arr, n =&amp;gt;
     <link href="http://xhdnoah.github.io/2019/03/18/UnderScore-%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9B%9E%E8%B0%83/"/>
     <id>http://xhdnoah.github.io/2019/03/18/UnderScore-源码学习之回调/</id>
     <published>2019-03-18T08:38:26.000Z</published>
-    <updated>2019-03-23T08:45:12.777Z</updated>
+    <updated>2019-03-29T06:16:24.833Z</updated>
     
     <summary type="html">
     
@@ -109,7 +187,7 @@ _.map(arr, n =&amp;gt;
       
         
         
-          &lt;p&gt;cb,optimzeCb 出现在 UnderScore 很多函数的回调中，以简化的&lt;code&gt;_.map&lt;/code&gt; 为例，&lt;code&gt;._map&lt;/code&gt;类似&lt;code&gt;Array.prototype.map&lt;/code&gt;，但更健壮，其中 iteratee 被传入
+          &lt;p&gt;cb 出现在 UnderScore 很多函数回调中，它将根据不同情况来为迭代创建一个迭代过程 &lt;code&gt;iteratee&lt;/code&gt;，以简化的&lt;code&gt;_.map&lt;/code&gt;
         
       
     
@@ -198,7 +276,7 @@ _.map(arr, n =&amp;gt;
     <link href="http://xhdnoah.github.io/2018/11/07/ajax/"/>
     <id>http://xhdnoah.github.io/2018/11/07/ajax/</id>
     <published>2018-11-07T13:17:00.000Z</published>
-    <updated>2019-03-26T13:29:21.928Z</updated>
+    <updated>2019-03-28T09:49:38.062Z</updated>
     
     <summary type="html">
     
@@ -206,7 +284,7 @@ _.map(arr, n =&amp;gt;
       
         
         
-          &lt;h1 id=&quot;Ajax-Asynchronous-Javascript-And-XML&quot;&gt;&lt;a href=&quot;#Ajax-Asynchronous-Javascript-And-XML&quot; class=&quot;headerlink&quot; title=&quot;Ajax(Asynchronous
+          &lt;h1 id=&quot;Ajax-Asynchronous-JavaScript-And-XML&quot;&gt;&lt;a href=&quot;#Ajax-Asynchronous-JavaScript-And-XML&quot; class=&quot;headerlink&quot; title=&quot;Ajax:Asynchronous
         
       
     
@@ -433,55 +511,6 @@ _.map(arr, n =&amp;gt;
     
     
       <category term="DOM" scheme="http://xhdnoah.github.io/tags/DOM/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>python-learning</title>
-    <link href="http://xhdnoah.github.io/2018/09/23/Python/"/>
-    <id>http://xhdnoah.github.io/2018/09/23/Python/</id>
-    <published>2018-09-23T03:26:51.000Z</published>
-    <updated>2019-03-23T09:03:12.854Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;转义序列&quot;&gt;&lt;a href=&quot;#转义序列&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-    
-      <category term="Python" scheme="http://xhdnoah.github.io/tags/Python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>git-learning</title>
-    <link href="http://xhdnoah.github.io/2018/09/06/Git/"/>
-    <id>http://xhdnoah.github.io/2018/09/06/Git/</id>
-    <published>2018-09-06T09:21:19.000Z</published>
-    <updated>2019-03-23T09:02:47.411Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;blockquote&gt;
-&lt;p&gt;Git 更像是把数据看作是对小型文件系统的一组快照。 每次你提交更新，或在 Git 中保存项目状态时，它主要对当时的全部文件制作一个快照并保存这个快照的索引。 为了高效，如果文件没有修改，Git
-        
-      
-    
-    </summary>
-    
-    
-      <category term="Notes" scheme="http://xhdnoah.github.io/tags/Notes/"/>
     
   </entry>
   

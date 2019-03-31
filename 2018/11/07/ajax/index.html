@@ -1,11 +1,12 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="Noah Xu"><title>ajax-learning · 电子月亮</title><meta name="description" content="Ajax(Asynchronous Javascript And XML)Ajax 基于现有的 internet 标准，并且联合使用它们：
+<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="Noah Xu"><title>ajax-learning · 电子月亮</title><meta name="description" content="Ajax:Asynchronous JavaScript And XMLAjax 基于现有的 internet 标准，并且联合使用它们：
 
 XMLHttpRequest 对象：异步的与服务器交换数据
 Javascript/DOM：信息显示/交互
 CSS：给数据定义样式
 XML：作为转换数据的格式
+
 "><meta name="keywords" content><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.png" type="image/x-icon"><link rel="stylesheet" href="/css/bootstrap.min.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style-dark.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><link rel="stylesheet" href="/css/prism.css" type="text/css">
-<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title"></a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">Electronic Moon</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">Home</a></li><li><a href="/archives">Archive</a></li><li><a href="/tags">Tags</a></li><li class="soc"><a href="https://github.com/xhdnoah" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="http://xhdnoah.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2019&nbsp;<a target="_blank" href="http://xhdnoah.github.io" rel="noopener noreferrer">Noah Xu</a></p><p>Theme&nbsp;<a target="_blank" href="https://github.com/SumiMakito/hexo-theme-typography" rel="noopener noreferrer">Typography</a>&nbsp;by&nbsp;<a target="_blank" href="https://www.keep.moe" rel="noopener noreferrer">Makito</a></p><p>Proudly published with&nbsp;<a target="_blank" href="https://hexo.io" rel="noopener noreferrer">Hexo</a></p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a>ajax-learning</a></p><p class="post-meta"><span class="date meta-item">Posted at&nbsp;2018-11-07</span><span class="meta-item"><i class="fa fa-tag"></i><span>&nbsp;</span><a href="/tags/Ajax/" title="Ajax" class="a-tag">Ajax</a><span>&nbsp;</span></span></p><p class="post-abstract"></p><h1 id="Ajax-Asynchronous-Javascript-And-XML"><a href="#Ajax-Asynchronous-Javascript-And-XML" class="headerlink" title="Ajax(Asynchronous Javascript And XML)"></a>Ajax(Asynchronous Javascript And XML)</h1><p>Ajax 基于现有的 internet 标准，并且联合使用它们：</p>
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title"></a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">Electronic Moon</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">Home</a></li><li><a href="/archives">Archive</a></li><li><a href="/tags">Tags</a></li><li class="soc"><a href="https://github.com/xhdnoah" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="http://xhdnoah.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2019&nbsp;<a target="_blank" href="http://xhdnoah.github.io" rel="noopener noreferrer">Noah Xu</a></p><p>Theme&nbsp;<a target="_blank" href="https://github.com/SumiMakito/hexo-theme-typography" rel="noopener noreferrer">Typography</a>&nbsp;by&nbsp;<a target="_blank" href="https://www.keep.moe" rel="noopener noreferrer">Makito</a></p><p>Proudly published with&nbsp;<a target="_blank" href="https://hexo.io" rel="noopener noreferrer">Hexo</a></p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a>ajax-learning</a></p><p class="post-meta"><span class="date meta-item">Posted at&nbsp;2018-11-07</span><span class="meta-item"><i class="fa fa-tag"></i><span>&nbsp;</span><a href="/tags/Ajax/" title="Ajax" class="a-tag">Ajax</a><span>&nbsp;</span></span></p><p class="post-abstract"></p><h1 id="Ajax-Asynchronous-JavaScript-And-XML"><a href="#Ajax-Asynchronous-JavaScript-And-XML" class="headerlink" title="Ajax:Asynchronous JavaScript And XML"></a>Ajax:Asynchronous JavaScript And XML</h1><p>Ajax 基于现有的 internet 标准，并且联合使用它们：</p>
 <ul>
 <li>XMLHttpRequest 对象：异步的与服务器交换数据</li>
 <li>Javascript/DOM：信息显示/交互</li>
@@ -47,5 +48,181 @@ function getDoc(){
 <li>向服务器发送大量数据（<strong>POST</strong> 没有数据量限制）</li>
 <li>发送包含未知字符的用户输入时，<strong>POST</strong> 比 GET 更稳定也更可靠</li>
 </ul>
-<p>接收返回信息</p>
-<p></p></div><div class="share"><span>Share</span>&nbsp;<span class="soc"><a href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank" class="fa fa-bookmark"></a></span><span class="soc"><a href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));" class="fa fa-weibo"></a></span><span class="soc"><a href="http://twitter.com/home?status=http://xhdnoah.github.io/2018/11/07/ajax/%20电子月亮%20ajax-learning" class="fa fa-twitter"></a></span></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/2018/12/26/eslint-format/" title="ESlint 自动格式化正确姿势"><i class="fa fa-angle-double-left"></i>&nbsp;Previous post: ESlint 自动格式化正确姿势</a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/2018/11/07/js-promise/" title="异步编程之 Promise">Next post: 异步编程之 Promise&nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2019&nbsp;<a target="_blank" href="http://xhdnoah.github.io" rel="noopener noreferrer">Noah Xu</a></p><p>Theme&nbsp;<a target="_blank" href="https://github.com/SumiMakito/hexo-theme-typography" rel="noopener noreferrer">Typography</a>&nbsp;by&nbsp;<a target="_blank" href="https://www.keep.moe" rel="noopener noreferrer">Makito</a></p><p>Proudly published with&nbsp;<a target="_blank" href="https://hexo.io" rel="noopener noreferrer">Hexo</a></p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>
+<h3 id="接收返回信息"><a href="#接收返回信息" class="headerlink" title="接收返回信息"></a>接收返回信息</h3><pre><code>oAjax.onreadystatechange = function(){
+  alert(oAjax.readystate)
+}
+</code></pre><p><code>readyState</code> 属性值发生变化时便会触发 <code>readyStatechange</code> 事件，可以利用事件来检测每次状态变化后 readyState 的值，不过必须在调用 <code>open()</code> 之前指定 <code>onreadystatechange</code> 事件处理程序才能确保浏览器兼容性</p>
+<h3 id="XHR-对象"><a href="#XHR-对象" class="headerlink" title="XHR 对象"></a>XHR 对象</h3><p><code>XMLHttpRequest</code> 对象属性有：</p>
+<pre><code>onreadystatechange 每次状态改变触发事件的事件处理程序
+responseText 从服务器进程返回数据的字符串形式
+responseXML 从服务器进程返回 DOM 兼容的文档数据对象
+status 从服务器返回的数字代码，如常见 404 和 200
+status Text 伴随状态码的字符串信息
+</code></pre><p>当 XHR 对象把一个 HTTP 请求发送到服务器的过程中会经历几个状态，直到请求被处理，然后才接收一个回应。<code>readyState</code> 就是 XHR 请求的状态属性，它本身有 5 个属性值</p>
+<pre><code>0 未初始化 还没有调用 open() 方法
+1 载入 已调用 send() 方法，正在发送请求
+2 载入完成 send() 方法完成，已收到全部响应内容
+3 解析 正在解析响应内容
+4 完成 响应内容解析完成，可以在客户端使用
+</code></pre><p><strong>XHR 方法</strong></p>
+<table>
+<thead>
+<tr>
+<th>abort()</th>
+<th>导致当前正在执行的请求被取消</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>getAllResponseHeaders()</td>
+<td>返回包含所有响应头的名称和值的单个字符</td>
+</tr>
+<tr>
+<td>getResponseHeaders(name)</td>
+<td>返回响应头中指定的名称和值</td>
+</tr>
+<tr>
+<td>open(method,url,async,username,pwd)</td>
+<td>设置 HTTP 方法 get/post 等</td>
+</tr>
+<tr>
+<td>send(content)</td>
+<td>发出带有指定主体内容的请求</td>
+</tr>
+<tr>
+<td>setRequestHeader(name,value)</td>
+<td>使用指定的名称和值设置请求头</td>
+</tr>
+</tbody>
+</table>
+<h3 id="jQuery-中的-Ajax"><a href="#jQuery-中的-Ajax" class="headerlink" title="jQuery 中的 Ajax"></a>jQuery 中的 Ajax</h3><p><code>.load()</code> 是局部方法，需要一个包含元素的 <code>jQuery</code> 对象作为前缀，而<code>$.get()</code> 和 <code>$.post()</code> 是全局方法，无需指定某个元素。<code>.load</code> 适合做静态文件的异步获取，而对于需要传递参数到服务器页面的，<code>$.get()</code> 和 <code>$.post()</code> 更合适。</p>
+<p>GET,POST 传入的 data 是一个键值对 对象，不同的是 GET 传入的 data 通过地址栏传输，POST 通过表单提交。</p>
+<pre><code>$(functionn(){
+  $(&quot;input&quot;).click(function(){
+    $.get(&#39;test.php?url=baidu.com&#39;,function(response,status,xhr){
+      $(&#39;\#box&#39;).html(response)
+    })
+  })
+})
+</code></pre><p>POST 提交不能使用 <code>url</code> 传值，<code>post</code> 提交可以使用字符串形式的键值对形式传值，自动转换为 http 消息实体传参</p>
+<pre><code>$(function(){
+  $(&quot;input&quot;).click(function(){
+    $.post(&#39;test.php&#39;,&#39;url=baidu.com&#39;,function(response,status,xhr){
+      $(&#39;\#box&#39;).html(response)
+    })
+  })
+})
+</code></pre><p><code>$.get()</code> 方法有四个参数，前面三个参数和 <code>.load()</code> 一样，多了一个第四参数 <code>type</code>。即服务器返回的内容格式，包括<code>xml,json,script,html,text</code>，第一个参数为必选。</p>
+<p><code>$.ajax()</code> 是所有 Ajax 方法中最底层的方法，所有其他方法都是基于 <code>$.ajax()</code> 方法的封装，只传递一个各个功能键值对的对象参数</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>url</td>
+<td>string</td>
+<td>发送请求的地址</td>
+</tr>
+<tr>
+<td>type</td>
+<td>string</td>
+<td>请求方法，默认 GET</td>
+</tr>
+<tr>
+<td>timeout</td>
+<td>Number</td>
+<td>设置请求超时的时间</td>
+</tr>
+<tr>
+<td>data</td>
+<td>Object/String</td>
+<td>发送到服务器的对象，键值对字符串或对象</td>
+</tr>
+<tr>
+<td>datatype</td>
+<td>String</td>
+<td>返回的数据类型，如 html,XML.json</td>
+</tr>
+<tr>
+<td>success</td>
+<td>Function</td>
+<td>请求成功后调用的回调函数</td>
+</tr>
+<tr>
+<td>complete</td>
+<td>Function</td>
+<td>请求完成后调用的回调函数</td>
+</tr>
+<tr>
+<td>error</td>
+<td>Function</td>
+<td>请求失败后调用的回调函数</td>
+</tr>
+</tbody>
+</table>
+<pre><code>$(function(){
+  $(&quot;input&quot;).click(function(){
+    $.ajax({
+      type: &quot;POST&quot;,
+      url: &#39;test.php&#39;,
+      data:{
+        url: &#39;baidu.com&#39;
+      },
+      success: function(reponse,status,xhr){
+        $(&#39;#box&#39;).html(response)
+      }
+    })
+  })
+})
+</code></pre><p><strong>表单序列化</strong></p>
+<p><code>Ajax</code> 使用最多的地方莫过于表单操作，而传统的表单操作通过<code>submit</code>提交将数据传输到服务器，如果使用 <code>Ajax</code> 异步处理的话，我们需要将每个表单元素获取才能提交，工作效率大大降低：</p>
+<pre><code>&lt;body&gt;
+&lt;form action=&quot;&quot;&gt;
+    用户名：&lt;input type=&quot;text&quot; name=&quot;user&quot; /&gt;
+    邮件：&lt;input type=&quot;text&quot; name=&quot;email&quot; /&gt;
+    &lt;input type=&quot;button&quot; value=&quot;提交“ /&gt;
+&lt;/form&gt;
+&lt;div id=&quot;box&quot;&gt;&lt;/div&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+    $(function(){
+    $(&quot;form input[type=button]&quot;).click(function(){
+      $.ajax({
+        type: &#39;POST&#39;,
+        url:&#39;test.php&#39;,
+        data:{
+          user: $(&#39;form input[name=user]&#39;).val(),
+          email: $(&quot;form input[name=email]&quot;).val()
+        },
+        success: function(response){
+          $(&quot;#box&quot;).html(response)
+        }
+      })
+    })
+    })
+&lt;/script&gt;
+&lt;/body&gt;
+</code></pre><p>表单元素特别多应采用表单序列化，即<code>data: $(&quot;form&quot;).serialize()</code> 得到的是字符串键值对，并且对 <code>url</code> 进行编码，<code>serialize()</code> 方法不但可以序列化表单内的元素，还可以直接获取单选框，复选框和下拉列表框等内容</p>
+<pre><code>&lt;body&gt;
+&lt;form action=&quot;&quot;&gt;
+    用户名：&lt;input type=&quot;text&quot; name=&quot;user&quot; /&gt;
+    邮件：&lt;input type=&quot;text&quot; name=&quot;email&quot; /&gt;
+    &lt;input type=&quot;button&quot; value=&quot;提交“ /&gt;
+    &lt;input type=&quot;radio&quot; name=&quot;sex&quot; value=&quot;男&quot;/&gt;男
+  &lt;input type=&quot;radio&quot; name=&quot;sex&quot; value=&quot;女&quot;/&gt;女
+  &lt;input type=&quot;button&quot; value=&quot;submit&quot;/&gt;
+&lt;/form&gt;
+&lt;div id=&quot;box&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+  $(function () {
+    $(&quot;form input[name=sex]&quot;).click(function () {
+       $(&#39;#box&#39;).html(decodeURIComponent($(this).serialize()));
+    })
+  })
+&lt;/script&gt;
+&lt;/body&gt;
+</code></pre><p></p></div><div class="share"><span>Share</span>&nbsp;<span class="soc"><a href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank" class="fa fa-bookmark"></a></span><span class="soc"><a href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));" class="fa fa-weibo"></a></span><span class="soc"><a href="http://twitter.com/home?status=http://xhdnoah.github.io/2018/11/07/ajax/%20电子月亮%20ajax-learning" class="fa fa-twitter"></a></span></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/2018/12/26/eslint-format/" title="ESlint 自动格式化正确姿势"><i class="fa fa-angle-double-left"></i>&nbsp;Previous post: ESlint 自动格式化正确姿势</a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/2018/11/07/js-promise/" title="异步编程之 Promise">Next post: 异步编程之 Promise&nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2019&nbsp;<a target="_blank" href="http://xhdnoah.github.io" rel="noopener noreferrer">Noah Xu</a></p><p>Theme&nbsp;<a target="_blank" href="https://github.com/SumiMakito/hexo-theme-typography" rel="noopener noreferrer">Typography</a>&nbsp;by&nbsp;<a target="_blank" href="https://www.keep.moe" rel="noopener noreferrer">Makito</a></p><p>Proudly published with&nbsp;<a target="_blank" href="https://hexo.io" rel="noopener noreferrer">Hexo</a></p></footer></div></div></div></div><script src="/js/jquery-3.1.0.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/google-analytics.js"></script><script src="/js/typography.js"></script></body></html>

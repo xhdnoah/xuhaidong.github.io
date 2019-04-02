@@ -1,8 +1,6 @@
 <!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="Noah Xu"><title>UnderScore 源码学习之函数 · 电子月亮</title><meta name="description" content="上下文绑定underscore 提供绑定函数上下文的方法 _.bind 和 _.bindAll，二者的绑定上下文及执行过程都由内部函数 executeBound 负责
 // 执行绑定后的函数
-var executeBound = function(sourceFunc, boundFunc, con"><meta name="keywords" content><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="stylesheet" href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><link rel="stylesheet" href="/css/prism.css" type="text/css">
-<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title"></a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">Electronic Moon</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">Home</a></li><li><a href="/archives">Archive</a></li><li><a href="/tags">Tags</a></li><li><a href="/resume/resume.html">简历</a></li><li class="soc"><a href="https://github.com/xhdnoah" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="http://xhdnoah.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2019&nbsp;<a target="_blank" href="http://xhdnoah.github.io" rel="noopener noreferrer">Noah Xu</a></p><p>Theme&nbsp;<a target="_blank" href="https://github.com/SumiMakito/hexo-theme-typography" rel="noopener noreferrer">Typography</a>&nbsp;by&nbsp;<a target="_blank" href="https://www.keep.moe" rel="noopener noreferrer">Makito</a></p><p>Proudly published with&nbsp;<a target="_blank" href="https://hexo.io" rel="noopener noreferrer">Hexo</a></p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a>UnderScore 源码学习之函数</a></p><p class="post-meta"><span class="date meta-item">Posted at&nbsp;2019-03-20</span><span class="meta-item"><i class="fa fa-tag"></i><span>&nbsp;</span><a href="/tags/UnderScore/" title="UnderScore" class="a-tag">UnderScore</a><span>&nbsp;</span></span></p><p class="post-abstract"></p><h2 id="上下文绑定"><a href="#上下文绑定" class="headerlink" title="上下文绑定"></a>上下文绑定</h2><p>underscore 提供绑定函数上下文的方法 <code>_.bind</code> 和 <code>_.bindAll</code>，二者的绑定上下文及执行过程都由内部函数 <code>executeBound</code> 负责</p>
-<pre><code>// 执行绑定后的函数
+var executeBound = function(sourceFunc, boundFunc, con"><meta name="keywords" content><meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="stylesheet" href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><link rel="stylesheet" href="/css/prism.css" type="text/css"><link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title"></a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">Electronic Moon</a></h1></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">Home</a></li><li><a href="/archives">Archive</a></li><li><a href="/tags">Tags</a></li><li><a href="/resume/resume.html">简历</a></li><li class="soc"><a href="https://github.com/xhdnoah" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="http://xhdnoah.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2019&nbsp;<a target="_blank" href="http://xhdnoah.github.io" rel="noopener noreferrer">Noah Xu</a></p><p>Theme&nbsp;<a target="_blank" href="https://github.com/SumiMakito/hexo-theme-typography" rel="noopener noreferrer">Typography</a>&nbsp;by&nbsp;<a target="_blank" href="https://www.keep.moe" rel="noopener noreferrer">Makito</a></p><p>Proudly published with&nbsp;<a target="_blank" href="https://hexo.io" rel="noopener noreferrer">Hexo</a></p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a>UnderScore 源码学习之函数</a></p><p class="post-meta"><span class="date meta-item">Posted at&nbsp;2019-03-20</span><span class="meta-item"><i class="fa fa-tag"></i><span>&nbsp;</span><a href="/tags/UnderScore/" title="UnderScore" class="a-tag">UnderScore</a><span>&nbsp;</span></span></p><p class="post-abstract"></p><h2 id="上下文绑定"><a href="#上下文绑定" class="headerlink" title="上下文绑定"></a>上下文绑定</h2><p>underscore 提供绑定函数上下文的方法 <code>_.bind</code> 和 <code>_.bindAll</code>，二者的绑定上下文及执行过程都由内部函数 <code>executeBound</code> 负责</p><pre><code>// 执行绑定后的函数
 var executeBound = function(sourceFunc, boundFunc, context, callingContext, args){
   if(!(callingContext instanceof boundFunc))
       return sourceFunc.apply(context, args)
@@ -12,13 +10,11 @@ var executeBound = function(sourceFunc, boundFunc, context, callingContext, args
       return result
   return self
 }
-</code></pre><p><code>executeBound</code> 也考虑了当绑定后的函数 <code>boundFunc</code> 作为构造函数被 <code>new</code> 运算的情形，进行了执行上下文的修正。另外为了支持链式调用，所以有以下语句：</p>
-<pre><code>var result = sourceFunc.apply(self, args)
+</code></pre><p><code>executeBound</code> 也考虑了当绑定后的函数 <code>boundFunc</code> 作为构造函数被 <code>new</code> 运算的情形，进行了执行上下文的修正。另外为了支持链式调用，所以有以下语句：</p><pre><code>var result = sourceFunc.apply(self, args)
 if(_.isObject(result))
     return result
 return self
-</code></pre><p><strong><code>_.bind(func, context)</code></strong> 将 func 的执行上下文绑定到 context</p>
-<pre><code>_.bind = function(func, context){
+</code></pre><p><strong><code>_.bind(func, context)</code></strong> 将 func 的执行上下文绑定到 context</p><pre><code>_.bind = function(func, context){
   if(nativeBind &amp;&amp; func.bind === nativeBind) return nativeBind.apply(func, slice.call(arguments, 1))
   if(!_.isFunction(func)) throw new TypeError(&#39;Bind must be called on a function&#39;)
   var args = slice.call(arguments, 2)
@@ -27,9 +23,7 @@ return self
   }
   return bound
 }
-</code></pre><h2 id="偏函数"><a href="#偏函数" class="headerlink" title="偏函数"></a>偏函数</h2><p>偏函数 partial 反映了新函数是原函数的一部分，underscore 的 <code>_.partial</code> 返回一个偏函数</p>
-<p><strong><code>_.partial(func, ...args)</code></strong>：偏应用一个函数 <code>func</code></p>
-<pre><code>_.partial = restArgs(function(func, boundArgs){
+</code></pre><h2 id="偏函数"><a href="#偏函数" class="headerlink" title="偏函数"></a>偏函数</h2><p>偏函数 partial 反映了新函数是原函数的一部分，underscore 的 <code>_.partial</code> 返回一个偏函数</p><p><strong><code>_.partial(func, ...args)</code></strong>：偏应用一个函数 <code>func</code></p><pre><code>_.partial = restArgs(function(func, boundArgs){
   var placeholder = _.partial.placeholder
   var bound = function(){
     // position 标识当前赋值的 arguments 最新位置
@@ -43,8 +37,7 @@ return self
   }
   return bound
 })
-</code></pre><p>underscore 提供的偏函数支持传递占位符，占位符用来标识不想被初始化的参数</p>
-<pre><code>var substract = function(a, b){
+</code></pre><p>underscore 提供的偏函数支持传递占位符，占位符用来标识不想被初始化的参数</p><pre><code>var substract = function(a, b){
   return b - a
 }
 sub5 = _.partial(subtract, 5)
@@ -62,8 +55,7 @@ fibonacci(5) = fibonacci(4) + fibonacci(3)
 fibonacci(4) = fibonacci(3) + fibonacci(2)
 fibonacci(3) = fibonacci(2) + fibonacci(1)
 // ...
-</code></pre><p>求解斐波那契数列时，递归过程引起了很多重复计算，考虑将计算结果进行缓存，需要利用到高阶函数和闭包：</p>
-<pre><code>var fibonacciWithMemo = (function(){
+</code></pre><p>求解斐波那契数列时，递归过程引起了很多重复计算，考虑将计算结果进行缓存，需要利用到高阶函数和闭包：</p><pre><code>var fibonacciWithMemo = (function(){
   var memo = {}
   return function fibnocci(n){
       // 如果尚未建立缓存
@@ -78,9 +70,7 @@ memo(5) = memo[4] + memo[3]
 memo[4] = memo[3] + memo[2]
 memo[3] = memo[2] + memo[1]
 // ...
-</code></pre><p>underscore 封装了一个通用的缓存函数创建器 <code>_.memoize</code></p>
-<p><strong><code>_.memoize(func, hasher)</code></strong> 为函数 func 提供记忆功能， hasher 定义如何获得缓存</p>
-<pre><code>_.memoize = function(func, hasher){
+</code></pre><p>underscore 封装了一个通用的缓存函数创建器 <code>_.memoize</code></p><p><strong><code>_.memoize(func, hasher)</code></strong> 为函数 func 提供记忆功能， hasher 定义如何获得缓存</p><pre><code>_.memoize = function(func, hasher){
   var memoize = function(key){
       // 执行记忆函数时，先获得缓存
       var cache = memoize.cache
@@ -94,8 +84,7 @@ memo[3] = memo[2] + memo[1]
   memoize.cache = {}
   return memoize
 }
-</code></pre><p><code>_.memoize</code> 将缓存绑定到了缓存函数的 <code>cache</code> 属性上，在创建一个缓存函数时，除了提供原函数 <code>func</code> 用来计算值外，还可以提供 <code>hasher</code> 函数来自定义如何获得缓存的位置，不设置 <code>hasher</code>，则以缓存函数的参数 <code>key</code> 标识缓存位置</p>
-<pre><code>var fibonacci = _.memoize(function(n){
+</code></pre><p><code>_.memoize</code> 将缓存绑定到了缓存函数的 <code>cache</code> 属性上，在创建一个缓存函数时，除了提供原函数 <code>func</code> 用来计算值外，还可以提供 <code>hasher</code> 函数来自定义如何获得缓存的位置，不设置 <code>hasher</code>，则以缓存函数的参数 <code>key</code> 标识缓存位置</p><pre><code>var fibonacci = _.memoize(function(n){
   return n &lt; 2 ? n : fibonacci(n-1) + fibonacci(n-2)
 })
 fibonacci(5) // =&gt; 5
@@ -112,19 +101,7 @@ var fibonacci = _.memoize(function(n){
 
 fibonacci(5)
 console.log(fibonacci.cache)
-</code></pre><h2 id="throttle-amp-debounce"><a href="#throttle-amp-debounce" class="headerlink" title="throttle &amp; debounce"></a>throttle &amp; debounce</h2><blockquote>
-<p>前端开发场景：在页面中，单击”查询”按钮，会通过 ajax 异步获取数据。如果这个查询是耗时的，我们需要控制查询速率防止短时间内频繁请求。</p>
-</blockquote>
-<blockquote>
-<p>电梯超时：把电梯完成一次运送，类比一次函数的执行和响应，假设电梯有两种运行策略 <code>throttle</code> 和 <code>debounce</code>，超时设定 15s</p>
-<ul>
-<li>throttle 策略电梯，保证如果电梯第一个人进来，15s 后准时运送一次，不等待。</li>
-<li>debounce 策略电梯，如果有人进电梯，等待 15s，如果又有人进来，15s 等待重新计时，直到 15s 超时，开始运送。</li>
-</ul>
-</blockquote>
-<h3 id="节制型提交"><a href="#节制型提交" class="headerlink" title="节制型提交"></a>节制型提交</h3><p>新建一个 wrapper 包裹 <code>sendQuery</code> 业务，在 <code>click</code> 事件后，不会直接调用 <code>sendQuery</code>，而是调用 wrapper。wrapper 中获取当前时间，比较距离上次 <code>sendQuery</code> 执行事件的间隔是否有 1s，如果有，那么这次请求立即执行，否则计算剩余等待时间延迟执行该请求，借此控制住 <code>sendQuery</code> 的调用频率</p>
-<p>为防止变量的全局污染，用一个立即执行函数包裹作用域：</p>
-<pre><code>var delayedQuery = (function(){
+</code></pre><h2 id="throttle-amp-debounce"><a href="#throttle-amp-debounce" class="headerlink" title="throttle &amp; debounce"></a>throttle &amp; debounce</h2><blockquote><p>前端开发场景：在页面中，单击”查询”按钮，会通过 ajax 异步获取数据。如果这个查询是耗时的，我们需要控制查询速率防止短时间内频繁请求。</p></blockquote><blockquote><p>电梯超时：把电梯完成一次运送，类比一次函数的执行和响应，假设电梯有两种运行策略 <code>throttle</code> 和 <code>debounce</code>，超时设定 15s</p><ul><li>throttle 策略电梯，保证如果电梯第一个人进来，15s 后准时运送一次，不等待。</li><li>debounce 策略电梯，如果有人进电梯，等待 15s，如果又有人进来，15s 等待重新计时，直到 15s 超时，开始运送。</li></ul></blockquote><h3 id="节制型提交"><a href="#节制型提交" class="headerlink" title="节制型提交"></a>节制型提交</h3><p>新建一个 wrapper 包裹 <code>sendQuery</code> 业务，在 <code>click</code> 事件后，不会直接调用 <code>sendQuery</code>，而是调用 wrapper。wrapper 中获取当前时间，比较距离上次 <code>sendQuery</code> 执行事件的间隔是否有 1s，如果有，那么这次请求立即执行，否则计算剩余等待时间延迟执行该请求，借此控制住 <code>sendQuery</code> 的调用频率</p><p>为防止变量的全局污染，用一个立即执行函数包裹作用域：</p><pre><code>var delayedQuery = (function(){
   var previous = 0
   var waiting = 1000
   var sendQuery = function(){
@@ -144,8 +121,7 @@ console.log(fibonacci.cache)
 })()
 
 $(&quot;#queryBtn&quot;).click(delayedQuery)
-</code></pre><p>但是业务代码 <code>sendQuery</code> 还是耦合了刷新 <code>previous</code> 的逻辑，其次如果每个延迟执行的请求都做这样的包裹就太冗余了。写一个通用函数，将”需要控制调用频率的函数”和”对调用频度的限制频率”传给通用函数，返回一个限制了执行频率的函数</p>
-<pre><code>function throttle(func, waiting){
+</code></pre><p>但是业务代码 <code>sendQuery</code> 还是耦合了刷新 <code>previous</code> 的逻辑，其次如果每个延迟执行的请求都做这样的包裹就太冗余了。写一个通用函数，将”需要控制调用频率的函数”和”对调用频度的限制频率”传给通用函数，返回一个限制了执行频率的函数</p><pre><code>function throttle(func, waiting){
   var previos = 0
   // 创建一个 wrapper，解耦 func 和 previous 等变量
   var later = function(){
@@ -170,9 +146,7 @@ var sendQuery = function(){
   console.log(&quot;sending query&quot;)
 }
 delayedQuery = throttle(sendQuery,1000)
-</code></pre><p>但是存在一个问题，我们只保障了第一次回调和接下来所有回调的间隔执行，而没有保障到各个回调间相互的间隔执行，所以被延后执行的那些请求会再某个相近的时间点同时发生。相比之下，underscore 的实现更健壮</p>
-<p><strong><code>_.throttle</code> “节流阀”</strong></p>
-<pre><code>_.throttle = function(func, wait, options){
+</code></pre><p>但是存在一个问题，我们只保障了第一次回调和接下来所有回调的间隔执行，而没有保障到各个回调间相互的间隔执行，所以被延后执行的那些请求会再某个相近的时间点同时发生。相比之下，underscore 的实现更健壮</p><p><strong><code>_.throttle</code> “节流阀”</strong></p><pre><code>_.throttle = function(func, wait, options){
   // timeout 标识最近一次被追踪的调用
   // context 和 args 缓存 func 执行时需要的上下文，result 缓存 func 执行结果
   var timeout, context, args, result
@@ -217,8 +191,7 @@ delayedQuery = throttle(sendQuery,1000)
   }
   return throttled
 }
-</code></pre><p><strong><code>_.debounce</code></strong> 函数去抖</p>
-<pre><code>_.debounce = function(func, wait, immediate){
+</code></pre><p><strong><code>_.debounce</code></strong> 函数去抖</p><pre><code>_.debounce = function(func, wait, immediate){
   var timeout, args, context, timestamp, result
   var later = function (context, args){
       // 定时器设置回调 later 方法的触发时间，和连续事件触发的最后一次时间戳的间隔

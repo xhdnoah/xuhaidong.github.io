@@ -1,6 +1,13 @@
 <!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="Noah Xu"><title>UnderScore 源码学习之继承 · 电子月亮</title><meta name="description" content="JavaScript 无类，ECMAScript 6 引入的 class,extends 也只是 syntax sugar，那么如何在缺乏类支持的 JS 实现继承？
 
-is-aA 继承于 B，可以转义成 is-a（什么是什么），关系：A 是 B，如 Student 继承自 Person，Studen"><meta name="keywords" content><meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="stylesheet" href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><link rel="stylesheet" href="/css/prism.css" type="text/css"><link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title"></a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">Electronic Moon</a></h1></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/tags">标签</a></li><li><a href="/resume/resume.html">简历</a></li><li class="soc"><a href="https://github.com/xhdnoah" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="http://xhdnoah.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2019&nbsp;<a target="_blank" href="http://xhdnoah.github.io" rel="noopener noreferrer">Noah Xu</a></p><p>Theme&nbsp;<a target="_blank" href="https://github.com/SumiMakito/hexo-theme-typography" rel="noopener noreferrer">Typography</a>&nbsp;by&nbsp;<a target="_blank" href="https://www.keep.moe" rel="noopener noreferrer">Makito</a></p><p>Proudly published with&nbsp;<a target="_blank" href="https://hexo.io" rel="noopener noreferrer">Hexo</a></p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a>UnderScore 源码学习之继承</a></p><p class="post-meta"><span class="date meta-item">发布于&nbsp;2019-03-20</span><span class="meta-item"><i class="fa fa-tag"></i><span>&nbsp;</span><a href="/tags/UnderScore/" title="UnderScore" class="a-tag">UnderScore</a><span>&nbsp;</span></span></p><p class="post-abstract"></p><blockquote><p>JavaScript 无类，ECMAScript 6 引入的 <code>class,extends</code> 也只是 syntax sugar，那么如何在缺乏类支持的 JS 实现继承？</p></blockquote><p></p><h3 id="is-a"><a href="#is-a" class="headerlink" title="is-a"></a><strong>is-a</strong></h3><p>A 继承于 B，可以转义成 <code>is-a（什么是什么）</code>，关系：A 是 B，如 Student 继承自 Person，Student is a Person，but more concrete. 继承描述的是一种层次关系，一种更具体化的递进过程，所以<strong>继承</strong>也不真正需要”类”支撑，而只需要这个递进关系。</p><p>JavaScript 虽无类，但仍可用对象来描述递进关系，这在 JavaScript 中叫做 “原型 prototype”，原型描述一个对象的来由。在 JS 中，原型和对象间的联系通过对象的 <code>__proto__</code> 属性完成，<code>student.__proto__ = person</code></p><h3 id="原型继承"><a href="#原型继承" class="headerlink" title="原型继承"></a><strong>原型继承</strong></h3><p>在 JavaScript 中，借助于构造函数 constructor，<code>new</code> 运算符和构造函数的 <code>prototype</code> 属性能够模拟类似”Class extends Class”的继承，这种方式即原型继承:</p><pre><code>// 声明一个 Person 构造函数
+is-aA 继承于 B，可以转义成 is-a（什么是什么），关系：A 是 B，如 Student 继承自 Person，Studen"><meta name="keywords" content><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="stylesheet" href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title"></a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">Electronic Moon</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/tags">标签</a></li><li><a href="/resume/resume.html">简历</a></li><li class="soc"><a href="https://github.com/xhdnoah" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="http://xhdnoah.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2019&nbsp;<a target="_blank" href="http://xhdnoah.github.io" rel="noopener noreferrer">Noah Xu</a></p><p>Theme&nbsp;<a target="_blank" href="https://github.com/SumiMakito/hexo-theme-typography" rel="noopener noreferrer">Typography</a>&nbsp;by&nbsp;<a target="_blank" href="https://www.keep.moe" rel="noopener noreferrer">Makito</a></p><p>Proudly published with&nbsp;<a target="_blank" href="https://hexo.io" rel="noopener noreferrer">Hexo</a></p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a>UnderScore 源码学习之继承</a></p><p class="post-meta"><span class="date meta-item">发布于&nbsp;2019-03-20</span><span class="meta-item"><i class="fa fa-tag"></i><span>&nbsp;</span><a href="/tags/UnderScore/" title="UnderScore" class="a-tag">UnderScore</a><span>&nbsp;</span></span></p><p class="post-abstract"><blockquote>
+<p>JavaScript 无类，ECMAScript 6 引入的 <code>class,extends</code> 也只是 syntax sugar，那么如何在缺乏类支持的 JS 实现继承？</p>
+</blockquote>
+</p><h3 id="is-a"><a href="#is-a" class="headerlink" title="is-a"></a><strong>is-a</strong></h3><p>A 继承于 B，可以转义成 <code>is-a（什么是什么）</code>，关系：A 是 B，如 Student 继承自 Person，Student is a Person，but more concrete. 继承描述的是一种层次关系，一种更具体化的递进过程，所以<strong>继承</strong>也不真正需要”类”支撑，而只需要这个递进关系。</p>
+<p>JavaScript 虽无类，但仍可用对象来描述递进关系，这在 JavaScript 中叫做 “原型 prototype”，原型描述一个对象的来由。在 JS 中，原型和对象间的联系通过对象的 <code>__proto__</code> 属性完成，<code>student.__proto__ = person</code></p>
+<h3 id="原型继承"><a href="#原型继承" class="headerlink" title="原型继承"></a><strong>原型继承</strong></h3><p>在 JavaScript 中，借助于构造函数 constructor，<code>new</code> 运算符和构造函数的 <code>prototype</code> 属性能够模拟类似”Class extends Class”的继承，这种方式即原型继承:</p>
+<pre><code>// 声明一个 Person 构造函数
 function Person(name){
     this.name = name
 }
@@ -26,7 +33,20 @@ var student = new Student(&quot;xyz&quot;)
 
 student.eat()
 student.learn()
-</code></pre><p><code>new Person()</code> 实际上是自动做了以下事情：</p><ul><li><p>创建一个对象，并设置其指向的原型</p><p><code>var obj = {&#39;__proto__&#39;: Person.prototype}</code></p></li><li><p>调用 <code>Person()</code> 构造方法，并将上下文 this 绑定到 <code>obj</code> 上，即通过 <code>Person</code> 构造 <code>obj</code>:</p><p><code>Person.apply(obj, arguments)</code></p></li><li><p>返回创建的对象</p><p><code>return obj</code></p></li></ul><p>所以，<code>Student.prototype = new Person()</code> 相当于：</p><pre><code>// 继承
+</code></pre><p><code>new Person()</code> 实际上是自动做了以下事情：</p>
+<ul>
+<li><p>创建一个对象，并设置其指向的原型</p>
+<p><code>var obj = {&#39;__proto__&#39;: Person.prototype}</code></p>
+</li>
+<li><p>调用 <code>Person()</code> 构造方法，并将上下文 this 绑定到 <code>obj</code> 上，即通过 <code>Person</code> 构造 <code>obj</code>:</p>
+<p><code>Person.apply(obj, arguments)</code></p>
+</li>
+<li><p>返回创建的对象</p>
+<p><code>return obj</code></p>
+</li>
+</ul>
+<p>所以，<code>Student.prototype = new Person()</code> 相当于：</p>
+<pre><code>// 继承
 Studnet.prototype = {&#39;__proto__&#39;: Person.prototype}
 Person.apply(Student.prototype, arguments)
 Student.prototype.constructor = Person
@@ -34,7 +54,11 @@ Student.prototype.constructor = Person
 var student = {&#39;__proto__&#39;: Student.prototype}
 Student.apply(student, &quot;xyz&quot;)
 student.constructor = Student
-</code></pre><p>在调用 <code>student.eat()</code> 时，沿着 <code>__proto__</code> 提供的线索，最终在 <code>Person.prototype</code> 这个原型上找到方法。</p><p><strong>Object.create</strong></p><p>ES5 提供了新的对象创建方式 <code>Object.create(proto, [propertiesObject])</code></p><p>现在可以这样创建一个继承自 <code>proto</code> 的对象：</p><pre><code>function Person(name){
+</code></pre><p>在调用 <code>student.eat()</code> 时，沿着 <code>__proto__</code> 提供的线索，最终在 <code>Person.prototype</code> 这个原型上找到方法。</p>
+<p><strong>Object.create</strong></p>
+<p>ES5 提供了新的对象创建方式 <code>Object.create(proto, [propertiesObject])</code></p>
+<p>现在可以这样创建一个继承自 <code>proto</code> 的对象：</p>
+<pre><code>function Person(name){
   this.name = name
 }
 
@@ -45,11 +69,23 @@ Person.prototype.eat = function(){
 var student = Object.create(Person.prototype)
 student.name = &#39;xyz&#39;
 student.eat()
-</code></pre><p>在构造对象上，<code>Object.create(proto)</code> 的过程如下：</p><ul><li>创建一个临时的构造函数，并将其原型指向 <code>proto</code></li></ul><pre><code>var Temp = function(){} // 一般会通过闭包将 Temp 常驻内存，避免每次 create 时都创建空的构造函数
+</code></pre><p>在构造对象上，<code>Object.create(proto)</code> 的过程如下：</p>
+<ul>
+<li>创建一个临时的构造函数，并将其原型指向 <code>proto</code></li>
+</ul>
+<pre><code>var Temp = function(){} // 一般会通过闭包将 Temp 常驻内存，避免每次 create 时都创建空的构造函数
 Temp.prototype = proto
-</code></pre><ul><li>通过 <code>new</code> 新建对象，该对象由这个临时的构造函数构造，但不传递任何参数</li></ul><p><code>var obj = new Temp()</code></p><ul><li>清空临时构造函数的原型，并返回创建的对象</li></ul><pre><code>Temp.prototype = null // 防止内存泄露
+</code></pre><ul>
+<li>通过 <code>new</code> 新建对象，该对象由这个临时的构造函数构造，但不传递任何参数</li>
+</ul>
+<p><code>var obj = new Temp()</code></p>
+<ul>
+<li>清空临时构造函数的原型，并返回创建的对象</li>
+</ul>
+<pre><code>Temp.prototype = null // 防止内存泄露
 return obj
-</code></pre><p>Object.create 是对 <code>new</code> 的一次包裹，使得新建对象更灵活，使用 <code>new</code> 运算符的只能是一个构造函数，如果想由一个普通对象构造新的对象，使用 <code>new</code> 就会报错</p><pre><code>var person = {
+</code></pre><p>Object.create 是对 <code>new</code> 的一次包裹，使得新建对象更灵活，使用 <code>new</code> 运算符的只能是一个构造函数，如果想由一个普通对象构造新的对象，使用 <code>new</code> 就会报错</p>
+<pre><code>var person = {
   name: &#39;&#39;,
   eat: function(){
     console.log(this.name+&quot;is eating&quot;)
@@ -57,7 +93,8 @@ return obj
 }
 
 var student = new person // &quot;Uncaught TypeError: person is not a constructor(...)&quot;
-</code></pre><p>Object.create 内部已经维护了一个构造函数而不依赖构造函数，另外还能传递第二参数，该参数是一个属性列表，能够初始化或者添加新对象的属性，则更加丰富了创建的对象时的灵活性和扩展性。</p><pre><code>var student = Object.create(person,{
+</code></pre><p>Object.create 内部已经维护了一个构造函数而不依赖构造函数，另外还能传递第二参数，该参数是一个属性列表，能够初始化或者添加新对象的属性，则更加丰富了创建的对象时的灵活性和扩展性。</p>
+<pre><code>var student = Object.create(person,{
   name: {value:&#39;xyz&#39;,writable:false}
 })
 </code></pre><h3 id="underscore-创建对象"><a href="#underscore-创建对象" class="headerlink" title="underscore 创建对象"></a>underscore 创建对象</h3><pre><code>var nativeCreate = Object.create
@@ -99,4 +136,5 @@ class Student extends Person{
     console.log(this.name+&quot;is learning&quot;)
   }
 }
-</code></pre><p><code>class</code> 的实现依赖于 ES5 提供的 <code>Object.defineProperty</code> 和 <code>Object.create</code> 方法</p><p></p></div><div class="share"><span>分享到</span>&nbsp;<span class="soc"><a href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank" class="fa fa-bookmark"></a></span><span class="soc"><a href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));" class="fa fa-weibo"></a></span><span class="soc"><a href="http://twitter.com/home?status=http://xhdnoah.github.io/2019/03/20/UnderScore-源码学习之继承/%20电子月亮%20UnderScore 源码学习之继承" class="fa fa-twitter"></a></span></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/2019/03/23/understanding-async-await-in-3-code-snippets/" title="understanding async/await in 3 code snippets"><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: understanding async/await in 3 code snippets</a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/2019/03/20/UnderScore-源码学习之函数/" title="UnderScore 源码学习之函数">下一篇: UnderScore 源码学习之函数&nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2019&nbsp;<a target="_blank" href="http://xhdnoah.github.io" rel="noopener noreferrer">Noah Xu</a></p><p>Theme&nbsp;<a target="_blank" href="https://github.com/SumiMakito/hexo-theme-typography" rel="noopener noreferrer">Typography</a>&nbsp;by&nbsp;<a target="_blank" href="https://www.keep.moe" rel="noopener noreferrer">Makito</a></p><p>Proudly published with&nbsp;<a target="_blank" href="https://hexo.io" rel="noopener noreferrer">Hexo</a></p></footer></div></div></div></div><script src="https://cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script><script src="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script><script src="https://cdn.bootcss.com/jquery-migrate/1.2.1/jquery-migrate.min.js"></script><script src="https://cdn.bootcss.com/jquery.appear/0.3.3/jquery.appear.js"></script><script src="/js/typography.js"></script></body></html>
+</code></pre><p><code>class</code> 的实现依赖于 ES5 提供的 <code>Object.defineProperty</code> 和 <code>Object.create</code> 方法</p>
+<p></p></div><div class="share"><span>分享到</span>&nbsp;<span class="soc"><a href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank" class="fa fa-bookmark"></a></span><span class="soc"><a href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));" class="fa fa-weibo"></a></span><span class="soc"><a href="http://twitter.com/home?status=http://xhdnoah.github.io/2019/03/20/UnderScore-源码学习之继承/%20电子月亮%20UnderScore 源码学习之继承" class="fa fa-twitter"></a></span></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/2019/03/23/understanding-async-await-in-3-code-snippets/" title="understanding async/await in 3 code snippets"><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: understanding async/await in 3 code snippets</a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/2019/03/20/UnderScore-源码学习之函数/" title="UnderScore 源码学习之函数">下一篇: UnderScore 源码学习之函数&nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2019&nbsp;<a target="_blank" href="http://xhdnoah.github.io" rel="noopener noreferrer">Noah Xu</a></p><p>Theme&nbsp;<a target="_blank" href="https://github.com/SumiMakito/hexo-theme-typography" rel="noopener noreferrer">Typography</a>&nbsp;by&nbsp;<a target="_blank" href="https://www.keep.moe" rel="noopener noreferrer">Makito</a></p><p>Proudly published with&nbsp;<a target="_blank" href="https://hexo.io" rel="noopener noreferrer">Hexo</a></p></footer></div></div></div></div><script src="https://cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script><script src="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script><script src="https://cdn.bootcss.com/jquery-migrate/1.2.1/jquery-migrate.min.js"></script><script src="https://cdn.bootcss.com/jquery.appear/0.3.3/jquery.appear.js"></script><script src="/js/typography.js"></script></body></html>

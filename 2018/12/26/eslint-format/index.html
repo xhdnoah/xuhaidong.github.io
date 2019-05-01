@@ -1,17 +1,21 @@
 <!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="Noah Xu"><title>ESlint 自动格式化正确姿势 · 电子月亮</title><meta name="description" content="最近在学习 vue 全家桶开发，在格式化符合 ESlint 规范的 .vue 文件上面遇到了一些问题，摆正姿势后需要总结一番。
 ESlint安装 ESlint 依赖&amp;quot;eslint&amp;quot;: &amp;quot;^5.10.0&amp;quot;,
-&amp;quot;eslint-config-standar"><meta name="keywords" content><meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="stylesheet" href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><link rel="stylesheet" href="/css/prism.css" type="text/css"><link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title"></a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">Electronic Moon</a></h1></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/tags">标签</a></li><li><a href="/resume/resume.html">简历</a></li><li class="soc"><a href="https://github.com/xhdnoah" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="http://xhdnoah.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2019&nbsp;<a target="_blank" href="http://xhdnoah.github.io" rel="noopener noreferrer">Noah Xu</a></p><p>Theme&nbsp;<a target="_blank" href="https://github.com/SumiMakito/hexo-theme-typography" rel="noopener noreferrer">Typography</a>&nbsp;by&nbsp;<a target="_blank" href="https://www.keep.moe" rel="noopener noreferrer">Makito</a></p><p>Proudly published with&nbsp;<a target="_blank" href="https://hexo.io" rel="noopener noreferrer">Hexo</a></p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a>ESlint 自动格式化正确姿势</a></p><p class="post-meta"><span class="date meta-item">发布于&nbsp;2018-12-26</span><span class="meta-item"><i class="fa fa-tag"></i><span>&nbsp;</span><a href="/tags/ESlint/" title="ESlint" class="a-tag">ESlint</a><span>&nbsp;</span></span></p><p class="post-abstract"></p><p>最近在学习 vue 全家桶开发，在格式化符合 ESlint 规范的 .vue 文件上面遇到了一些问题，摆正姿势后需要总结一番。</p><h2 id="ESlint"><a href="#ESlint" class="headerlink" title="ESlint"></a>ESlint</h2><h3 id="安装-ESlint-依赖"><a href="#安装-ESlint-依赖" class="headerlink" title="安装 ESlint 依赖"></a>安装 ESlint 依赖</h3><pre><code>&quot;eslint&quot;: &quot;^5.10.0&quot;,
+&amp;quot;eslint-config-standar"><meta name="keywords" content><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="stylesheet" href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title"></a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">Electronic Moon</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/tags">标签</a></li><li><a href="/resume/resume.html">简历</a></li><li class="soc"><a href="https://github.com/xhdnoah" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="http://xhdnoah.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2019&nbsp;<a target="_blank" href="http://xhdnoah.github.io" rel="noopener noreferrer">Noah Xu</a></p><p>Theme&nbsp;<a target="_blank" href="https://github.com/SumiMakito/hexo-theme-typography" rel="noopener noreferrer">Typography</a>&nbsp;by&nbsp;<a target="_blank" href="https://www.keep.moe" rel="noopener noreferrer">Makito</a></p><p>Proudly published with&nbsp;<a target="_blank" href="https://hexo.io" rel="noopener noreferrer">Hexo</a></p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a>ESlint 自动格式化正确姿势</a></p><p class="post-meta"><span class="date meta-item">发布于&nbsp;2018-12-26</span><span class="meta-item"><i class="fa fa-tag"></i><span>&nbsp;</span><a href="/tags/ESlint/" title="ESlint" class="a-tag">ESlint</a><span>&nbsp;</span></span></p><p class="post-abstract"></p><p>最近在学习 vue 全家桶开发，在格式化符合 ESlint 规范的 .vue 文件上面遇到了一些问题，摆正姿势后需要总结一番。</p>
+<h2 id="ESlint"><a href="#ESlint" class="headerlink" title="ESlint"></a>ESlint</h2><h3 id="安装-ESlint-依赖"><a href="#安装-ESlint-依赖" class="headerlink" title="安装 ESlint 依赖"></a>安装 ESlint 依赖</h3><pre><code>&quot;eslint&quot;: &quot;^5.10.0&quot;,
 &quot;eslint-config-standard&quot;: &quot;^12.0.0&quot;,
 &quot;eslint-plugin-import&quot;: &quot;^2.14.0&quot;,
 &quot;eslint-plugin-node&quot;: &quot;^8.0.0&quot;,
 &quot;eslint-plugin-promise&quot;: &quot;^4.0.1&quot;,
 &quot;eslint-plugin-standard&quot;: &quot;^4.0.0&quot;,
-</code></pre><h3 id="vue-文件校验"><a href="#vue-文件校验" class="headerlink" title=".vue 文件校验"></a>.vue 文件校验</h3><p>ESlint 无法识别 .vue 中的HTML, JS 代码，安装 <code>eslint-plugin-vue,vue-eslint-parse</code>，并确保在 .eslintrc.js 中使用插件自身的配置：</p><pre><code>{
+</code></pre><h3 id="vue-文件校验"><a href="#vue-文件校验" class="headerlink" title=".vue 文件校验"></a>.vue 文件校验</h3><p>ESlint 无法识别  .vue 中的HTML, JS 代码，安装 <code>eslint-plugin-vue,vue-eslint-parse</code>，并确保在 .eslintrc.js 中使用插件自身的配置：</p>
+<pre><code>{
   &quot;extends&quot;: [
     &#39;standard&#39;,&#39;plugin:vue/recommended&#39;
   ]
 }
-</code></pre><p>或者使用 <code>eslint-loader</code>，这样 .vue 文件会在开发期间每次保存时自动校验</p><pre><code>// webpack.confid.js
+</code></pre><p>或者使用 <code>eslint-loader</code>，这样 .vue 文件会在开发期间每次保存时自动校验</p>
+<pre><code>// webpack.confid.js
 modeule.exports = {
     module:{
         rules: [
@@ -52,7 +56,15 @@ module.exports = {
 </code></pre><h3 id="自动修复脚本"><a href="#自动修复脚本" class="headerlink" title="自动修复脚本"></a>自动修复脚本</h3><pre><code>// package.json
     &quot;lint&quot;:&quot;eslint --ext .js --ext .jsx --ext .vue clinet/&quot;,
     &quot;lint-fix&quot;:&quot;eslint --fix --ext .js --ext .jsx --ext .vue clinet/&quot;,
-</code></pre><h2 id="VS-Code"><a href="#VS-Code" class="headerlink" title="VS Code"></a>VS Code</h2><h3 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h3><ul><li>ESlint: Javascript 代码检测工具</li><li><p>Vetur: 依赖 Prettier 格式化 html,css,js,vue</p></li><li><p>Prettier - Code formatter</p></li></ul><p>同时在 User Settings 中添加规则：</p><pre><code>{
+</code></pre><h2 id="VS-Code"><a href="#VS-Code" class="headerlink" title="VS Code"></a>VS Code</h2><h3 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h3><ul>
+<li>ESlint: Javascript 代码检测工具</li>
+<li><p>Vetur: 依赖 Prettier 格式化 html,css,js,vue</p>
+</li>
+<li><p>Prettier - Code formatter</p>
+</li>
+</ul>
+<p>同时在 User Settings 中添加规则：</p>
+<pre><code>{
     &quot;editor.fontSize&quot;: 16,
     &quot;editor.tabSize&quot;: 2,
     &quot;eslint.validate&quot;: [
@@ -68,7 +80,9 @@ module.exports = {
         &quot;plugins&quot;: [&quot;html&quot;]
     },
 }
-</code></pre><hr><p>由于 Vetur 依赖 Prettier，需要添加设置:</p><pre><code>&quot;vetur.format.defaultFormatterOptions&quot;: {
+</code></pre><hr>
+<p>由于 Vetur 依赖 Prettier，需要添加设置:</p>
+<pre><code>&quot;vetur.format.defaultFormatterOptions&quot;: {
     &quot;prettier&quot;: {
         &quot;semi&quot;: false,
         &quot;singleQuote&quot;: true,
@@ -79,9 +93,16 @@ module.exports = {
 &quot;javascript.format.insertSpaceBeforeFunctionParenthesis&quot;: true,
 &quot;prettier.useTabs&quot;: true,
 &quot;prettier.eslintIntegration&quot;: true
-</code></pre><blockquote><p>一定要在 vetur.defaultFormatterOptions 参数中设置，单独修改 prettier 扩展的设置无法解决问题，因为 prettier 默认忽略 vue 文件（事实上从忽略列表移除 vue 也不能解决这个问题）。</p></blockquote><h3 id="自动保存并格式化"><a href="#自动保存并格式化" class="headerlink" title="自动保存并格式化"></a>自动保存并格式化</h3><p>添加 User Settings：</p><pre><code>&quot;editor.formatOnSave&quot;: true,
+</code></pre><blockquote>
+<p>一定要在 vetur.defaultFormatterOptions 参数中设置，单独修改 prettier 扩展的设置无法解决问题，因为 prettier 默认忽略 vue 文件（事实上从忽略列表移除 vue 也不能解决这个问题）。</p>
+</blockquote>
+<h3 id="自动保存并格式化"><a href="#自动保存并格式化" class="headerlink" title="自动保存并格式化"></a>自动保存并格式化</h3><p>添加 User Settings：</p>
+<pre><code>&quot;editor.formatOnSave&quot;: true,
 &quot;eslint.autoFixOnSave&quot;: true,
-</code></pre><blockquote><p>使用 VS Code <code>files.autoSave</code> 自动保存，delay 时间太短容易导致换行后光标自动回退行首，可以设置<code>&quot;files.autoSave&quot;: &quot;onFocusChange&quot;</code></p></blockquote><h3 id="editorconfig-配置"><a href="#editorconfig-配置" class="headerlink" title="editorconfig 配置"></a>editorconfig 配置</h3><pre><code>root = true
+</code></pre><blockquote>
+<p>使用 VS Code <code>files.autoSave</code> 自动保存，delay 时间太短容易导致换行后光标自动回退行首，可以设置<code>&quot;files.autoSave&quot;: &quot;onFocusChange&quot;</code></p>
+</blockquote>
+<h3 id="editorconfig-配置"><a href="#editorconfig-配置" class="headerlink" title="editorconfig 配置"></a>editorconfig 配置</h3><pre><code>root = true
 
 [*]
 charset = utf-8

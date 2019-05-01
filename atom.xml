@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://xhdnoah.github.io/"/>
-  <updated>2019-03-23T13:50:16.717Z</updated>
+  <updated>2019-05-01T12:15:24.193Z</updated>
   <id>http://xhdnoah.github.io/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Nginx 配置趟坑</title>
+    <link href="http://xhdnoah.github.io/2019/05/01/Nginx/"/>
+    <id>http://xhdnoah.github.io/2019/05/01/Nginx/</id>
+    <published>2019-05-01T12:02:54.000Z</published>
+    <updated>2019-05-01T12:15:24.193Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;最近配置 SPA 应用上线的时候，用到了 Nginx，过程曲折，记录其中遇到的一些关键问题&lt;/p&gt;
+&lt;h3 id=&quot;Nginx-常用命令&quot;&gt;&lt;a href=&quot;#Nginx-常用命令&quot; class=&quot;headerlink&quot; title=&quot;Nginx
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>understanding async/await in 3 code snippets</title>
@@ -276,7 +299,7 @@ _.map(arr, n =&amp;gt;
     <link href="http://xhdnoah.github.io/2018/11/07/ajax/"/>
     <id>http://xhdnoah.github.io/2018/11/07/ajax/</id>
     <published>2018-11-07T13:17:00.000Z</published>
-    <updated>2019-03-28T09:49:38.062Z</updated>
+    <updated>2019-04-16T05:16:58.909Z</updated>
     
     <summary type="html">
     
@@ -487,30 +510,6 @@ _.map(arr, n =&amp;gt;
     
     
       <category term="CSS" scheme="http://xhdnoah.github.io/tags/CSS/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>《DOM 编程艺术》笔记</title>
-    <link href="http://xhdnoah.github.io/2018/10/17/DOM/"/>
-    <id>http://xhdnoah.github.io/2018/10/17/DOM/</id>
-    <published>2018-10-17T03:38:25.000Z</published>
-    <updated>2019-03-23T09:04:28.379Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h3 id=&quot;获取元素&quot;&gt;&lt;a href=&quot;#获取元素&quot; class=&quot;headerlink&quot; title=&quot;获取元素&quot;&gt;&lt;/a&gt;获取元素&lt;/h3&gt;&lt;p&gt;getElementById: 返回一个对象，对应document
-        
-      
-    
-    </summary>
-    
-    
-      <category term="DOM" scheme="http://xhdnoah.github.io/tags/DOM/"/>
     
   </entry>
   

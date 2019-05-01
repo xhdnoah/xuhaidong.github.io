@@ -1,17 +1,24 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="Noah Xu"><title>七天学会 NodeJs · 电子月亮</title><meta name="description" content="每一种解析器都是一个运行环境，不但允许 JS 定义各种数据结构，进行各种运算，还允许 JS 使用运行环境提供的内置对象和方法。运行在浏览器的 JS 的用途是操作 DOM，浏览器就提供了document 等内置对象。运行在 NodeJs 中的 JS 的用途是操作磁盘文件或搭建 HTTP 服务器，Nod"><meta name="keywords" content><meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="stylesheet" href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><link rel="stylesheet" href="/css/prism.css" type="text/css"><link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title"></a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">Electronic Moon</a></h1></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/tags">标签</a></li><li><a href="/resume/resume.html">简历</a></li><li class="soc"><a href="https://github.com/xhdnoah" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="http://xhdnoah.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2019&nbsp;<a target="_blank" href="http://xhdnoah.github.io" rel="noopener noreferrer">Noah Xu</a></p><p>Theme&nbsp;<a target="_blank" href="https://github.com/SumiMakito/hexo-theme-typography" rel="noopener noreferrer">Typography</a>&nbsp;by&nbsp;<a target="_blank" href="https://www.keep.moe" rel="noopener noreferrer">Makito</a></p><p>Proudly published with&nbsp;<a target="_blank" href="https://hexo.io" rel="noopener noreferrer">Hexo</a></p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a>七天学会 NodeJs</a></p><p class="post-meta"><span class="date meta-item">发布于&nbsp;2018-11-05</span><span class="meta-item"><i class="fa fa-tag"></i><span>&nbsp;</span><a href="/tags/Node-js/" title="Node.js" class="a-tag">Node.js</a><span>&nbsp;</span></span></p><p class="post-abstract"></p><p>每一种解析器都是一个运行环境，不但允许 JS 定义各种数据结构，进行各种运算，还允许 JS 使用运行环境提供的内置对象和方法。运行在浏览器的 JS 的用途是操作 DOM，浏览器就提供了<code>document</code> 等内置对象。运行在 NodeJs 中的 JS 的用途是操作磁盘文件或搭建 HTTP 服务器，NodeJs 就提供 <code>fs</code>,<code>http</code> 等内置对象。</p><h2 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h2><p>在编写每个模块时，都有 <code>require</code>,<code>exports</code>,<code>module</code> 三个预先定义好的变量可供使用。</p><h3 id="require"><a href="#require" class="headerlink" title="require"></a>require</h3><pre><code>var foo1 = require(‘./foo’);
+<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="Noah Xu"><title>七天学会 NodeJs · 电子月亮</title><meta name="description" content="每一种解析器都是一个运行环境，不但允许 JS 定义各种数据结构，进行各种运算，还允许 JS 使用运行环境提供的内置对象和方法。运行在浏览器的 JS 的用途是操作 DOM，浏览器就提供了document 等内置对象。运行在 NodeJs 中的 JS 的用途是操作磁盘文件或搭建 HTTP 服务器，Nod"><meta name="keywords" content><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="stylesheet" href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title"></a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">Electronic Moon</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/tags">标签</a></li><li><a href="/resume/resume.html">简历</a></li><li class="soc"><a href="https://github.com/xhdnoah" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="http://xhdnoah.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2019&nbsp;<a target="_blank" href="http://xhdnoah.github.io" rel="noopener noreferrer">Noah Xu</a></p><p>Theme&nbsp;<a target="_blank" href="https://github.com/SumiMakito/hexo-theme-typography" rel="noopener noreferrer">Typography</a>&nbsp;by&nbsp;<a target="_blank" href="https://www.keep.moe" rel="noopener noreferrer">Makito</a></p><p>Proudly published with&nbsp;<a target="_blank" href="https://hexo.io" rel="noopener noreferrer">Hexo</a></p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a>七天学会 NodeJs</a></p><p class="post-meta"><span class="date meta-item">发布于&nbsp;2018-11-05</span><span class="meta-item"><i class="fa fa-tag"></i><span>&nbsp;</span><a href="/tags/Node-js/" title="Node.js" class="a-tag">Node.js</a><span>&nbsp;</span></span></p><p class="post-abstract"></p><p>每一种解析器都是一个运行环境，不但允许 JS 定义各种数据结构，进行各种运算，还允许 JS 使用运行环境提供的内置对象和方法。运行在浏览器的 JS 的用途是操作 DOM，浏览器就提供了<code>document</code> 等内置对象。运行在 NodeJs 中的 JS 的用途是操作磁盘文件或搭建 HTTP 服务器，NodeJs 就提供 <code>fs</code>,<code>http</code> 等内置对象。</p>
+<h2 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h2><p>在编写每个模块时，都有 <code>require</code>,<code>exports</code>,<code>module</code> 三个预先定义好的变量可供使用。</p>
+<h3 id="require"><a href="#require" class="headerlink" title="require"></a>require</h3><pre><code>var foo1 = require(‘./foo’);
 var foo2 = require(‘./foo.js’);
 var foo3 = require(‘home/user/foo’);
 var foo4 = require(‘home/user/foo.js’);
 
 //foo1~4中保存着同一个模块的导出对象
-</code></pre><p>加载和使用一个 JSON 文件：<br><code>var data = require(‘./data.json’)</code></p><h3 id="exports"><a href="#exports" class="headerlink" title="exports"></a>exports</h3><p><code>exports</code>对象是当前模块的导出对象，用于导出模块公有方法和属性</p><pre><code>//导出一个公有方法
+</code></pre><p>加载和使用一个 JSON 文件：<br><code>var data = require(‘./data.json’)</code></p>
+<h3 id="exports"><a href="#exports" class="headerlink" title="exports"></a>exports</h3><p><code>exports</code>对象是当前模块的导出对象，用于导出模块公有方法和属性</p>
+<pre><code>//导出一个公有方法
  exports.hello = function(){
     console.log(‘Hello World’);
 }
-</code></pre><h3 id="module"><a href="#module" class="headerlink" title="module"></a>module</h3><p>通过<code>module</code>对象可以访问当前模块的相关信息，最常见的用途是替换当前模块的导出对象:</p><pre><code>module.exports = function(){
+</code></pre><h3 id="module"><a href="#module" class="headerlink" title="module"></a>module</h3><p>通过<code>module</code>对象可以访问当前模块的相关信息，最常见的用途是替换当前模块的导出对象:</p>
+<pre><code>module.exports = function(){
     console.log(‘Hello World!’);
 }
-</code></pre><h3 id="模块初始化"><a href="#模块初始化" class="headerlink" title="模块初始化"></a>模块初始化</h3><p>模块中的 JS 代码仅在第一次被使用时执行一次，并在执行过程中初始化模块的导出对象。</p><h3 id="主模块"><a href="#主模块" class="headerlink" title="主模块"></a>主模块</h3><pre><code>- /home/user/hello/
+</code></pre><h3 id="模块初始化"><a href="#模块初始化" class="headerlink" title="模块初始化"></a>模块初始化</h3><p>模块中的 JS 代码仅在第一次被使用时执行一次，并在执行过程中初始化模块的导出对象。</p>
+<h3 id="主模块"><a href="#主模块" class="headerlink" title="主模块"></a>主模块</h3><pre><code>- /home/user/hello/
     - util/
         counter.js
     main.js
@@ -33,7 +40,14 @@ console.log(counter3.counter());
 1
 2
 3
-</code></pre><h2 id="代码组织和部署"><a href="#代码组织和部署" class="headerlink" title="代码组织和部署"></a>代码组织和部署</h2><h3 id="模块路径解析规则"><a href="#模块路径解析规则" class="headerlink" title="模块路径解析规则"></a>模块路径解析规则</h3><p><code>require</code> 函数支持强耦合的绝对路径<code>/</code>和相对路径<code>/</code>，也支持第三种形式路径<code>foo/bar</code>，并按照以下规则解析路径，直到找到模块位置。</p><ol><li>内置模块<code>require(‘fs’)</code></li><li>node_modules 目录</li><li>NODE_PATH 环境变量</li></ol><h3 id="包-package"><a href="#包-package" class="headerlink" title="包(package)"></a>包(package)</h3><p>在组成一个包的所有子模块中，需要一个入口模块，入口模块的导出对象被作为包的导出对象。</p><pre><code>- /home/user/lib/
+</code></pre><h2 id="代码组织和部署"><a href="#代码组织和部署" class="headerlink" title="代码组织和部署"></a>代码组织和部署</h2><h3 id="模块路径解析规则"><a href="#模块路径解析规则" class="headerlink" title="模块路径解析规则"></a>模块路径解析规则</h3><p><code>require</code> 函数支持强耦合的绝对路径<code>/</code>和相对路径<code>/</code>，也支持第三种形式路径<code>foo/bar</code>，并按照以下规则解析路径，直到找到模块位置。</p>
+<ol>
+<li>内置模块<code>require(‘fs’)</code></li>
+<li>node_modules 目录</li>
+<li>NODE_PATH 环境变量</li>
+</ol>
+<h3 id="包-package"><a href="#包-package" class="headerlink" title="包(package)"></a>包(package)</h3><p>在组成一个包的所有子模块中，需要一个入口模块，入口模块的导出对象被作为包的导出对象。</p>
+<pre><code>- /home/user/lib/
     - cat/
         head.js
         body.js
@@ -49,10 +63,13 @@ exports.create = function(name){
         body: body.create()
     };
 };
-</code></pre><p><em>index.js</em><br>当模块文件名为<code>index.js</code>，加载模块时可以使用模块所在目录的路径代替模块文件路径</p><pre><code>var cat = require(‘/home/user/lib/cat’);
+</code></pre><p><em>index.js</em><br>当模块文件名为<code>index.js</code>，加载模块时可以使用模块所在目录的路径代替模块文件路径</p>
+<pre><code>var cat = require(‘/home/user/lib/cat’);
 // is equivalent to
 var cat = require(‘/home/user/lib/cat/index’)
-</code></pre><p>这样就只需把包目录路径传递给<code>require</code>函数，让包使用起来更像单个目录。</p><p><em>package.json</em></p><pre><code>- home/user/lib/
+</code></pre><p>这样就只需把包目录路径传递给<code>require</code>函数，让包使用起来更像单个目录。</p>
+<p><em>package.json</em></p>
+<pre><code>- home/user/lib/
     - cat/
         + doc/
         - lib/
@@ -66,7 +83,8 @@ var cat = require(‘/home/user/lib/cat/index’)
     “name”: “cat”,
     “main”: “./lib/main.js”
 }
-</code></pre><p>如此就同样可以用<code>require(‘/home/user/lib/cat’)</code>方式加载模块，NodeJs 根据包目录下<code>package.json</code>找到入口模块位置。</p><h3 id="工程目录"><a href="#工程目录" class="headerlink" title="工程目录"></a>工程目录</h3><pre><code>- /home/user/workspace/node-echo/    # 工程目录
+</code></pre><p>如此就同样可以用<code>require(‘/home/user/lib/cat’)</code>方式加载模块，NodeJs 根据包目录下<code>package.json</code>找到入口模块位置。</p>
+<h3 id="工程目录"><a href="#工程目录" class="headerlink" title="工程目录"></a>工程目录</h3><pre><code>- /home/user/workspace/node-echo/    # 工程目录
     - bin/    #命令行相关代码
         node-echo
     + doc/    #文档
@@ -100,7 +118,8 @@ function main(argv){
     copy(argv[0],argv[1]);
 }
 main(process.argv.slice(2));
-</code></pre><p><code>process</code>是一个全局变量，可通过<code>process.argv</code>获得命令行参数，<code>argv[0]</code>固定等于 NodeJs 执行程序的绝对路径，<code>argv[1]</code>固定等于主模块的绝对路径，因此第一个命令行参数从<code>argv[2]</code>开始。</p><h3 id="大文件拷贝"><a href="#大文件拷贝" class="headerlink" title="大文件拷贝"></a>大文件拷贝</h3><pre><code>var fs = require(‘fs’);
+</code></pre><p><code>process</code>是一个全局变量，可通过<code>process.argv</code>获得命令行参数，<code>argv[0]</code>固定等于 NodeJs 执行程序的绝对路径，<code>argv[1]</code>固定等于主模块的绝对路径，因此第一个命令行参数从<code>argv[2]</code>开始。</p>
+<h3 id="大文件拷贝"><a href="#大文件拷贝" class="headerlink" title="大文件拷贝"></a>大文件拷贝</h3><pre><code>var fs = require(‘fs’);
 function copy(src,dst){
     fs.createReadStream(src).pipe(fs.createWriteStream(dst));
 }
@@ -108,18 +127,23 @@ function main(argv){
     copy(argv[0],argv[1]);
 }
 main(process.argv.slice(2));
-</code></pre><p><code>pipe</code>方法把两个数据流连接了起来，水顺着水管从一个桶流到另一个桶。</p><h2 id="API-走马观花"><a href="#API-走马观花" class="headerlink" title="API 走马观花"></a>API 走马观花</h2><h3 id="Buffer（数据块）"><a href="#Buffer（数据块）" class="headerlink" title="Buffer（数据块）"></a>Buffer（数据块）</h3><p>NodeJs 提供一个与<code>String</code>对等的全局构造函数<code>Buffer</code>提供对二进制数据的操作。</p><pre><code>var bin = new Buffer([0x68, 0x65, 0x6c, 0x6c, 0x6f]);
+</code></pre><p><code>pipe</code>方法把两个数据流连接了起来，水顺着水管从一个桶流到另一个桶。</p>
+<h2 id="API-走马观花"><a href="#API-走马观花" class="headerlink" title="API 走马观花"></a>API 走马观花</h2><h3 id="Buffer（数据块）"><a href="#Buffer（数据块）" class="headerlink" title="Buffer（数据块）"></a>Buffer（数据块）</h3><p>NodeJs 提供一个与<code>String</code>对等的全局构造函数<code>Buffer</code>提供对二进制数据的操作。</p>
+<pre><code>var bin = new Buffer([0x68, 0x65, 0x6c, 0x6c, 0x6f]);
 bin[0];    // =&gt; 0x68;
 var str = bin.toString(‘utf-8’);    // =&gt; “hello”
 var bin = new Buffer(‘hello’,’utf-8’);    // =&gt; &lt;Buffer 68 65 6c 6c 6f&gt;
-</code></pre><p>字符串是只读的，对字符串的任何修改得到一个新字符串。<code>Buffer</code>更像是做指针操作的 C 语言数组，对<code>Buffer</code>的修改作用于原<code>Buffer</code>；如果想拷贝一份<code>Buffer</code>，首先创建一个新<code>Buffer</code>，并通过<code>.copy</code>方法复制原<code>Buffer</code>中的数据。</p><h3 id="Stream（数据流）"><a href="#Stream（数据流）" class="headerlink" title="Stream（数据流）"></a>Stream（数据流）</h3><p>以大文件拷贝为例，我们可以为数据来源创建一个数据流</p><pre><code>var rs = fs.createReadStream(pathname);
+</code></pre><p>字符串是只读的，对字符串的任何修改得到一个新字符串。<code>Buffer</code>更像是做指针操作的 C 语言数组，对<code>Buffer</code>的修改作用于原<code>Buffer</code>；如果想拷贝一份<code>Buffer</code>，首先创建一个新<code>Buffer</code>，并通过<code>.copy</code>方法复制原<code>Buffer</code>中的数据。</p>
+<h3 id="Stream（数据流）"><a href="#Stream（数据流）" class="headerlink" title="Stream（数据流）"></a>Stream（数据流）</h3><p>以大文件拷贝为例，我们可以为数据来源创建一个数据流</p>
+<pre><code>var rs = fs.createReadStream(pathname);
 rs.on(‘data’,function(chunk){
     doSomething(chunk);
 });
 rs.on(‘end’,function(){
     cleanUp();
 });
-</code></pre><p>以上<code>data</code>事件会源源不断被触发，不管<code>doSomething</code>函数是否处理得来。继续改造：</p><pre><code>var rs = fs.createReadFileStream(src);
+</code></pre><p>以上<code>data</code>事件会源源不断被触发，不管<code>doSomething</code>函数是否处理得来。继续改造：</p>
+<pre><code>var rs = fs.createReadFileStream(src);
 rs.on(‘data’,function(chunk){
     rs.pause();
     doSomething(chunk,function(){
@@ -129,7 +153,8 @@ rs.on(‘data’,function(chunk){
 rs.on(‘end’,function(){
     cleanUp();
 });
-</code></pre><p>我们也可以为数据目标创建一个数据流：</p><pre><code>var rs = fs.createReadStream(src);
+</code></pre><p>我们也可以为数据目标创建一个数据流：</p>
+<pre><code>var rs = fs.createReadStream(src);
 var ws = fs.createWriteStream(dst);
 rs.on(‘data’,function(chunk){
     if(ws.write(chunk) === false){
@@ -142,27 +167,46 @@ rs.on(‘end’,function(){
 ws.on(‘drain’,function(){
     rs.resume();
 });
-</code></pre><p>以上实现了数据从只读数据流到只写数据流的搬运，并包括防爆仓控制。</p><h3 id="File-System（文件系统）"><a href="#File-System（文件系统）" class="headerlink" title="File System（文件系统）"></a>File System（文件系统）</h3><p><code>fs</code>模块提供的 API 基本分为三类：</p><ul><li>文件属性读写：<code>fs.stat,fs.chmod,fs.chown</code></li><li>文件内容读写<code>fs.readFile,fs.readdir,fs.writeFile,fs.mkdir</code></li><li>底层文件操作<code>fs.open,fs.read,fs.write,fs.close</code></li></ul><p><strong>异步 IO 模型</strong>：这些 API 都通过回调函数传递结果</p><pre><code>fs.readFile(pathname,function(err,data){
+</code></pre><p>以上实现了数据从只读数据流到只写数据流的搬运，并包括防爆仓控制。</p>
+<h3 id="File-System（文件系统）"><a href="#File-System（文件系统）" class="headerlink" title="File System（文件系统）"></a>File System（文件系统）</h3><p><code>fs</code>模块提供的 API 基本分为三类：</p>
+<ul>
+<li>文件属性读写：<code>fs.stat,fs.chmod,fs.chown</code></li>
+<li>文件内容读写<code>fs.readFile,fs.readdir,fs.writeFile,fs.mkdir</code></li>
+<li>底层文件操作<code>fs.open,fs.read,fs.write,fs.close</code></li>
+</ul>
+<p><strong>异步 IO 模型</strong>：这些 API 都通过回调函数传递结果</p>
+<pre><code>fs.readFile(pathname,function(err,data){
     if(err){
         //Deal with the error.
     } else {
         //Deal with data.
     }
 });
-</code></pre><p>此外，<code>fs</code>模块的异步 API 都有对应的同步版本，同于无法使用异步操作或同步更方便时的情况。</p><pre><code>try{
+</code></pre><p>此外，<code>fs</code>模块的异步 API 都有对应的同步版本，同于无法使用异步操作或同步更方便时的情况。</p>
+<pre><code>try{
     var data = fs.readFileSync(pathname);
     //Deal with data.
 } catch(err){
     //Deal with error.
 }
-</code></pre><h3 id="Path-路径"><a href="#Path-路径" class="headerlink" title="Path(路径)"></a>Path(路径)</h3><ul><li>path.normalize</li><li>path.join</li><li>path.extname</li></ul><h2 id="遍历目录"><a href="#遍历目录" class="headerlink" title="遍历目录"></a>遍历目录</h2><h3 id="递归算法"><a href="#递归算法" class="headerlink" title="递归算法"></a>递归算法</h3><p>遍历目录时一般使用递归算法，否则就难以编写出简洁的代码。递归算法与数学归纳法类似，通过不断缩小问题的规模来解决问题。</p><pre><code>function factorial(n){
+</code></pre><h3 id="Path-路径"><a href="#Path-路径" class="headerlink" title="Path(路径)"></a>Path(路径)</h3><ul>
+<li>path.normalize</li>
+<li>path.join</li>
+<li>path.extname</li>
+</ul>
+<h2 id="遍历目录"><a href="#遍历目录" class="headerlink" title="遍历目录"></a>遍历目录</h2><h3 id="递归算法"><a href="#递归算法" class="headerlink" title="递归算法"></a>递归算法</h3><p>遍历目录时一般使用递归算法，否则就难以编写出简洁的代码。递归算法与数学归纳法类似，通过不断缩小问题的规模来解决问题。</p>
+<pre><code>function factorial(n){
     if(n===1){
         return 1;
     } else {
         return n*factorial(n-1);
     }
 }
-</code></pre><blockquote><p>使用递归算法编写的代码虽然简洁，但由于每递归一次就产生一次函数调用，在需要优先考虑性能时，需要把递归算法转换为循环算法，以减少函数调用次数。</p></blockquote><h3 id="遍历算法"><a href="#遍历算法" class="headerlink" title="遍历算法"></a>遍历算法</h3><p>目录是一个树状结构，在遍历时一般使用深度优先+先序遍历算法。深度优先，意味着到达一个节点后，首先接着遍历子节点而不是邻居节点。先序遍历，意味着首次到达了某节点就算遍历完成，而不是最后一次返回某节点才算数。因此使用这种遍历方式时，下边这棵树的遍历顺序是 <code>A&gt;B&gt;D&gt;E&gt;C&gt;F</code></p><pre><code>          A
+</code></pre><blockquote>
+<p>使用递归算法编写的代码虽然简洁，但由于每递归一次就产生一次函数调用，在需要优先考虑性能时，需要把递归算法转换为循环算法，以减少函数调用次数。</p>
+</blockquote>
+<h3 id="遍历算法"><a href="#遍历算法" class="headerlink" title="遍历算法"></a>遍历算法</h3><p>目录是一个树状结构，在遍历时一般使用深度优先+先序遍历算法。深度优先，意味着到达一个节点后，首先接着遍历子节点而不是邻居节点。先序遍历，意味着首次到达了某节点就算遍历完成，而不是最后一次返回某节点才算数。因此使用这种遍历方式时，下边这棵树的遍历顺序是 <code>A&gt;B&gt;D&gt;E&gt;C&gt;F</code></p>
+<pre><code>          A
          / \
         B   C
        / \   \
@@ -177,13 +221,15 @@ ws.on(‘drain’,function(){
         }
     });
 }
-</code></pre><p>该函数以某个目录作为遍历起点，遇到一个子目录时，就先接着遍历子目录。遇到一个文件时，就把文件的绝对路径传给回调函数。回调函数拿到文件路径后，就可以做各种判断和处理。</p><pre><code>- /home/user/
+</code></pre><p>该函数以某个目录作为遍历起点，遇到一个子目录时，就先接着遍历子目录。遇到一个文件时，就把文件的绝对路径传给回调函数。回调函数拿到文件路径后，就可以做各种判断和处理。</p>
+<pre><code>- /home/user/
     - foo/
         x.js
     - bar/
         y.js
     z.css
-</code></pre><p>使用一下代码遍历该目录时，得到输出如下：</p><pre><code>travel(‘/home/user’,function(pathname){
+</code></pre><p>使用一下代码遍历该目录时，得到输出如下：</p>
+<pre><code>travel(‘/home/user’,function(pathname){
     console.log(pathname);
 });
 
@@ -191,7 +237,8 @@ ws.on(‘drain’,function(){
 /home/user/foo/x.js
 /home/user/bar/y.js
 /home/user/z.css
-</code></pre><h3 id="异步遍历"><a href="#异步遍历" class="headerlink" title="异步遍历"></a>异步遍历</h3><p><code>travel</code>函数的异步版本如下：</p><pre><code>function travel(dir,callback,finish){
+</code></pre><h3 id="异步遍历"><a href="#异步遍历" class="headerlink" title="异步遍历"></a>异步遍历</h3><p><code>travel</code>函数的异步版本如下：</p>
+<pre><code>function travel(dir,callback,finish){
     fs.readdir(dir,function(err,files){
         (function next(i){
             if(i&lt;files.length){
@@ -213,19 +260,23 @@ ws.on(‘drain’,function(){
         }(0));
     });
 }
-</code></pre><h2 id="文本编码"><a href="#文本编码" class="headerlink" title="文本编码"></a>文本编码</h2><p>在读取不同编码的文本文件时，需要将文件内容转换为 JS 使用的<code>UTF8</code>编码字符串后才能正常处理</p><h3 id="BOM的移除"><a href="#BOM的移除" class="headerlink" title="BOM的移除"></a><em>BOM</em>的移除</h3><p>BOM 用于标记一个文本文件使用 Unicode 编码，其本身是一个 Unicode 字符(“\uFEFF”) ，位于文本文件头部。<br>使用 NodeJS 读取文本文件时，一般需要去掉 BOM:</p><pre><code>function readText(pathname){
+</code></pre><h2 id="文本编码"><a href="#文本编码" class="headerlink" title="文本编码"></a>文本编码</h2><p>在读取不同编码的文本文件时，需要将文件内容转换为 JS 使用的<code>UTF8</code>编码字符串后才能正常处理</p>
+<h3 id="BOM的移除"><a href="#BOM的移除" class="headerlink" title="BOM的移除"></a><em>BOM</em>的移除</h3><p>BOM 用于标记一个文本文件使用 Unicode 编码，其本身是一个 Unicode 字符(“\uFEFF”) ，位于文本文件头部。<br>使用 NodeJS 读取文本文件时，一般需要去掉 BOM:</p>
+<pre><code>function readText(pathname){
     var bin = fs.readFileSync(pathname);
     if(bin[0] === 0xEF &amp;&amp; bin[1] === 0xBB &amp;&amp; bin[2] === 0xBF){
         bin = bin.slice(3);
     }
     return bin.toString(‘utf-8’);
 }
-</code></pre><h3 id="GBK-转-UTF8"><a href="#GBK-转-UTF8" class="headerlink" title="GBK 转 UTF8"></a>GBK 转 UTF8</h3><p>一般借助<code>iconv-lite</code>这个三方包来转换编码。</p><pre><code>var iconv = require(‘iconv-lite’);
+</code></pre><h3 id="GBK-转-UTF8"><a href="#GBK-转-UTF8" class="headerlink" title="GBK 转 UTF8"></a>GBK 转 UTF8</h3><p>一般借助<code>iconv-lite</code>这个三方包来转换编码。</p>
+<pre><code>var iconv = require(‘iconv-lite’);
 function readGBKText(pathname){
     var bin = fs.readFileSync(pathname);
     return iconv.decode(bin,’gbk’);
 }
-</code></pre><h3 id="单字节编码"><a href="#单字节编码" class="headerlink" title="单字节编码"></a>单字节编码</h3><p>即使文本文件中有中文等字符，如果我们需要处理的字符仅在 ASCII0~128 范围，比如除了注释和字符串以外的 JS 代码，我们就可以统一使用单字节编码来读取文件，不用关心文件的实际编码是 GBK 还是 UTF8</p><pre><code>1. GBK编码源内容：
+</code></pre><h3 id="单字节编码"><a href="#单字节编码" class="headerlink" title="单字节编码"></a>单字节编码</h3><p>即使文本文件中有中文等字符，如果我们需要处理的字符仅在 ASCII0~128 范围，比如除了注释和字符串以外的 JS 代码，我们就可以统一使用单字节编码来读取文件，不用关心文件的实际编码是 GBK 还是 UTF8</p>
+<pre><code>1. GBK编码源内容：
     var foo = ‘中文‘；
 2. 对应字节：
     76 61 72 20 66 6F 6F 20 3D 20 3D 20 27 D6 D0 CE C4 27 3B
@@ -237,12 +288,20 @@ function readGBKText(pathname){
     76 61 72 20 62 61 72 20 3D 20 27 D6 D0 CE C4 27 3B
 6. 使用GBK编码读取后得到内容：
     var bar = &#39;中文&#39;;
-</code></pre><p>诀窍在于，不管大于 0xEF 的单个字节在单字节编码下被解析成什么乱码字符，使用同样的单字节编码保存这些乱码字符时，背后对应的字节保持不变。</p><h1 id="网络操作"><a href="#网络操作" class="headerlink" title="网络操作"></a>网络操作</h1><h2 id="http-模块"><a href="#http-模块" class="headerlink" title="http 模块"></a><code>http</code> 模块</h2><p>使用 NodeJs 内置的<code>http</code>模块简单实现 HTTP 服务器</p><pre><code>var http = require(‘http’);
+</code></pre><p>诀窍在于，不管大于 0xEF 的单个字节在单字节编码下被解析成什么乱码字符，使用同样的单字节编码保存这些乱码字符时，背后对应的字节保持不变。</p>
+<h1 id="网络操作"><a href="#网络操作" class="headerlink" title="网络操作"></a>网络操作</h1><h2 id="http-模块"><a href="#http-模块" class="headerlink" title="http 模块"></a><code>http</code> 模块</h2><p>使用 NodeJs 内置的<code>http</code>模块简单实现 HTTP 服务器</p>
+<pre><code>var http = require(‘http’);
 http.createServer(function(request,response){
     response.writeHead(2000,{‘Content-Type’:’text-plain’});
     response.end(‘Hello World\n’);
 }).listen(8124);
-</code></pre><p>以上程序创建了一个 HTTP 服务器并监听<code>8124</code>端口，打开浏览器访问该端口<code>http://127.0.0.1:8124/</code>就能够看到效果。</p><h2 id="API"><a href="#API" class="headerlink" title="API"></a>API</h2><h3 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h3><p><code>http</code>模块提供两种使用方式：</p><ul><li>作为服务端使用时，创建一个 HTTP 服务器，监听 HTTP 客户端请求并返回响应</li><li>作为客户端使用时，发起一个 HTTP 客户端请求，获取服务端响应.<br>服务端模式下，首先使用<code>.createServer</code>方法创建一个服务器，然后调用<code>.listen</code>方法监听端口。之后，每一次的客户端请求，创建服务器传入的回调函数就被调用一次。<br>HTTP 请求本质上是数据流，由请求头（header）和请求体（body）组成。</li></ul><pre><code>POST / HTTP/1.1
+</code></pre><p>以上程序创建了一个 HTTP 服务器并监听<code>8124</code>端口，打开浏览器访问该端口<code>http://127.0.0.1:8124/</code>就能够看到效果。</p>
+<h2 id="API"><a href="#API" class="headerlink" title="API"></a>API</h2><h3 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h3><p><code>http</code>模块提供两种使用方式：</p>
+<ul>
+<li>作为服务端使用时，创建一个 HTTP 服务器，监听 HTTP 客户端请求并返回响应</li>
+<li>作为客户端使用时，发起一个 HTTP 客户端请求，获取服务端响应.<br>服务端模式下，首先使用<code>.createServer</code>方法创建一个服务器，然后调用<code>.listen</code>方法监听端口。之后，每一次的客户端请求，创建服务器传入的回调函数就被调用一次。<br>HTTP 请求本质上是数据流，由请求头（header）和请求体（body）组成。</li>
+</ul>
+<pre><code>POST / HTTP/1.1
 User-Agent: curl/7.26.0
 Host: localhost
 Accept: */*
@@ -250,7 +309,8 @@ Content-Length: 11
 Content-Type: application/x-www-form-urlencoded
 
 Hello World
-</code></pre><p>在回调函数中，除了可以使用<code>request</code>对象访问请求头数据外，还能把<code>request</code>对象当作一个数据流来访问请求体数据。</p><pre><code>http.createServer(function(request,response){
+</code></pre><p>在回调函数中，除了可以使用<code>request</code>对象访问请求头数据外，还能把<code>request</code>对象当作一个数据流来访问请求体数据。</p>
+<pre><code>http.createServer(function(request,response){
     var body = [];
     console.log(request.method);
     console.log(request.headers);
@@ -272,14 +332,16 @@ POST
     ‘content-length’:’11’,
     ‘content-type’:’application/x-www-form-urlencoded’}
 Hello World
-</code></pre><p>HTTP 响应本质上也是数据流，同样由响应头（headers）和响应体（body）组成。例如这是一个完整的 HTTP 请求数据内容：</p><pre><code>HTTP/1.1 200 OK
+</code></pre><p>HTTP 响应本质上也是数据流，同样由响应头（headers）和响应体（body）组成。例如这是一个完整的 HTTP 请求数据内容：</p>
+<pre><code>HTTP/1.1 200 OK
 Content-Type: text/plain
 Content-Length: 11
 Data: Tue, 05 Nov 2013 05:31:38 GMT
 Connection: keep-alive
 
 Hello World
-</code></pre><p>在回调函数中，除了可以使用<code>respond</code>对象来写入响应头数据外，还能把<code>response</code>对象当作一个数据流来写入响应体数据。例如在以下例子中，服务端原样将客户端请求的请求体数据返回给客户端：</p><pre><code>http.createServer(function(request,response){
+</code></pre><p>在回调函数中，除了可以使用<code>respond</code>对象来写入响应头数据外，还能把<code>response</code>对象当作一个数据流来写入响应体数据。例如在以下例子中，服务端原样将客户端请求的请求体数据返回给客户端：</p>
+<pre><code>http.createServer(function(request,response){
     response.writeHead(200,{‘Content-Type’:’text/plain’});
     request.on(‘data’,function(chunk){
         response.write(chunk);
@@ -288,7 +350,8 @@ Hello World
         response.end();
     });
 }).listen(80);
-</code></pre><p>客户端模式下，为了发起一个客户端 HTTP 请求，需要指定目标服务器的位置并发送请求头和请求体</p><pre><code>var options = {
+</code></pre><p>客户端模式下，为了发起一个客户端 HTTP 请求，需要指定目标服务器的位置并发送请求头和请求体</p>
+<pre><code>var options = {
     hostname: ‘www.example.com’,
     port: 80,
     path: ‘/upload’,
@@ -302,7 +365,8 @@ var request = http.request(options,function(response){});
 
 request.write(‘Hello World’);
 request.end();
-</code></pre><p><code>.request</code>方法创建了一个客户端，并制定请求目标和请求头数据。之后，就可以把<code>request</code>对象当作一个数据流来写入请求体数据和结束请求。另外，由于 HTTP 请求中<code>GET</code>请求是最常见的一种，且不需要请求体，因此<code>http</code>模块也提供了便捷 API：<br><code>http.get(‘http://www.example.com/‘,function(response){});</code><br>当客户端发送请求并接收到完整的服务端响应头时，就会调用回调函数。在回调函数中，还能把<code>response</code>对象当作一个只读数据流来访问响应体数据</p><pre><code>http.get(‘http://www.example.com/‘,function(response){
+</code></pre><p><code>.request</code>方法创建了一个客户端，并制定请求目标和请求头数据。之后，就可以把<code>request</code>对象当作一个数据流来写入请求体数据和结束请求。另外，由于 HTTP 请求中<code>GET</code>请求是最常见的一种，且不需要请求体，因此<code>http</code>模块也提供了便捷 API：<br><code>http.get(‘http://www.example.com/‘,function(response){});</code><br>当客户端发送请求并接收到完整的服务端响应头时，就会调用回调函数。在回调函数中，还能把<code>response</code>对象当作一个只读数据流来访问响应体数据</p>
+<pre><code>http.get(‘http://www.example.com/‘,function(response){
     var body = [];
     console.log(response.statusCode);
     console.log(response.headers);
@@ -324,7 +388,8 @@ request.end();
     connection: ‘keep-alive’}
 &lt;!DOCTYPE html&gt;
 ...
-</code></pre><h3 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h3><p><code>https</code>模块需要额外处理 SSL 证书。<br>在服务端模式下，创建一个 HTTP 服务器：</p><pre><code>var options = {
+</code></pre><h3 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h3><p><code>https</code>模块需要额外处理 SSL 证书。<br>在服务端模式下，创建一个 HTTP 服务器：</p>
+<pre><code>var options = {
     key: fs.readFileSync(‘./ssl/default.key’),
     cert: fs.readFileSync(‘./ssl/default.cer’)
 };
@@ -337,7 +402,8 @@ http: // user:pass @ host.com : 8080 /p/a/t/h ?query=string #hash
 protocol     auth     hostname   port pathname     search     hash
                                                 ------------
                                                    query
-</code></pre><p>我们可以使用<code>.parse</code>方法来将一个 URL 字符串转换为 URL 对象：</p><pre><code>url.parse(&#39;http://user:pass@host.com:8080/p/a/t/h?query=string#hash&#39;);
+</code></pre><p>我们可以使用<code>.parse</code>方法来将一个 URL 字符串转换为 URL 对象：</p>
+<pre><code>url.parse(&#39;http://user:pass@host.com:8080/p/a/t/h?query=string#hash&#39;);
 /* =&gt;
 { protocol: &#39;http:&#39;,
   auth: &#39;user:pass&#39;,
@@ -351,7 +417,8 @@ protocol     auth     hostname   port pathname     search     hash
   path: &#39;/p/a/t/h?query=string&#39;,
   href: &#39;http://user:pass@host.com:8080/p/a/t/h?query=string#hash&#39; }
 */
-</code></pre><p>传给<code>.parse</code>方法的不一定要是一个完整的 URL，例如在 HTTP 服务器回调函数中，<code>request.url</code>不包含协议头和域名，但同样可以解析：</p><pre><code>http.createServer(function (request, response) {
+</code></pre><p>传给<code>.parse</code>方法的不一定要是一个完整的 URL，例如在 HTTP 服务器回调函数中，<code>request.url</code>不包含协议头和域名，但同样可以解析：</p>
+<pre><code>http.createServer(function (request, response) {
     var tmp = request.url; // =&gt; &quot;/foo/bar?a=b&quot;
     url.parse(tmp);
     /* =&gt;
@@ -369,7 +436,8 @@ protocol     auth     hostname   port pathname     search     hash
       href: &#39;/foo/bar?a=b&#39; }
     */
 }).listen(80);
-</code></pre><p>反过来，<code>format</code>方法允许将一个 URL 对象转换为 URL 字符串</p><pre><code>url.format({
+</code></pre><p>反过来，<code>format</code>方法允许将一个 URL 对象转换为 URL 字符串</p>
+<pre><code>url.format({
     protocol: &#39;http:&#39;,
     host: &#39;www.example.com&#39;,
     pathname: &#39;/p/a/t/h&#39;,
@@ -378,11 +446,13 @@ protocol     auth     hostname   port pathname     search     hash
 /* =&gt;
 &#39;http://www.example.com/p/a/t/h?query=string&#39;
 */
-</code></pre><p><code>.resolve</code>方法可以用于拼接 URL：</p><pre><code>url.resolve(&#39;http://www.example.com/foo/bar&#39;, &#39;../baz&#39;);
+</code></pre><p><code>.resolve</code>方法可以用于拼接 URL：</p>
+<pre><code>url.resolve(&#39;http://www.example.com/foo/bar&#39;, &#39;../baz&#39;);
 /* =&gt;
 http://www.example.com/baz
 */
-</code></pre><h3 id="Query-String"><a href="#Query-String" class="headerlink" title="Query String"></a>Query String</h3><p><code>querystring</code>模块用于实现 URL 参数字符串与参数对象的互相转换</p><pre><code>querystring.parse(&#39;foo=bar&amp;baz=qux&amp;baz=quux&amp;corge&#39;);
+</code></pre><h3 id="Query-String"><a href="#Query-String" class="headerlink" title="Query String"></a>Query String</h3><p><code>querystring</code>模块用于实现 URL 参数字符串与参数对象的互相转换</p>
+<pre><code>querystring.parse(&#39;foo=bar&amp;baz=qux&amp;baz=quux&amp;corge&#39;);
 /* =&gt;
 { foo: &#39;bar&#39;, baz: [&#39;qux&#39;, &#39;quux&#39;], corge: &#39;&#39; }
 */
@@ -391,7 +461,9 @@ querystring.stringify({ foo: &#39;bar&#39;, baz: [&#39;qux&#39;, &#39;quux&#39;]
 /* =&gt;
 &#39;foo=bar&amp;baz=qux&amp;baz=quux&amp;corge=&#39;
 */
-</code></pre><h3 id="Zlib"><a href="#Zlib" class="headerlink" title="Zlib"></a>Zlib</h3><p><code>zlib</code>模块提供了数据压缩和解压的功能。</p><p>这个例子判断客户端是否支持 gzip，支持则使用<code>zlib</code>返回 gzip 后的响应体数据</p><pre><code>http.createServer(function (request, response) {
+</code></pre><h3 id="Zlib"><a href="#Zlib" class="headerlink" title="Zlib"></a>Zlib</h3><p><code>zlib</code>模块提供了数据压缩和解压的功能。</p>
+<p>这个例子判断客户端是否支持 gzip，支持则使用<code>zlib</code>返回 gzip 后的响应体数据</p>
+<pre><code>http.createServer(function (request, response) {
     var i = 1024,
         data = &#39;&#39;;
 
@@ -414,7 +486,8 @@ querystring.stringify({ foo: &#39;bar&#39;, baz: [&#39;qux&#39;, &#39;quux&#39;]
         response.end(data);
     }
 }).listen(80);
-</code></pre><p>解压响应体数据</p><pre><code>var options = {
+</code></pre><p>解压响应体数据</p>
+<pre><code>var options = {
         hostname: &#39;www.example.com&#39;,
         port: 80,
         path: &#39;/&#39;,
@@ -443,7 +516,8 @@ http.request(options, function (response) {
         }
     });
 }).end();
-</code></pre><h1 id="进程管理"><a href="#进程管理" class="headerlink" title="进程管理"></a>进程管理</h1><p>使用 NodeJS 调用终端命令来简化目录拷贝：</p><pre><code>var child_process = require(‘child_process’);
+</code></pre><h1 id="进程管理"><a href="#进程管理" class="headerlink" title="进程管理"></a>进程管理</h1><p>使用 NodeJS 调用终端命令来简化目录拷贝：</p>
+<pre><code>var child_process = require(‘child_process’);
 var util = require(‘util’);
 
 function copy(source,target,callback){
@@ -454,7 +528,11 @@ function copy(source,target,callback){
 copy(‘a’,’b’,function(err){
     //...
 });
-</code></pre><p>子进程异步运行，通过回调函数返回执行结果。</p><h2 id="API-1"><a href="#API-1" class="headerlink" title="API"></a>API</h2><h3 id="Process"><a href="#Process" class="headerlink" title="Process"></a>Process</h3><p>在 NodeJS 中，可以通过<code>process</code>全局对象感知和控制 NodeJS 自身进程的方方面面。</p><h3 id="Child-Process"><a href="#Child-Process" class="headerlink" title="Child Process"></a>Child Process</h3><p>使用该模块可以创建和控制子进程</p><h3 id="Cluster"><a href="#Cluster" class="headerlink" title="Cluster"></a>Cluster</h3><p><code>cluster</code>模块是对<code>child_process</code>模块的进一步封装，专用解决单进程 NodeJS Web 服务器无法充分利用多核 CPU 的问题</p><h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><h3 id="如何获取命令行参数"><a href="#如何获取命令行参数" class="headerlink" title="如何获取命令行参数"></a>如何获取命令行参数</h3><pre><code>function main(argv){
+</code></pre><p>子进程异步运行，通过回调函数返回执行结果。</p>
+<h2 id="API-1"><a href="#API-1" class="headerlink" title="API"></a>API</h2><h3 id="Process"><a href="#Process" class="headerlink" title="Process"></a>Process</h3><p>在 NodeJS 中，可以通过<code>process</code>全局对象感知和控制 NodeJS 自身进程的方方面面。</p>
+<h3 id="Child-Process"><a href="#Child-Process" class="headerlink" title="Child Process"></a>Child Process</h3><p>使用该模块可以创建和控制子进程</p>
+<h3 id="Cluster"><a href="#Cluster" class="headerlink" title="Cluster"></a>Cluster</h3><p><code>cluster</code>模块是对<code>child_process</code>模块的进一步封装，专用解决单进程 NodeJS Web 服务器无法充分利用多核 CPU 的问题</p>
+<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><h3 id="如何获取命令行参数"><a href="#如何获取命令行参数" class="headerlink" title="如何获取命令行参数"></a>如何获取命令行参数</h3><pre><code>function main(argv){
     //...
 }
 main(process.argv.slice(2));
@@ -464,11 +542,13 @@ main(process.argv.slice(2));
     //...
     process.exit(1);
 }
-</code></pre><h3 id="如何控制输入输出"><a href="#如何控制输入输出" class="headerlink" title="如何控制输入输出"></a>如何控制输入输出</h3><p>NodeJS 程序的标准输入流(stdin)、一个标准输出流(stout)、一个标准错误流(stderr)分别对应<code>process.stdin</code>、<code>process.stdout</code>、<code>process.stderr</code>. 对它们的操作按照对数据流的操作方式即可。<code>console.log</code>可以按以下方式实现：</p><pre><code>function log(){
+</code></pre><h3 id="如何控制输入输出"><a href="#如何控制输入输出" class="headerlink" title="如何控制输入输出"></a>如何控制输入输出</h3><p>NodeJS 程序的标准输入流(stdin)、一个标准输出流(stout)、一个标准错误流(stderr)分别对应<code>process.stdin</code>、<code>process.stdout</code>、<code>process.stderr</code>. 对它们的操作按照对数据流的操作方式即可。<code>console.log</code>可以按以下方式实现：</p>
+<pre><code>function log(){
     process.stdout.write(
         util.format.apply(util,arguments)+’\n’);
 }
-</code></pre><h3 id="如何降权"><a href="#如何降权" class="headerlink" title="如何降权"></a>如何降权</h3><p>在 Linux 下，需要 root 权限才能监听 1024 以下端口，一旦端口监听完成，继续让程序运行在 root 权限下存在安全隐患，需要降权：</p><pre><code>http.createServer(callback).listen(80,function(){
+</code></pre><h3 id="如何降权"><a href="#如何降权" class="headerlink" title="如何降权"></a>如何降权</h3><p>在 Linux 下，需要 root 权限才能监听 1024 以下端口，一旦端口监听完成，继续让程序运行在 root 权限下存在安全隐患，需要降权：</p>
+<pre><code>http.createServer(callback).listen(80,function(){
     var never = process.env,
         uid = parseInt(env[‘SUDO_UID’] || process.getuid(),10),
         gid = parseInt(env[env[‘SUDO_GID’]] || process.getgid(), 10);
@@ -489,7 +569,8 @@ child.stderr.on(‘data’,function(data){
 child.on(‘close’,function(code){
     console.log(‘child process exited with code ‘ + code);
 });
-</code></pre><p><code>.spawn(exec,args,options)</code>方法支持三个参数：第一个执行文件路径，第二个参数数组中的每个成员都按顺序对应一个命令行参数，第三个参数可选用于配置子进程的执行环境与行为。</p><h3 id="进程间如何通讯"><a href="#进程间如何通讯" class="headerlink" title="进程间如何通讯"></a>进程间如何通讯</h3><pre><code>/* parent.js*/
+</code></pre><p><code>.spawn(exec,args,options)</code>方法支持三个参数：第一个执行文件路径，第二个参数数组中的每个成员都按顺序对应一个命令行参数，第三个参数可选用于配置子进程的执行环境与行为。</p>
+<h3 id="进程间如何通讯"><a href="#进程间如何通讯" class="headerlink" title="进程间如何通讯"></a>进程间如何通讯</h3><pre><code>/* parent.js*/
 var child = child_process.spawn(‘node’,[‘child.js’])
 
 child.kill(‘SIGTERM’);
@@ -499,7 +580,9 @@ process.on(‘SIGTERM’,function(){
     cleanUp();
     process.exit(0);
 });
-</code></pre><p>父进程通过<code>.kill</code>方法向子进程发送<code>SIGTERM</code>信号，子进程监听<code>process</code>对象的<code>SIGTERM</code>事件响应信号。</p><p>如果父子进程都是 NodeJS 进程，就可以通过 IPC（进程间通讯）双向传递数据。</p><pre><code>/*parent.js*/
+</code></pre><p>父进程通过<code>.kill</code>方法向子进程发送<code>SIGTERM</code>信号，子进程监听<code>process</code>对象的<code>SIGTERM</code>事件响应信号。</p>
+<p>如果父子进程都是 NodeJS 进程，就可以通过 IPC（进程间通讯）双向传递数据。</p>
+<pre><code>/*parent.js*/
 var child = child_process.spawn(‘node’,[‘child.js’],{
     stdio:[0,1,2,’ipc’]
 });
@@ -515,7 +598,9 @@ process.on(‘message’,function(msg){
     msg.hello = msg.hello.toUpperCase();
     process.end(msg);
 });
-</code></pre><p>父进程在创建子进程时，在<code>options.stdio</code>字段中通过<code>ipc</code>开启了一条 IPC 通道，之后就可以监听子进程对象的<code>message</code>事件接收来自子进程的消息，并通过<code>.send</code>方法给子进程发送消息。在子进程这边，可以在<code>process</code>对象上监听<code>message</code>事件接收来自父进程的消息，并通过<code>.send</code>方法向父进程发送消息。</p><h3 id="如何守护子进程"><a href="#如何守护子进程" class="headerlink" title="如何守护子进程"></a>如何守护子进程</h3><p>守护进程一般用于监控工作进程的运行状态，在工作进程不正常退出时重启工作进程，保障其不间断运行，👇 一种实现方式：</p><pre><code>/* daemon.js*/
+</code></pre><p>父进程在创建子进程时，在<code>options.stdio</code>字段中通过<code>ipc</code>开启了一条 IPC 通道，之后就可以监听子进程对象的<code>message</code>事件接收来自子进程的消息，并通过<code>.send</code>方法给子进程发送消息。在子进程这边，可以在<code>process</code>对象上监听<code>message</code>事件接收来自父进程的消息，并通过<code>.send</code>方法向父进程发送消息。</p>
+<h3 id="如何守护子进程"><a href="#如何守护子进程" class="headerlink" title="如何守护子进程"></a>如何守护子进程</h3><p>守护进程一般用于监控工作进程的运行状态，在工作进程不正常退出时重启工作进程，保障其不间断运行，👇 一种实现方式：</p>
+<pre><code>/* daemon.js*/
 function spawn(mainModule){
     var worker = child_process.spawn(‘node’,[mainModule]);
     worker.on(‘exit’,function(code){
@@ -534,21 +619,26 @@ console.log(‘Hello’);
 // outputs
 hello
 world
-</code></pre><p>Js 本身单线程无法异步执行，因此我们可以认为<code>setTimeout</code>这类由运行环境提供的特殊函数创建了一个平行线程后立即返回，让 JS 主进程可以接着执行后续代码，并在收到平行进程的通知后再执行回调函数。这类函数还包括 NodeJS 提供的<code>fs.readFile</code>之类异步 API</p><h2 id="代码设计模式"><a href="#代码设计模式" class="headerlink" title="代码设计模式"></a>代码设计模式</h2><h3 id="函数返回值"><a href="#函数返回值" class="headerlink" title="函数返回值"></a>函数返回值</h3><p>使用一个函数输出作为另一个函数的输入是常见需求<br><strong>同步方式</strong></p><pre><code>var output = fn1(fn2(‘input’));
+</code></pre><p>Js 本身单线程无法异步执行，因此我们可以认为<code>setTimeout</code>这类由运行环境提供的特殊函数创建了一个平行线程后立即返回，让 JS 主进程可以接着执行后续代码，并在收到平行进程的通知后再执行回调函数。这类函数还包括 NodeJS 提供的<code>fs.readFile</code>之类异步 API</p>
+<h2 id="代码设计模式"><a href="#代码设计模式" class="headerlink" title="代码设计模式"></a>代码设计模式</h2><h3 id="函数返回值"><a href="#函数返回值" class="headerlink" title="函数返回值"></a>函数返回值</h3><p>使用一个函数输出作为另一个函数的输入是常见需求<br><strong>同步方式</strong></p>
+<pre><code>var output = fn1(fn2(‘input’));
 // Do Something.
-</code></pre><p>异步方式，函数执行结果不是通过返回值，而是通过回调函数传递。</p><pre><code>fn2(‘input’,function(output2){
+</code></pre><p>异步方式，函数执行结果不是通过返回值，而是通过回调函数传递。</p>
+<pre><code>fn2(‘input’,function(output2){
     fn1(output2,function(output1){
         // Do Something.
     });
 });
-</code></pre><h3 id="遍历数组"><a href="#遍历数组" class="headerlink" title="遍历数组"></a>遍历数组</h3><p><strong>同步执行</strong></p><pre><code>var len = arr.length,
+</code></pre><h3 id="遍历数组"><a href="#遍历数组" class="headerlink" title="遍历数组"></a>遍历数组</h3><p><strong>同步执行</strong></p>
+<pre><code>var len = arr.length,
     i = 0;
 for(; i&lt;len; ++i){
     arr[i] = sync(arr[i]);
 }
 
 // All array items have processed.
-</code></pre><p>如果函数都是异步执行，以上代码就无法保证循环结束后所有数组成员都处理完毕。如果数组成员必须一个接一个串行处理，则一般这样编写：</p><pre><code>(function next(i,len,callback){
+</code></pre><p>如果函数都是异步执行，以上代码就无法保证循环结束后所有数组成员都处理完毕。如果数组成员必须一个接一个串行处理，则一般这样编写：</p>
+<pre><code>(function next(i,len,callback){
     if(i&lt;len){
         async(arr[i],function(value){
             arr[i] = value;
@@ -560,7 +650,9 @@ for(; i&lt;len; ++i){
 }(0,arr.length,function(){
     // All array items have processed.
 }));
-</code></pre><p>以上代码在异步函数执行一次并返回执行结果后才传入下一个数组成员并开始下一轮执行，直到所有数组成员处理完毕后，通过回调的方式后续代码执行。</p><p>如果数组成员可以并行处理，但后续代码仍然需要所有数组成员处理完毕后才能执行，则异步代码会调整成以下形式：</p><pre><code>(function (i, len, count, callback){
+</code></pre><p>以上代码在异步函数执行一次并返回执行结果后才传入下一个数组成员并开始下一轮执行，直到所有数组成员处理完毕后，通过回调的方式后续代码执行。</p>
+<p>如果数组成员可以并行处理，但后续代码仍然需要所有数组成员处理完毕后才能执行，则异步代码会调整成以下形式：</p>
+<pre><code>(function (i, len, count, callback){
     for(; i&lt;len; ++i){
         (function(i){
             async(arr[i],function(value){
@@ -574,7 +666,9 @@ for(; i&lt;len; ++i){
 }(0,arr.length,0,function(){
     // All array items have processed.
 }));
-</code></pre><p>与异步串行遍历相比，以上代码并行处理所有数组成员，并通过计数器变量来判断是否全部处理完毕</p><h3 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h3><p>JS 自身的异常处理机制<code>try...catch...</code>只能用于同步执行代码</p><pre><code>function sync(fn){
+</code></pre><p>与异步串行遍历相比，以上代码并行处理所有数组成员，并通过计数器变量来判断是否全部处理完毕</p>
+<h3 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h3><p>JS 自身的异常处理机制<code>try...catch...</code>只能用于同步执行代码</p>
+<pre><code>function sync(fn){
     return fn();
 }
 
@@ -587,7 +681,8 @@ try{
 
 // outputs
 Error: object is not a function
-</code></pre><p>异常沿着代码执行路径一直冒泡，直到遇到第一个<code>try</code>语句被捕获。<br>由于异步函数会打断代码执行路径，异步函数执行过程中以及执行之后产生的异常冒泡到执行路径被打断的位置时，如果一直没有遇到<code>try</code>语句，就作为全局异常抛出：</p><pre><code>function async(fn,callback){
+</code></pre><p>异常沿着代码执行路径一直冒泡，直到遇到第一个<code>try</code>语句被捕获。<br>由于异步函数会打断代码执行路径，异步函数执行过程中以及执行之后产生的异常冒泡到执行路径被打断的位置时，如果一直没有遇到<code>try</code>语句，就作为全局异常抛出：</p>
+<pre><code>function async(fn,callback){
     // Code execution path breaks here.
     setTimeout(function(){
         callback(fn());
@@ -606,7 +701,8 @@ try{
 ...
 TypeError: object is not a function
 ...
-</code></pre><p>因为代码执行路径被打断，我们就需要在异常冒泡到断点之前用<code>try</code>语句捕获异常，并通过回调函数传递被捕获的异常。</p><pre><code>function async(fn,callback){
+</code></pre><p>因为代码执行路径被打断，我们就需要在异常冒泡到断点之前用<code>try</code>语句捕获异常，并通过回调函数传递被捕获的异常。</p>
+<pre><code>function async(fn,callback){
     // Code execution path breaks here.
     setTimeout(function(){
         try{
@@ -627,7 +723,9 @@ async(null,function(err,data){
 
 // outputs
 Error: object is not a function
-</code></pre><p>NodeJS 几乎所有异步 API 都这样设计，回调函数第一个参数是<code>err</code>.</p><p>如果是同步代码，只需要在代码入口写一个<code>try</code>语句就能捕获所有冒泡上来的异常：</p><pre><code>function main() {
+</code></pre><p>NodeJS 几乎所有异步 API 都这样设计，回调函数第一个参数是<code>err</code>.</p>
+<p>如果是同步代码，只需要在代码入口写一个<code>try</code>语句就能捕获所有冒泡上来的异常：</p>
+<pre><code>function main() {
     // Do something.
     syncA();
     // Do something.
@@ -641,7 +739,9 @@ try {
 } catch (err) {
     // Deal with exception.
 }
-</code></pre><p>但如果是异步代码，每次异步函数调用都会打断代码执行路径，只能通过回调函数传递异常。于是就需要在每个回调函数判断是否异常。这样就加剧了代码的复杂度。NodeJS 提供了一些解决方案。</p><h2 id="域（Domain）"><a href="#域（Domain）" class="headerlink" title="域（Domain）"></a>域（Domain）</h2><p>一个域就是一个 JS 运行环境，在一个域中，没有被捕获的异常将作为全局异常被抛出。NodeJS 通过<code>process</code>对象提供了捕获全局异常的方法：</p><pre><code>process.on(‘uncaughtException’,function(err){
+</code></pre><p>但如果是异步代码，每次异步函数调用都会打断代码执行路径，只能通过回调函数传递异常。于是就需要在每个回调函数判断是否异常。这样就加剧了代码的复杂度。NodeJS 提供了一些解决方案。</p>
+<h2 id="域（Domain）"><a href="#域（Domain）" class="headerlink" title="域（Domain）"></a>域（Domain）</h2><p>一个域就是一个 JS 运行环境，在一个域中，没有被捕获的异常将作为全局异常被抛出。NodeJS 通过<code>process</code>对象提供了捕获全局异常的方法：</p>
+<pre><code>process.on(‘uncaughtException’,function(err){
     console.log(‘Error: %s’,err.message);
 });
 
@@ -651,7 +751,8 @@ setTimeout(function(fn){
 
 // outputs
 Error: undefined is not a function
-</code></pre><p>对于大多数异常，我们希望尽早捕获：</p><pre><code>function async(request, callback) {
+</code></pre><p>对于大多数异常，我们希望尽早捕获：</p>
+<pre><code>function async(request, callback) {
     // Do something.
     asyncA(request, function (err, data) {
         if (err) {
@@ -688,7 +789,8 @@ http.createServer(function (request, response) {
         }
     });
 });
-</code></pre><p>为了让代码好看点，我们可以在每处理一个请求时，使用<code>domain</code>模块创建一个子域（JS 子运行环境）。在子域内运行的代码可随意抛出异常。这些异常通过子域对象的<code>error</code>事件统一捕获</p><pre><code>function async(request, callback) {
+</code></pre><p>为了让代码好看点，我们可以在每处理一个请求时，使用<code>domain</code>模块创建一个子域（JS 子运行环境）。在子域内运行的代码可随意抛出异常。这些异常通过子域对象的<code>error</code>事件统一捕获</p>
+<pre><code>function async(request, callback) {
     // Do something.
     asyncA(request, function (data) {
         // Do something
@@ -717,4 +819,5 @@ http.createServer(function (request, response) {
         });
     });
 });
-</code></pre><p>我们使用<code>.create</code>方法创建了一个子域对象，并通过<code>.run</code>方法进入需要在子域中运行的代码的入口点。</p><p></p></div><div class="share"><span>分享到</span>&nbsp;<span class="soc"><a href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank" class="fa fa-bookmark"></a></span><span class="soc"><a href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));" class="fa fa-weibo"></a></span><span class="soc"><a href="http://twitter.com/home?status=http://xhdnoah.github.io/2018/11/05/nodejs/%20电子月亮%20七天学会 NodeJs" class="fa fa-twitter"></a></span></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/2018/11/07/正则表达式/" title="正则表达式笔记"><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: 正则表达式笔记</a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/2018/11/05/js-callback/" title="JavaScript 同步、异步、回调、闭包">下一篇: JavaScript 同步、异步、回调、闭包&nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2019&nbsp;<a target="_blank" href="http://xhdnoah.github.io" rel="noopener noreferrer">Noah Xu</a></p><p>Theme&nbsp;<a target="_blank" href="https://github.com/SumiMakito/hexo-theme-typography" rel="noopener noreferrer">Typography</a>&nbsp;by&nbsp;<a target="_blank" href="https://www.keep.moe" rel="noopener noreferrer">Makito</a></p><p>Proudly published with&nbsp;<a target="_blank" href="https://hexo.io" rel="noopener noreferrer">Hexo</a></p></footer></div></div></div></div><script src="https://cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script><script src="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script><script src="https://cdn.bootcss.com/jquery-migrate/1.2.1/jquery-migrate.min.js"></script><script src="https://cdn.bootcss.com/jquery.appear/0.3.3/jquery.appear.js"></script><script src="/js/typography.js"></script></body></html>
+</code></pre><p>我们使用<code>.create</code>方法创建了一个子域对象，并通过<code>.run</code>方法进入需要在子域中运行的代码的入口点。</p>
+<p></p></div><div class="share"><span>分享到</span>&nbsp;<span class="soc"><a href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank" class="fa fa-bookmark"></a></span><span class="soc"><a href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));" class="fa fa-weibo"></a></span><span class="soc"><a href="http://twitter.com/home?status=http://xhdnoah.github.io/2018/11/05/nodejs/%20电子月亮%20七天学会 NodeJs" class="fa fa-twitter"></a></span></div><div class="pagination"><p class="clearfix"><span class="pre pagbuttons"><a role="navigation" href="/2018/11/07/正则表达式/" title="正则表达式笔记"><i class="fa fa-angle-double-left"></i>&nbsp;上一篇: 正则表达式笔记</a></span><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/2018/11/05/js-callback/" title="JavaScript 同步、异步、回调、闭包">下一篇: JavaScript 同步、异步、回调、闭包&nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2019&nbsp;<a target="_blank" href="http://xhdnoah.github.io" rel="noopener noreferrer">Noah Xu</a></p><p>Theme&nbsp;<a target="_blank" href="https://github.com/SumiMakito/hexo-theme-typography" rel="noopener noreferrer">Typography</a>&nbsp;by&nbsp;<a target="_blank" href="https://www.keep.moe" rel="noopener noreferrer">Makito</a></p><p>Proudly published with&nbsp;<a target="_blank" href="https://hexo.io" rel="noopener noreferrer">Hexo</a></p></footer></div></div></div></div><script src="https://cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script><script src="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script><script src="https://cdn.bootcss.com/jquery-migrate/1.2.1/jquery-migrate.min.js"></script><script src="https://cdn.bootcss.com/jquery.appear/0.3.3/jquery.appear.js"></script><script src="/js/typography.js"></script></body></html>

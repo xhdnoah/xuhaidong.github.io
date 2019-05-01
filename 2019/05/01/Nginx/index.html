@@ -1,0 +1,121 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="Noah Xu"><title>Nginx 配置趟坑 · 电子月亮</title><meta name="description" content="最近配置 SPA 应用上线的时候，用到了 Nginx，过程曲折，记录其中遇到的一些关键问题
+Nginx 常用命令service nginx restart // 重启
+nginx -s stop // 停止
+ps -ef | grep nginx // 查看进程
+systemctl status n"><meta name="keywords" content><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="stylesheet" href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title"></a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">Electronic Moon</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/tags">标签</a></li><li><a href="/resume/resume.html">简历</a></li><li class="soc"><a href="https://github.com/xhdnoah" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="http://xhdnoah.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2019&nbsp;<a target="_blank" href="http://xhdnoah.github.io" rel="noopener noreferrer">Noah Xu</a></p><p>Theme&nbsp;<a target="_blank" href="https://github.com/SumiMakito/hexo-theme-typography" rel="noopener noreferrer">Typography</a>&nbsp;by&nbsp;<a target="_blank" href="https://www.keep.moe" rel="noopener noreferrer">Makito</a></p><p>Proudly published with&nbsp;<a target="_blank" href="https://hexo.io" rel="noopener noreferrer">Hexo</a></p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a>Nginx 配置趟坑</a></p><p class="post-meta"><span class="date meta-item">发布于&nbsp;2019-05-01</span></p><p class="post-abstract"></p><p>最近配置 SPA 应用上线的时候，用到了 Nginx，过程曲折，记录其中遇到的一些关键问题</p>
+<h3 id="Nginx-常用命令"><a href="#Nginx-常用命令" class="headerlink" title="Nginx 常用命令"></a>Nginx 常用命令</h3><pre><code>service nginx restart // 重启
+nginx -s stop // 停止
+ps -ef | grep nginx // 查看进程
+systemctl status nginx.service // 查看启动错误
+cat /var/log/nginx/error.log // 查看运行错误
+</code></pre><h3 id="alias-vs-root"><a href="#alias-vs-root" class="headerlink" title="alias vs. root"></a>alias vs. root</h3><p>1）alias 指定的目录是准确的，即 location 匹配访问的 path 目录下的文件直接是在 alias 目录下查找的；<br>2）root 指定的目录是 location 匹配访问的 path 目录的上一级目录, 这个 path 目录一定要是真实存在 root 指定目录下的；<br>3）使用 alias 标签的目录块中不能使用 rewrite 的 break（具体原因不明）；另外，alias 指定的目录后面必须要加上 “/“ 符号！！<br>4）alias 虚拟目录配置中，location 匹配的 path 目录如果后面不带 “/“，那么访问的 url 地址中这个 path 目录后面加不加 “/“ 不影响访问，访问时它会自动加上 “/“；但是如果 location 匹配的 path 目录后面加上 “/“，那么访问的 url 地址中这个 path 目录必须要加上 “/“，访问时它不会自动加上 “/“。如果不加上 “/“，访问就会失败！<br>5）root 目录配置中，location 匹配的 path 目录后面带不带 “/“，都不会影响访问。</p>
+<p><strong>示例一</strong> 注意 alias 指定目录后面必须加上 “/”</p>
+<pre><code>
+server www.test.com;
+location /noah/ {
+alias /home/www/noah/;
+}
+
+</code></pre><p>访问 <code>www.test.com/noah/index.html</code> 实际指定 <code>/home/www/noah/index.html</code></p>
+<p><strong>示例二</strong></p>
+<pre><code>
+server www.test.com;
+location /noah/ {
+root /home/www/;
+}
+
+</code></pre><p>访问效果和示例一一致</p>
+<h3 id="History-Router-404"><a href="#History-Router-404" class="headerlink" title="History Router 404"></a>History Router 404</h3><p>Vue 项目打包上线访问 404，原因 History Mode 单页面应用下找不到路由，需要在 Nginx 配置对所有路径或文件夹进行跳转，重定向到首页 index</p>
+<pre><code>
+location / {
+index index.html;
+try_files $uri $uri/ /index.html;
+}
+
+</code></pre><p>但这个方法我始终没有成功，最后选择了替代方案</p>
+<pre><code>
+location /movie {
+root /root/projects;
+index index.html;
+if (!-e \$request_filename) {
+rewrite ^/(.\*) /movie/index.html last;
+break;
+}
+}
+
+</code></pre><h3 id="跨域"><a href="#跨域" class="headerlink" title="跨域"></a>跨域</h3><pre><code>
+location / {
+
+# 检查域名后缀
+
+if ($http_origin ~ \.test\.com) {
+        add_header Access-Control-Allow-Origin $http_origin;
+add_header Access-Control-Allow-Methods GET,POST,OPTIONS;
+add_header Access-Control-Allow-Credentials true;
+add_header Access-Control-Allow-Headers DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type;
+add_header Access-Control-Max-Age 1728000;
+}
+
+# options 请求不转给后端，直接返回 204
+
+# 第二个 if 会导致上面的 add_header 无效，这是 nginx 的问题，这里直接重复执行下
+
+if ($request_method = OPTIONS) {
+        add_header Access-Control-Allow-Origin $http_origin;
+add_header Access-Control-Allow-Methods GET,POST,OPTIONS;
+add_header Access-Control-Allow-Credentials true;
+add_header Access-Control-Allow-Headers DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type;
+add_header Access-Control-Max-Age 1728000;
+return 204;
+}
+
+# 其他请求代理到后端
+
+proxy_set_header Host $host;
+   proxy_redirect off;
+   proxy_set_header X-Real-IP $remote_addr;
+proxy_set_header X-Scheme $scheme;
+   proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+proxy_set_header X-Forwarded-Proto \$scheme;
+proxy_pass http://xxx.xxx.xxx.xxx;
+}
+
+</code></pre><h3 id="proxy-pass"><a href="#proxy-pass" class="headerlink" title="proxy_pass"></a>proxy_pass</h3><p>在 nginx 中配置 proxy_pass 代理转发时，如果在 proxy_pass 后面的 url 加 /，表示绝对根路径；如果没有 /，表示相对路径，把匹配的路径部分也给代理走</p>
+<p>下面四种情况分别用于 <code>http://192.168.1.1/proxy/test.html</code> 进行访问</p>
+<pre><code>
+location /proxy/ {
+proxy_pass http://12.0.0.1/;
+}
+
+&gt; 代理到 http://127.0.0.1/test.html
+
+</code></pre><pre><code>
+location /proxy/ {
+proxy_pass http://127.0.0.1;
+}
+
+&gt; 代理到 http://127.0.0.1/proxy/test.html
+
+</code></pre><pre><code>
+location /proxy/ {
+proxy_pass http://127.0.0.1/aaa/;
+}
+
+&gt; 代理到 http://127.0.0.1/aaa/test.html
+
+</code></pre><pre><code>
+location /proxy/ {
+proxy_pass http://127.0.0.1/aaa;
+}
+
+&gt; 代理到 http://127.0.0.1/aaatest.html
+
+</code></pre><h3 id="静态资源路径"><a href="#静态资源路径" class="headerlink" title="静态资源路径"></a>静态资源路径</h3><p>无法正确访问 static/ 下的静态资源，单独设置静态资源的 Nginx 规则</p>
+<pre><code>
+location /movie/annual2018/static/ {
+alias /root/projects/movie/static/;
+}
+
+</code></pre><pre><code>
+</code></pre><p></p></div><div class="share"><span>分享到</span>&nbsp;<span class="soc"><a href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank" class="fa fa-bookmark"></a></span><span class="soc"><a href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));" class="fa fa-weibo"></a></span><span class="soc"><a href="http://twitter.com/home?status=http://xhdnoah.github.io/2019/05/01/Nginx/%20电子月亮%20Nginx 配置趟坑" class="fa fa-twitter"></a></span></div><div class="pagination"><p class="clearfix"><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/2019/03/23/understanding-async-await-in-3-code-snippets/" title="understanding async/await in 3 code snippets">下一篇: understanding async/await in 3 code snippets&nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2019&nbsp;<a target="_blank" href="http://xhdnoah.github.io" rel="noopener noreferrer">Noah Xu</a></p><p>Theme&nbsp;<a target="_blank" href="https://github.com/SumiMakito/hexo-theme-typography" rel="noopener noreferrer">Typography</a>&nbsp;by&nbsp;<a target="_blank" href="https://www.keep.moe" rel="noopener noreferrer">Makito</a></p><p>Proudly published with&nbsp;<a target="_blank" href="https://hexo.io" rel="noopener noreferrer">Hexo</a></p></footer></div></div></div></div><script src="https://cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script><script src="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script><script src="https://cdn.bootcss.com/jquery-migrate/1.2.1/jquery-migrate.min.js"></script><script src="https://cdn.bootcss.com/jquery.appear/0.3.3/jquery.appear.js"></script><script src="/js/typography.js"></script></body></html>

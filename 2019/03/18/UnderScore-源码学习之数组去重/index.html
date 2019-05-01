@@ -4,7 +4,10 @@ function unique(a){
   var res = []
   for(i=0;i&amp;lt;a.length;i++){
     var item = a[i]
-   "><meta name="keywords" content><meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="stylesheet" href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><link rel="stylesheet" href="/css/prism.css" type="text/css"><link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title"></a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">Electronic Moon</a></h1></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/tags">标签</a></li><li><a href="/resume/resume.html">简历</a></li><li class="soc"><a href="https://github.com/xhdnoah" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="http://xhdnoah.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2019&nbsp;<a target="_blank" href="http://xhdnoah.github.io" rel="noopener noreferrer">Noah Xu</a></p><p>Theme&nbsp;<a target="_blank" href="https://github.com/SumiMakito/hexo-theme-typography" rel="noopener noreferrer">Typography</a>&nbsp;by&nbsp;<a target="_blank" href="https://www.keep.moe" rel="noopener noreferrer">Makito</a></p><p>Proudly published with&nbsp;<a target="_blank" href="https://hexo.io" rel="noopener noreferrer">Hexo</a></p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a>UnderScore 源码学习之数组去重</a></p><p class="post-meta"><span class="date meta-item">发布于&nbsp;2019-03-18</span><span class="meta-item"><i class="fa fa-tag"></i><span>&nbsp;</span><a href="/tags/UnderScore/" title="UnderScore" class="a-tag">UnderScore</a><span>&nbsp;</span></span></p><p class="post-abstract"></p><p>数组去重的方法非常多，这里列举其中一些以及 underscore 的方法</p><h3 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h3><p>最符合直觉的<strong>将原数组元素和结果数组一一比较</strong></p><pre><code>function unique(a){
+   "><meta name="keywords" content><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="stylesheet" href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title"></a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">Electronic Moon</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/tags">标签</a></li><li><a href="/resume/resume.html">简历</a></li><li class="soc"><a href="https://github.com/xhdnoah" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="http://xhdnoah.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2019&nbsp;<a target="_blank" href="http://xhdnoah.github.io" rel="noopener noreferrer">Noah Xu</a></p><p>Theme&nbsp;<a target="_blank" href="https://github.com/SumiMakito/hexo-theme-typography" rel="noopener noreferrer">Typography</a>&nbsp;by&nbsp;<a target="_blank" href="https://www.keep.moe" rel="noopener noreferrer">Makito</a></p><p>Proudly published with&nbsp;<a target="_blank" href="https://hexo.io" rel="noopener noreferrer">Hexo</a></p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a>UnderScore 源码学习之数组去重</a></p><p class="post-meta"><span class="date meta-item">发布于&nbsp;2019-03-18</span><span class="meta-item"><i class="fa fa-tag"></i><span>&nbsp;</span><a href="/tags/UnderScore/" title="UnderScore" class="a-tag">UnderScore</a><span>&nbsp;</span></span></p><p class="post-abstract"></p><p>数组去重的方法非常多，这里列举其中一些以及 underscore 的方法</p>
+<h3 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h3><p>最符合直觉的<strong>将原数组元素和结果数组一一比较</strong></p>
+<pre><code>function unique(a){
   var res = []
   for(i=0;i&lt;a.length;i++){
     var item = a[i]
@@ -16,7 +19,8 @@ function unique(a){
   }
   return res
 }
-</code></pre><p><strong>indexOf</strong></p><pre><code>function unique(a){
+</code></pre><p><strong>indexOf</strong></p>
+<pre><code>function unique(a){
   var res = []
   for(i=0;i&lt;a.length;i++){
     var item = a[i]
@@ -25,14 +29,17 @@ function unique(a){
   }
   return res
 }
-</code></pre><p><strong>filter</strong></p><pre><code>function unique(a){
+</code></pre><p><strong>filter</strong></p>
+<pre><code>function unique(a){
     // filter 回调函数接收三个参数
   var res = a.filter(function(item,index,array){
     return array.indexOf(item) === index
   })
   return res
 }
-</code></pre><p>复杂度 O(n^2)</p><h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h3><p><strong>依次将原数组重复元素的最后一个元素放入结果数组</strong></p><pre><code>function unique(a){
+</code></pre><p>复杂度 O(n^2)</p>
+<h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h3><p><strong>依次将原数组重复元素的最后一个元素放入结果数组</strong></p>
+<pre><code>function unique(a){
   var res = []
   for(var i = 0,len = a.length; i &lt; len;i++){
     for(var j = i + 1; j&lt;len ;j j++){
@@ -45,12 +52,16 @@ function unique(a){
   }
   return res
 }
-</code></pre><p>复杂度 O(n^2)</p><h3 id="方法三：sort"><a href="#方法三：sort" class="headerlink" title="方法三：sort"></a>方法三：sort</h3><p> sort 排序后，理论上相同的元素位置上相邻，可以通过比较前后位置的元素去重</p><pre><code>function unique(a){
+</code></pre><p>复杂度 O(n^2)</p>
+<h3 id="方法三：sort"><a href="#方法三：sort" class="headerlink" title="方法三：sort"></a>方法三：sort</h3><p> sort 排序后，理论上相同的元素位置上相邻，可以通过比较前后位置的元素去重</p>
+<pre><code>function unique(a){
   a.concat().sort().filter(function(item, pos, arr){
     return !pos || item != arr[pos-1]
   })
 }
-</code></pre><p>但是如果不同元素的 toString() 结果相同会导致错误</p><h3 id="方法四：object"><a href="#方法四：object" class="headerlink" title="方法四：object"></a>方法四：object</h3><p>用 Object 对象来当作哈希表</p><pre><code>function unique(a){
+</code></pre><p>但是如果不同元素的 toString() 结果相同会导致错误</p>
+<h3 id="方法四：object"><a href="#方法四：object" class="headerlink" title="方法四：object"></a>方法四：object</h3><p>用 Object 对象来当作哈希表</p>
+<pre><code>function unique(a){
   var seen = {}
   return a.filter(function(item){
     return seen.hasOwnProperty(item) ? false : (seen[item] = true)
@@ -59,7 +70,8 @@ function unique(a){
 </code></pre><h3 id="方法五：ECMAScript-6-新增"><a href="#方法五：ECMAScript-6-新增" class="headerlink" title="方法五：ECMAScript 6 新增"></a>方法五：ECMAScript 6 新增</h3><pre><code>function unique(a){
   return Array.from(new Set(a))
 }
-</code></pre><p>需要浏览器支持</p><h3 id="UnderScore-unique-array-isSorted-iteratee"><a href="#UnderScore-unique-array-isSorted-iteratee" class="headerlink" title="UnderScore _.unique(array,[isSorted],[iteratee])"></a>UnderScore <code>_.unique(array,[isSorted],[iteratee])</code></h3><pre><code>for(var i = 0, length = getlength(array); i &lt; length; i++){
+</code></pre><p>需要浏览器支持</p>
+<h3 id="UnderScore-unique-array-isSorted-iteratee"><a href="#UnderScore-unique-array-isSorted-iteratee" class="headerlink" title="UnderScore _.unique(array,[isSorted],[iteratee])"></a>UnderScore <code>_.unique(array,[isSorted],[iteratee])</code></h3><pre><code>for(var i = 0, length = getlength(array); i &lt; length; i++){
     // 如果指定了迭代函数，则对数组每一元素进行迭代
     var value = array[i],computed = iteratee ? iteratee(value, i, array) : value
   // 如果是有序数组，则当前元素只需跟上一元素对比，seen 保存上一元素
@@ -76,7 +88,8 @@ function unique(a){
     result.push(value)
   }
 }
-</code></pre><p>其中 _.container 方法，核心是调用 _.indexOf，类似于方法一的 indexOf 版本</p><pre><code>_.contains = _.includes = _.include = function(obj, item, fromIndex, guard) {
+</code></pre><p>其中 _.container 方法，核心是调用 _.indexOf，类似于方法一的 indexOf 版本</p>
+<pre><code>_.contains = _.includes = _.include = function(obj, item, fromIndex, guard) {
     // 如果是对象，返回 values 组成的数组
     if (!isArrayLike(obj)) obj = _.values(obj);
 

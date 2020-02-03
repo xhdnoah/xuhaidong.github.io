@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://xhdnoah.github.io/"/>
-  <updated>2019-05-01T12:18:01.559Z</updated>
+  <updated>2020-01-18T14:18:37.128Z</updated>
   <id>http://xhdnoah.github.io/</id>
   
   <author>
@@ -17,11 +17,110 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>深入 vue.js 异步响应队列</title>
+    <link href="http://xhdnoah.github.io/2020/01/21/vue-js-nextTick/"/>
+    <id>http://xhdnoah.github.io/2020/01/21/vue-js-nextTick/</id>
+    <published>2020-01-21T13:38:22.000Z</published>
+    <updated>2020-01-18T14:18:37.128Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;本文将介绍 Vue.js 在派发通知获取回调后渲染 DOM 的策略，其内部如何实现异步任务队列，以及Vue.set 如何使新增加的属性也能获得响应&lt;/p&gt;
+&lt;h2 id=&quot;Event-Loop&quot;&gt;&lt;a href=&quot;#Event-Loop&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="vue.js" scheme="http://xhdnoah.github.io/tags/vue-js/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>深入 vue.js 响应式原理</title>
+    <link href="http://xhdnoah.github.io/2020/01/20/vue-js-reactivity-in-depth/"/>
+    <id>http://xhdnoah.github.io/2020/01/20/vue-js-reactivity-in-depth/</id>
+    <published>2020-01-20T11:56:55.000Z</published>
+    <updated>2020-01-18T13:24:51.106Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;Vue.js 通过数据劫持结合发布者-订阅者模式的方式双向绑定数据，追踪对象中数据的变化，以实现响应式系统。一个响应式系统主要由响应式对象、监听器 Observer、依赖收集器 Dep 和订阅者 Watcher 构成&lt;/p&gt;
+&lt;p&gt;Vue.js 初始化的过程执行到
+        
+      
+    
+    </summary>
+    
+    
+      <category term="vue.js" scheme="http://xhdnoah.github.io/tags/vue-js/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Vue.js 初始化：从 creatElement 到 Component Tree</title>
+    <link href="http://xhdnoah.github.io/2019/12/19/vue-js-analysis-1/"/>
+    <id>http://xhdnoah.github.io/2019/12/19/vue-js-analysis-1/</id>
+    <published>2019-12-19T11:26:43.000Z</published>
+    <updated>2020-01-18T11:55:40.852Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;本文介绍 Vue 组件的初始化过程，查看&lt;a href=&quot;#flowChart&quot;&gt;流程图&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;创建组件-VNode&quot;&gt;&lt;a href=&quot;#创建组件-VNode&quot; class=&quot;headerlink&quot; title=&quot;创建组件
+        
+      
+    
+    </summary>
+    
+    
+      <category term="vue.js" scheme="http://xhdnoah.github.io/tags/vue-js/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Vue.js 初始化：从 new Vue() 到 DOM Tree</title>
+    <link href="http://xhdnoah.github.io/2019/12/18/vue-js-analysis/"/>
+    <id>http://xhdnoah.github.io/2019/12/18/vue-js-analysis/</id>
+    <published>2019-12-18T10:47:01.000Z</published>
+    <updated>2020-01-18T11:25:46.536Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;这篇文章将通过我自己的理解描述一个 Vue.js 项目是怎么从零开始初始化的主线过程，以关键函数的调用栈为线索，分析 Vue.js
+        
+      
+    
+    </summary>
+    
+    
+      <category term="vue.js" scheme="http://xhdnoah.github.io/tags/vue-js/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Nginx 配置趟坑</title>
     <link href="http://xhdnoah.github.io/2019/05/01/Nginx/"/>
     <id>http://xhdnoah.github.io/2019/05/01/Nginx/</id>
     <published>2019-05-01T12:02:54.000Z</published>
-    <updated>2019-05-01T12:18:01.559Z</updated>
+    <updated>2019-11-19T01:56:54.000Z</updated>
     
     <summary type="html">
     
@@ -44,7 +143,7 @@
     <link href="http://xhdnoah.github.io/2019/03/23/understanding-async-await-in-3-code-snippets/"/>
     <id>http://xhdnoah.github.io/2019/03/23/understanding-async-await-in-3-code-snippets/</id>
     <published>2019-03-23T13:48:12.000Z</published>
-    <updated>2019-03-23T13:50:16.717Z</updated>
+    <updated>2019-11-19T01:56:56.000Z</updated>
     
     <summary type="html">
     
@@ -73,7 +172,7 @@
     <link href="http://xhdnoah.github.io/2019/03/20/UnderScore-%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E4%B9%8B%E7%BB%A7%E6%89%BF/"/>
     <id>http://xhdnoah.github.io/2019/03/20/UnderScore-源码学习之继承/</id>
     <published>2019-03-20T06:56:04.000Z</published>
-    <updated>2019-03-31T06:56:55.400Z</updated>
+    <updated>2019-11-19T01:56:56.000Z</updated>
     
     <summary type="html">
     
@@ -100,7 +199,7 @@
     <link href="http://xhdnoah.github.io/2019/03/20/UnderScore-%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%87%BD%E6%95%B0/"/>
     <id>http://xhdnoah.github.io/2019/03/20/UnderScore-源码学习之函数/</id>
     <published>2019-03-20T06:53:25.000Z</published>
-    <updated>2019-03-31T06:54:18.494Z</updated>
+    <updated>2019-11-19T01:56:54.000Z</updated>
     
     <summary type="html">
     
@@ -124,7 +223,7 @@
     <link href="http://xhdnoah.github.io/2019/03/19/UnderScore-%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E4%B9%8B%E9%9B%86%E5%90%88/"/>
     <id>http://xhdnoah.github.io/2019/03/19/UnderScore-源码学习之集合/</id>
     <published>2019-03-19T06:50:36.000Z</published>
-    <updated>2019-03-31T06:53:06.094Z</updated>
+    <updated>2019-11-19T01:56:56.000Z</updated>
     
     <summary type="html">
     
@@ -151,7 +250,7 @@
     <link href="http://xhdnoah.github.io/2019/03/18/UnderScore-%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E4%B9%8B%20_/"/>
     <id>http://xhdnoah.github.io/2019/03/18/UnderScore-源码学习之 _/</id>
     <published>2019-03-18T10:54:38.000Z</published>
-    <updated>2019-03-23T10:56:20.270Z</updated>
+    <updated>2019-11-19T01:56:56.000Z</updated>
     
     <summary type="html">
     
@@ -177,7 +276,7 @@ _.map(arr, n =&amp;gt;
     <link href="http://xhdnoah.github.io/2019/03/18/UnderScore-%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D/"/>
     <id>http://xhdnoah.github.io/2019/03/18/UnderScore-源码学习之数组去重/</id>
     <published>2019-03-18T08:41:05.000Z</published>
-    <updated>2019-03-23T08:45:09.129Z</updated>
+    <updated>2019-11-19T01:56:56.000Z</updated>
     
     <summary type="html">
     
@@ -202,7 +301,7 @@ _.map(arr, n =&amp;gt;
     <link href="http://xhdnoah.github.io/2019/03/18/UnderScore-%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9B%9E%E8%B0%83/"/>
     <id>http://xhdnoah.github.io/2019/03/18/UnderScore-源码学习之回调/</id>
     <published>2019-03-18T08:38:26.000Z</published>
-    <updated>2019-03-29T06:16:24.833Z</updated>
+    <updated>2019-11-19T01:56:56.000Z</updated>
     
     <summary type="html">
     
@@ -226,7 +325,7 @@ _.map(arr, n =&amp;gt;
     <link href="http://xhdnoah.github.io/2019/03/06/axios/"/>
     <id>http://xhdnoah.github.io/2019/03/06/axios/</id>
     <published>2019-03-06T08:49:56.000Z</published>
-    <updated>2019-03-23T08:53:01.513Z</updated>
+    <updated>2019-11-19T01:56:56.000Z</updated>
     
     <summary type="html">
     
@@ -250,7 +349,7 @@ _.map(arr, n =&amp;gt;
     <link href="http://xhdnoah.github.io/2019/03/01/koa-learning/"/>
     <id>http://xhdnoah.github.io/2019/03/01/koa-learning/</id>
     <published>2019-03-01T08:10:24.000Z</published>
-    <updated>2019-03-23T08:47:52.187Z</updated>
+    <updated>2019-11-19T01:56:56.000Z</updated>
     
     <summary type="html">
     
@@ -274,7 +373,7 @@ _.map(arr, n =&amp;gt;
     <link href="http://xhdnoah.github.io/2018/12/26/eslint-format/"/>
     <id>http://xhdnoah.github.io/2018/12/26/eslint-format/</id>
     <published>2018-12-26T02:51:20.000Z</published>
-    <updated>2018-12-26T03:00:16.527Z</updated>
+    <updated>2019-11-19T01:56:56.000Z</updated>
     
     <summary type="html">
     
@@ -299,7 +398,7 @@ _.map(arr, n =&amp;gt;
     <link href="http://xhdnoah.github.io/2018/11/07/ajax/"/>
     <id>http://xhdnoah.github.io/2018/11/07/ajax/</id>
     <published>2018-11-07T13:17:00.000Z</published>
-    <updated>2019-04-16T05:16:58.909Z</updated>
+    <updated>2019-11-19T01:56:55.000Z</updated>
     
     <summary type="html">
     
@@ -323,7 +422,7 @@ _.map(arr, n =&amp;gt;
     <link href="http://xhdnoah.github.io/2018/11/07/js-promise/"/>
     <id>http://xhdnoah.github.io/2018/11/07/js-promise/</id>
     <published>2018-11-07T12:45:00.000Z</published>
-    <updated>2019-03-24T10:24:25.294Z</updated>
+    <updated>2019-11-19T01:56:56.000Z</updated>
     
     <summary type="html">
     
@@ -348,7 +447,7 @@ _.map(arr, n =&amp;gt;
     <link href="http://xhdnoah.github.io/2018/11/07/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"/>
     <id>http://xhdnoah.github.io/2018/11/07/正则表达式/</id>
     <published>2018-11-07T08:51:47.000Z</published>
-    <updated>2019-03-23T09:04:47.750Z</updated>
+    <updated>2019-11-19T01:56:54.000Z</updated>
     
     <summary type="html">
     
@@ -373,7 +472,7 @@ _.map(arr, n =&amp;gt;
     <link href="http://xhdnoah.github.io/2018/11/05/nodejs/"/>
     <id>http://xhdnoah.github.io/2018/11/05/nodejs/</id>
     <published>2018-11-05T12:07:00.000Z</published>
-    <updated>2019-03-24T10:19:33.499Z</updated>
+    <updated>2019-11-19T01:56:56.000Z</updated>
     
     <summary type="html">
     
@@ -397,7 +496,7 @@ _.map(arr, n =&amp;gt;
     <link href="http://xhdnoah.github.io/2018/11/05/js-callback/"/>
     <id>http://xhdnoah.github.io/2018/11/05/js-callback/</id>
     <published>2018-11-05T10:53:00.000Z</published>
-    <updated>2019-03-26T13:31:35.579Z</updated>
+    <updated>2019-11-19T01:56:54.000Z</updated>
     
     <summary type="html">
     
@@ -414,102 +513,6 @@ _.map(arr, n =&amp;gt;
     
     
       <category term="JavaScirpt" scheme="http://xhdnoah.github.io/tags/JavaScirpt/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>《Understanding ECMAScript6》Notes</title>
-    <link href="http://xhdnoah.github.io/2018/11/03/ES6/"/>
-    <id>http://xhdnoah.github.io/2018/11/03/ES6/</id>
-    <published>2018-11-03T03:49:48.000Z</published>
-    <updated>2019-03-23T09:02:27.744Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;ES6&quot;&gt;&lt;a href=&quot;#ES6&quot; class=&quot;headerlink&quot; title=&quot;ES6&quot;&gt;&lt;/a&gt;ES6&lt;/h1&gt;&lt;h1 id=&quot;Block-Bindings&quot;&gt;&lt;a href=&quot;#Block-Bindings&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-    
-      <category term="ECMAScript 6" scheme="http://xhdnoah.github.io/tags/ECMAScript-6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>《你不知道的 JavaScript》笔记</title>
-    <link href="http://xhdnoah.github.io/2018/10/19/%E3%80%8A%E4%BD%A0%E4%B8%8D%E7%9F%A5%E9%81%93%E7%9A%84%20JavaScript%E3%80%8B/"/>
-    <id>http://xhdnoah.github.io/2018/10/19/《你不知道的 JavaScript》/</id>
-    <published>2018-10-19T05:38:00.000Z</published>
-    <updated>2019-03-24T10:12:47.961Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;作用域&quot;&gt;&lt;a href=&quot;#作用域&quot; class=&quot;headerlink&quot; title=&quot;作用域&quot;&gt;&lt;/a&gt;作用域&lt;/h1&gt;&lt;h2 id=&quot;编译原理&quot;&gt;&lt;a href=&quot;#编译原理&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-    
-      <category term="JavaScript" scheme="http://xhdnoah.github.io/tags/JavaScript/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>《JavaScript 高级程序设计》笔记</title>
-    <link href="http://xhdnoah.github.io/2018/10/19/JavaScript/"/>
-    <id>http://xhdnoah.github.io/2018/10/19/JavaScript/</id>
-    <published>2018-10-19T03:43:01.000Z</published>
-    <updated>2019-03-23T09:03:29.014Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;基本概念&quot;&gt;&lt;a href=&quot;#基本概念&quot; class=&quot;headerlink&quot; title=&quot;基本概念&quot;&gt;&lt;/a&gt;基本概念&lt;/h1&gt;&lt;h2 id=&quot;数据类型&quot;&gt;&lt;a href=&quot;#数据类型&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-    
-      <category term="JavaScript" scheme="http://xhdnoah.github.io/tags/JavaScript/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>css-learning</title>
-    <link href="http://xhdnoah.github.io/2018/10/19/css-learning/"/>
-    <id>http://xhdnoah.github.io/2018/10/19/css-learning/</id>
-    <published>2018-10-19T03:35:29.000Z</published>
-    <updated>2019-03-23T10:59:10.686Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h2 id=&quot;CSS选择器&quot;&gt;&lt;a href=&quot;#CSS选择器&quot; class=&quot;headerlink&quot; title=&quot;CSS选择器&quot;&gt;&lt;/a&gt;CSS选择器&lt;/h2&gt;&lt;h3 id=&quot;简单选择器&quot;&gt;&lt;a href=&quot;#简单选择器&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-    
-      <category term="CSS" scheme="http://xhdnoah.github.io/tags/CSS/"/>
     
   </entry>
   

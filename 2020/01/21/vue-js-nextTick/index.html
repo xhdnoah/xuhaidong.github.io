@@ -1,0 +1,184 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="Noah Xu"><title>深入 vue.js 异步响应队列 · 电子月亮</title><meta name="description" content="本文将介绍 Vue.js 在派发通知获取回调后渲染 DOM 的策略，其内部如何实现异步任务队列，以及Vue.set 如何使新增加的属性也能获得响应
+Event Loop事件循环机制和消息队列 的维护由事件触发线程控制的，事件触发线程同时维护一个 消息队列，JS 引擎线程遇到异步任务（DOM 事件监听"><meta name="keywords" content><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="stylesheet" href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><link rel="stylesheet" href="/css/style.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/" class="a-title"></a></h3><h1 tabindex="-1" class="site-title-large"><a href="/" class="a-title">Electronic Moon</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/tags">标签</a></li><li><a href="/resume/resume.html">简历</a></li><li class="soc"><a href="https://github.com/xhdnoah" target="_blank" rel="noopener noreferrer"><i class="fa fa-github">&nbsp;</i></a><a href="http://xhdnoah.github.io/atom.xml" target="_blank" rel="noopener noreferrer"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2020&nbsp;<a target="_blank" href="http://xhdnoah.github.io" rel="noopener noreferrer">Noah Xu</a></p><p>Theme&nbsp;<a target="_blank" href="https://github.com/SumiMakito/hexo-theme-typography" rel="noopener noreferrer">Typography</a>&nbsp;by&nbsp;<a target="_blank" href="https://www.keep.moe" rel="noopener noreferrer">Makito</a></p><p>Proudly published with&nbsp;<a target="_blank" href="https://hexo.io" rel="noopener noreferrer">Hexo</a></p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a>深入 vue.js 异步响应队列</a></p><p class="post-meta"><span class="date meta-item">发布于&nbsp;2020-01-21</span><span class="meta-item"><i class="fa fa-tag"></i><span>&nbsp;</span><a href="/tags/vue-js/" title="vue.js" class="a-tag">vue.js</a><span>&nbsp;</span></span></p><p class="post-abstract"></p><p>本文将介绍 Vue.js 在派发通知获取回调后渲染 DOM 的策略，其内部如何实现异步任务队列，以及Vue.set 如何使新增加的属性也能获得响应</p>
+<h2 id="Event-Loop"><a href="#Event-Loop" class="headerlink" title="Event Loop"></a>Event Loop</h2><p>事件循环机制和消息队列 的维护由事件触发线程控制的，事件触发线程同时维护一个 消息队列，JS 引擎线程遇到异步任务（DOM 事件监听、网络请求、setTimeout 计时器等…），会交给相应的线程单独去维护，等待某个时机（计时器结束、网络请求成功、用户点击 DOM），然后由事件触发线程将异步对应的 回调函数 加入到消息队列中，消息队列中的回调函数等待被执行。</p>
+<p>同时，JS 引擎线程会维护一个执行栈，同步代码会依次加入执行栈然后执行，结束会退出执行栈。如果执行栈里的任务执行完成，即执行栈为空的时候（即 JS 引擎线程空闲），事件触发线程才会从消息队列取出一个任务（即异步的回调函数）放入执行栈中执行。执行完了后，执行栈再次为空，事件触发线程会重复上一步操作，再取出一个消息队列中的任务。</p>
+<p>主线程的执行过程就是一个 tick，而所有的异步结果都是通过 “任务队列” 来调度。 消息队列中存放的是任务（task），task 分为 Marcotasks 和 Microtasks，微任务为在当前正在执行的脚本之后立即发生的事情安排，微任务在每一个宏任务结束后清空</p>
+<pre class="line-numbers language-javascript"><code class="language-javascript"><span class="token keyword">for</span> <span class="token punctuation">(</span>macroTask <span class="token keyword">of</span> macroTaskQueue<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 1. Handle current MACRO-TASK</span>
+    <span class="token function">handleMacroTask</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 2. Handle all MICRO-TASK</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>microTask <span class="token keyword">of</span> microTaskQueue<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">handleMicroTask</span><span class="token punctuation">(</span>microTask<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="异步更新队列"><a href="#异步更新队列" class="headerlink" title="异步更新队列"></a>异步更新队列</h2><p>在实际开发中，你可能会遇到更新数据后的操作无法获取到新的数据，这是因为 Vue 在更新 DOM 时是<strong>异步</strong>执行的。在下一个 tick 异步更新队列的主要目的是在缓冲区对数据去重，避免同一个 Watcher 被多次触发造成浪费。Vue.js 在其他地方也有类似的考虑，比如在上一篇中响应式对象在收集依赖和重新渲染时对依赖去重，设置 deep Watcher 对对象做深度递归遍历时记录遍历过程中的子响应对象的 dep id 避免重复访问，生成子组件构造函数时对 <code>Sub</code> 构造函数做缓存，避免重复构造等等</p>
+<p><strong>nextTick</strong></p>
+<p>Vue 在内部对异步队列尝试使用原生的 <code>Promise.then</code>、<code>MutationObserver</code> 和 <code>setImmediate</code>，如果执行环境不支持，则会采用 <code>setTimeout(fn, 0)</code> 代替</p>
+<pre class="line-numbers language-javascript"><code class="language-javascript"><span class="token keyword">import</span> <span class="token punctuation">{</span> noop <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'shared/util'</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> handleError <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./error'</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> isIOS<span class="token punctuation">,</span> isNative <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./env'</span>
+
+<span class="token keyword">const</span> callbacks <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+<span class="token keyword">let</span> pending <span class="token operator">=</span> <span class="token boolean">false</span>
+
+<span class="token keyword">function</span> flushCallbacks <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  pending <span class="token operator">=</span> <span class="token boolean">false</span>
+  <span class="token keyword">const</span> copies <span class="token operator">=</span> callbacks<span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
+  callbacks<span class="token punctuation">.</span>length <span class="token operator">=</span> <span class="token number">0</span>
+  <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> copies<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    copies<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">// Here we have async deferring wrappers using both microtasks and (macro) tasks.</span>
+<span class="token comment" spellcheck="true">// In &lt; 2.4 we used microtasks everywhere, but there are some scenarios where</span>
+<span class="token comment" spellcheck="true">// microtasks have too high a priority and fire in between supposedly</span>
+<span class="token comment" spellcheck="true">// sequential events (e.g. #4521, #6690) or even between bubbling of the same</span>
+<span class="token comment" spellcheck="true">// event (#6566). However, using (macro) tasks everywhere also has subtle problems</span>
+<span class="token comment" spellcheck="true">// when state is changed right before repaint (e.g. #6813, out-in transitions).</span>
+<span class="token comment" spellcheck="true">// Here we use microtask by default, but expose a way to force (macro) task when</span>
+<span class="token comment" spellcheck="true">// needed (e.g. in event handlers attached by v-on).</span>
+<span class="token keyword">let</span> microTimerFunc
+<span class="token keyword">let</span> macroTimerFunc
+<span class="token keyword">let</span> useMacroTask <span class="token operator">=</span> <span class="token boolean">false</span>
+
+<span class="token comment" spellcheck="true">// Determine (macro) task defer implementation.</span>
+<span class="token comment" spellcheck="true">// Technically setImmediate should be the ideal choice, but it's only available</span>
+<span class="token comment" spellcheck="true">// in IE. The only polyfill that consistently queues the callback after all DOM</span>
+<span class="token comment" spellcheck="true">// events triggered in the same loop is by using MessageChannel.</span>
+<span class="token comment" spellcheck="true">/* istanbul ignore if */</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">typeof</span> setImmediate <span class="token operator">!==</span> <span class="token string">'undefined'</span> <span class="token operator">&amp;&amp;</span> <span class="token function">isNative</span><span class="token punctuation">(</span>setImmediate<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  macroTimerFunc <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token function">setImmediate</span><span class="token punctuation">(</span>flushCallbacks<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">typeof</span> MessageChannel <span class="token operator">!==</span> <span class="token string">'undefined'</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span>
+  <span class="token function">isNative</span><span class="token punctuation">(</span>MessageChannel<span class="token punctuation">)</span> <span class="token operator">||</span>
+  <span class="token comment" spellcheck="true">// PhantomJS</span>
+  MessageChannel<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">===</span> <span class="token string">'[object MessageChannelConstructor]'</span>
+<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> channel <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">MessageChannel</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token keyword">const</span> port <span class="token operator">=</span> channel<span class="token punctuation">.</span>port2
+  channel<span class="token punctuation">.</span>port1<span class="token punctuation">.</span>onmessage <span class="token operator">=</span> flushCallbacks
+  macroTimerFunc <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    port<span class="token punctuation">.</span><span class="token function">postMessage</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">/* istanbul ignore next */</span>
+  macroTimerFunc <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token function">setTimeout</span><span class="token punctuation">(</span>flushCallbacks<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">// Determine microtask defer implementation.</span>
+<span class="token comment" spellcheck="true">/* istanbul ignore next, $flow-disable-line */</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">typeof</span> Promise <span class="token operator">!==</span> <span class="token string">'undefined'</span> <span class="token operator">&amp;&amp;</span> <span class="token function">isNative</span><span class="token punctuation">(</span>Promise<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> p <span class="token operator">=</span> Promise<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  microTimerFunc <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    p<span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>flushCallbacks<span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true">// in problematic UIWebViews, Promise.then doesn't completely break, but</span>
+    <span class="token comment" spellcheck="true">// it can get stuck in a weird state where callbacks are pushed into the</span>
+    <span class="token comment" spellcheck="true">// microtask queue but the queue isn't being flushed, until the browser</span>
+    <span class="token comment" spellcheck="true">// needs to do some other work, e.g. handle a timer. Therefore we can</span>
+    <span class="token comment" spellcheck="true">// "force" the microtask queue to be flushed by adding an empty timer.</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>isIOS<span class="token punctuation">)</span> <span class="token function">setTimeout</span><span class="token punctuation">(</span>noop<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// fallback to macro</span>
+  microTimerFunc <span class="token operator">=</span> macroTimerFunc
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">/**
+ * Wrap a function so that if any code inside triggers state change,
+ * the changes are queued using a (macro) task instead of a microtask.
+ */</span>
+<span class="token keyword">export</span> <span class="token keyword">function</span> withMacroTask <span class="token punctuation">(</span>fn<span class="token punctuation">:</span> Function<span class="token punctuation">)</span><span class="token punctuation">:</span> Function <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> fn<span class="token punctuation">.</span>_withTask <span class="token operator">||</span> <span class="token punctuation">(</span>fn<span class="token punctuation">.</span>_withTask <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    useMacroTask <span class="token operator">=</span> <span class="token boolean">true</span>
+    <span class="token keyword">const</span> res <span class="token operator">=</span> fn<span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">,</span> arguments<span class="token punctuation">)</span>
+    useMacroTask <span class="token operator">=</span> <span class="token boolean">false</span>
+    <span class="token keyword">return</span> res
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">export</span> <span class="token keyword">function</span> nextTick <span class="token punctuation">(</span>cb<span class="token operator">?</span><span class="token punctuation">:</span> Function<span class="token punctuation">,</span> ctx<span class="token operator">?</span><span class="token punctuation">:</span> Object<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> _resolve
+  callbacks<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>cb<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">try</span> <span class="token punctuation">{</span>
+        cb<span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span>ctx<span class="token punctuation">)</span>
+      <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">e</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">handleError</span><span class="token punctuation">(</span>e<span class="token punctuation">,</span> ctx<span class="token punctuation">,</span> <span class="token string">'nextTick'</span><span class="token punctuation">)</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>_resolve<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token function">_resolve</span><span class="token punctuation">(</span>ctx<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>pending<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    pending <span class="token operator">=</span> <span class="token boolean">true</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>useMacroTask<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token function">macroTimerFunc</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      <span class="token function">microTimerFunc</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+  <span class="token comment" spellcheck="true">// $flow-disable-line</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>cb <span class="token operator">&amp;&amp;</span> <span class="token keyword">typeof</span> Promise <span class="token operator">!==</span> <span class="token string">'undefined'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span>resolve <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      _resolve <span class="token operator">=</span> resolve
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>nextTick 内部声明 <code>microTimerFunc</code> 和 <code>macroTimerFunc</code> 变量分别实现 <code>microTasks</code> 和 <code>macroTasks</code>，且他们都会在下一个 tick 执行 <code>flushCallbacks</code>，<code>flushCallbacks</code> 则遍历执行 callbacks 数组</p>
+<p>如果不传 cb，<code>nextTick()</code> 返回一个 Promise</p>
+<pre><code>methods: {
+  updateMessage: async function () {
+    this.message = &#39;已更新&#39;
+    console.log(this.$el.textContent) // =&gt; &#39;未更新&#39;
+    await this.$nextTick()
+    console.log(this.$el.textContent) // =&gt; &#39;已更新&#39;
+  }
+}
+</code></pre><h2 id="Vue-set"><a href="#Vue-set" class="headerlink" title="Vue.set"></a>Vue.set</h2><p>由于 <code>Object.defineProperty</code> 的限制，给对象添加新的属性不能触发它的 setter。使用全局的 API <code>Vue.set</code>，向响应式对象中添加一个属性，并确保这个新属性同样是响应式的，且触发视图更新</p>
+<pre><code>function set (target: Array&lt;any&gt; | Object, key: any, val: any): any {
+  if (process.env.NODE_ENV !== &#39;production&#39; &amp;&amp;
+    (isUndef(target) || isPrimitive(target))
+  ) {
+    warn(`Cannot set reactive property on undefined, null, or primitive value: ${(target: any)}`)
+  }
+  if (Array.isArray(target) &amp;&amp; isValidArrayIndex(key)) {
+    target.length = Math.max(target.length, key)
+    target.splice(key, 1, val)
+    return val
+  }
+  if (key in target &amp;&amp; !(key in Object.prototype)) {
+    target[key] = val
+    return val
+  }
+  const ob = (target: any).__ob__
+  if (target._isVue || (ob &amp;&amp; ob.vmCount)) {
+    process.env.NODE_ENV !== &#39;production&#39; &amp;&amp; warn(
+      &#39;Avoid adding reactive properties to a Vue instance or its root $data &#39; +
+      &#39;at runtime - declare it upfront in the data option.&#39;
+    )
+    return val
+  }
+  if (!ob) {
+    target[key] = val
+    return val
+  }
+  defineReactive(ob.value, key, val)
+  ob.dep.notify()
+  return val
+}
+</code></pre><p><code>set</code> 函数在一系列判断条件后获取 <code>target.__ob__</code> 即响应式对象的 Observer，通过 <code>defineReactive(ob.value, key, val)</code> 将新增属性变成响应式，最后手动<code>ob.dep.notify()</code> 触发更新，这里能够让新增的属性也能派发更新得益于在初始化过程中对 <code>childOb</code> 的深度绑定依赖</p>
+<pre><code>if (childOb) {
+  childOb.dep.depend()
+  if (Array.isArray(value)) {
+    dependArray(value)
+  }
+}
+</code></pre><p></p></div><div class="share"><span>分享到</span>&nbsp;<span class="soc"><a href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank" class="fa fa-bookmark"></a></span><span class="soc"><a href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));" class="fa fa-weibo"></a></span><span class="soc"><a href="http://twitter.com/home?status=http://xhdnoah.github.io/2020/01/21/vue-js-nextTick/%20电子月亮%20深入 vue.js 异步响应队列" class="fa fa-twitter"></a></span></div><div class="pagination"><p class="clearfix"><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/2020/01/20/vue-js-reactivity-in-depth/" title="深入 vue.js 响应式原理">下一篇: 深入 vue.js 响应式原理&nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2020&nbsp;<a target="_blank" href="http://xhdnoah.github.io" rel="noopener noreferrer">Noah Xu</a></p><p>Theme&nbsp;<a target="_blank" href="https://github.com/SumiMakito/hexo-theme-typography" rel="noopener noreferrer">Typography</a>&nbsp;by&nbsp;<a target="_blank" href="https://www.keep.moe" rel="noopener noreferrer">Makito</a></p><p>Proudly published with&nbsp;<a target="_blank" href="https://hexo.io" rel="noopener noreferrer">Hexo</a></p></footer></div></div></div></div><script src="https://cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script><script src="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script><script src="https://cdn.bootcss.com/jquery-migrate/1.2.1/jquery-migrate.min.js"></script><script src="https://cdn.bootcss.com/jquery.appear/0.3.3/jquery.appear.js"></script><script src="/js/typography.js"></script></body></html>
